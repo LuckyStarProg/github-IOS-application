@@ -26,8 +26,10 @@
         {
             cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifaer];
         }
+    cell.backgroundColor=[UIColor colorWithRed:43 green:53 blue:67 alpha:0.0];
     cell.textLabel.text=@"allah";
-    
+    cell.textLabel.textColor=[UIColor whiteColor];
+    cell.tintColor=[UIColor greenColor];
     return cell;
 }
 
@@ -36,5 +38,10 @@
     [super viewDidLoad];
     self.table.delegate=self;
     self.table.dataSource=self;
+    
+    self.table.backgroundColor=[UIColor colorWithRed:43 green:53 blue:67 alpha:0.0];
+    self.table.tintColor=[UIColor colorWithRed:43 green:53 blue:67 alpha:0.0];
+    //self.table.backgroundView.backgroundColor=[UIColor colorWithRed:43 green:53 blue:67 alpha:0.0];
+    //self.table.backgroundView.tintColor=[UIColor colorWithRed:43 green:53 blue:67 alpha:0.0];
 }
 @end

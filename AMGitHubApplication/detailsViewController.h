@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface detailsViewController : UIViewController
-@property (strong, nonatomic) IBOutlet UITableView *table;
+@property (nonatomic) UITableView *table;
+- (IBAction)menuDidTap:(UIBarButtonItem *)sender;
 
 @end

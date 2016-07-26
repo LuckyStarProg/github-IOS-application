@@ -7,6 +7,8 @@
 //
 
 #import "detailsViewController.h"
+#import "SideBarViewController.h"
+
 @interface detailsViewController()<UITableViewDataSource, UITableViewDelegate>
 @end
 
@@ -34,7 +36,17 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.table=[[UITableView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:self.table];
+    
     self.table.delegate=self;
     self.table.dataSource=self;
+}
+- (IBAction)menuDidTap:(UIBarButtonItem *)sender
+{
+    SideBarViewController * sider=(SideBarViewController *)self.navigationController.parentViewController;
+    [sider side];
+    
 }
 @end

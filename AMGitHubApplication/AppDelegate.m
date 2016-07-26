@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "SideBarViewController.h"
+#import "menuViewController.h"
+#import "detailsViewController.h"
 
 @interface AppDelegate ()
 
@@ -15,8 +18,16 @@
 @implementation AppDelegate
 
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    self.window=[[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    UIStoryboard * storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    menuViewController * menu=[storyboard instantiateViewControllerWithIdentifier:@"menu"];
+    detailsViewController * details=[storyboard instantiateViewControllerWithIdentifier:@"navi"];
+    
+    
+    self.window.rootViewController=[SideBarViewController sideBarWithFrontVC:details andBackVC:menu];
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
