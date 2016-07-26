@@ -13,6 +13,8 @@
 		2774FD751D44CBFD00B6A24B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2774FD731D44CBFD00B6A24B /* Main.storyboard */; };
 		2774FD771D44CBFD00B6A24B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2774FD761D44CBFD00B6A24B /* Assets.xcassets */; };
 		2774FD7A1D44CBFD00B6A24B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2774FD781D44CBFD00B6A24B /* LaunchScreen.storyboard */; };
+		2774FD911D451E8F00B6A24B /* menuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD901D451E8F00B6A24B /* menuViewController.m */; };
+		2774FD941D46125500B6A24B /* detailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD931D46125500B6A24B /* detailsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,10 @@
 		2774FD761D44CBFD00B6A24B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2774FD791D44CBFD00B6A24B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2774FD7B1D44CBFD00B6A24B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2774FD8F1D451E8F00B6A24B /* menuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = menuViewController.h; sourceTree = "<group>"; };
+		2774FD901D451E8F00B6A24B /* menuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = menuViewController.m; sourceTree = "<group>"; };
+		2774FD921D46125500B6A24B /* detailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = detailsViewController.h; sourceTree = "<group>"; };
+		2774FD931D46125500B6A24B /* detailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = detailsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +73,10 @@
 				2774FD781D44CBFD00B6A24B /* LaunchScreen.storyboard */,
 				2774FD7B1D44CBFD00B6A24B /* Info.plist */,
 				2774FD6A1D44CBFD00B6A24B /* Supporting Files */,
+				2774FD8F1D451E8F00B6A24B /* menuViewController.h */,
+				2774FD901D451E8F00B6A24B /* menuViewController.m */,
+				2774FD921D46125500B6A24B /* detailsViewController.h */,
+				2774FD931D46125500B6A24B /* detailsViewController.m */,
 			);
 			path = AMGitHubApplication;
 			sourceTree = "<group>";
@@ -110,6 +120,7 @@
 				TargetAttributes = {
 					2774FD661D44CBFD00B6A24B = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = XNN93544SQ;
 					};
 				};
 			};
@@ -149,9 +160,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2774FD911D451E8F00B6A24B /* menuViewController.m in Sources */,
 				2774FD721D44CBFD00B6A24B /* ViewController.m in Sources */,
 				2774FD6F1D44CBFD00B6A24B /* AppDelegate.m in Sources */,
 				2774FD6C1D44CBFD00B6A24B /* main.m in Sources */,
+				2774FD941D46125500B6A24B /* detailsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,10 +278,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = AMGitHubApplication/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = A.Code.AMGitHubApplication;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -276,10 +292,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = AMGitHubApplication/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = A.Code.AMGitHubApplication;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

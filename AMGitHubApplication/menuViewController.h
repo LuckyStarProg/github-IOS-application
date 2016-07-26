@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  menuViewController.h
 //  AMGitHubApplication
 //
 //  Created by Амин on 24.07.16.
@@ -8,9 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
-- (IBAction)swipe:(UIBarButtonItem *)sender;
+@interface menuViewController : UIViewController
+@property (strong, nonatomic) IBOutlet UITableView *table;
 
 @end
-
