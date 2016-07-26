@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+typedef NS_ENUM(NSUInteger, SideDirection) {
+    SideDirectionRight=0,
+    SideDirectionLeft
+};
+@interface AMSideBarViewController : UIViewController
 
-@interface SideBarViewController : UIViewController
 
-
-+(SideBarViewController *)sideBarWithFrontVC:(UIViewController *)frontVC andBackVC:(UIViewController *)backVC;
++(AMSideBarViewController *)sideBarWithFrontVC:(UIViewController *)frontVC andBackVC:(UIViewController *)backVC;
 
 @property (nonatomic)UIViewController * backViewController;
 @property (nonatomic)UIViewController * frontViewController;

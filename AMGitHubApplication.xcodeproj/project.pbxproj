@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		2774FD6C1D44CBFD00B6A24B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD6B1D44CBFD00B6A24B /* main.m */; };
 		2774FD6F1D44CBFD00B6A24B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD6E1D44CBFD00B6A24B /* AppDelegate.m */; };
-		2774FD721D44CBFD00B6A24B /* SideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD711D44CBFD00B6A24B /* SideBarViewController.m */; };
+		2774FD721D44CBFD00B6A24B /* AMSideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD711D44CBFD00B6A24B /* AMSideBarViewController.m */; };
 		2774FD751D44CBFD00B6A24B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2774FD731D44CBFD00B6A24B /* Main.storyboard */; };
 		2774FD771D44CBFD00B6A24B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2774FD761D44CBFD00B6A24B /* Assets.xcassets */; };
 		2774FD7A1D44CBFD00B6A24B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2774FD781D44CBFD00B6A24B /* LaunchScreen.storyboard */; };
@@ -22,8 +22,8 @@
 		2774FD6B1D44CBFD00B6A24B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2774FD6D1D44CBFD00B6A24B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2774FD6E1D44CBFD00B6A24B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		2774FD701D44CBFD00B6A24B /* SideBarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SideBarViewController.h; sourceTree = "<group>"; };
-		2774FD711D44CBFD00B6A24B /* SideBarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SideBarViewController.m; sourceTree = "<group>"; };
+		2774FD701D44CBFD00B6A24B /* AMSideBarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMSideBarViewController.h; sourceTree = "<group>"; };
+		2774FD711D44CBFD00B6A24B /* AMSideBarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMSideBarViewController.m; sourceTree = "<group>"; };
 		2774FD741D44CBFD00B6A24B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2774FD761D44CBFD00B6A24B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2774FD791D44CBFD00B6A24B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -66,8 +66,8 @@
 			children = (
 				2774FD6D1D44CBFD00B6A24B /* AppDelegate.h */,
 				2774FD6E1D44CBFD00B6A24B /* AppDelegate.m */,
-				2774FD701D44CBFD00B6A24B /* SideBarViewController.h */,
-				2774FD711D44CBFD00B6A24B /* SideBarViewController.m */,
+				2774FD701D44CBFD00B6A24B /* AMSideBarViewController.h */,
+				2774FD711D44CBFD00B6A24B /* AMSideBarViewController.m */,
 				2774FD731D44CBFD00B6A24B /* Main.storyboard */,
 				2774FD761D44CBFD00B6A24B /* Assets.xcassets */,
 				2774FD781D44CBFD00B6A24B /* LaunchScreen.storyboard */,
@@ -161,7 +161,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2774FD911D451E8F00B6A24B /* menuViewController.m in Sources */,
-				2774FD721D44CBFD00B6A24B /* SideBarViewController.m in Sources */,
+				2774FD721D44CBFD00B6A24B /* AMSideBarViewController.m in Sources */,
 				2774FD6F1D44CBFD00B6A24B /* AppDelegate.m in Sources */,
 				2774FD6C1D44CBFD00B6A24B /* main.m in Sources */,
 				2774FD941D46125500B6A24B /* detailsViewController.m in Sources */,

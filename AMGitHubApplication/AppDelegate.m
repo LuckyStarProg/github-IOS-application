@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "SideBarViewController.h"
+#import "AMSideBarViewController.h"
 #import "menuViewController.h"
 #import "detailsViewController.h"
 
@@ -26,7 +26,7 @@
     detailsViewController * details=[storyboard instantiateViewControllerWithIdentifier:@"navi"];
     
     
-    self.window.rootViewController=[SideBarViewController sideBarWithFrontVC:details andBackVC:menu];
+    self.window.rootViewController=[AMSideBarViewController sideBarWithFrontVC:details andBackVC:menu];
     [self.window makeKeyAndVisible];
     return YES;
 }

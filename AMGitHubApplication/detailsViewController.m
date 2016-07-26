@@ -7,7 +7,7 @@
 //
 
 #import "detailsViewController.h"
-#import "SideBarViewController.h"
+#import "AMSideBarViewController.h"
 
 @interface detailsViewController()<UITableViewDataSource, UITableViewDelegate>
 @end
@@ -45,7 +45,7 @@
 }
 - (IBAction)menuDidTap:(UIBarButtonItem *)sender
 {
-    SideBarViewController * sider=(SideBarViewController *)self.navigationController.parentViewController;
+    AMSideBarViewController * sider=(AMSideBarViewController *)self.navigationController.parentViewController;
     [sider side];
     
 }
