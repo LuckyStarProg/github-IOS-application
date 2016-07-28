@@ -15,6 +15,7 @@
 @property (nonatomic)NSString * avatarPath;
 @property (nonatomic)NSString * avatarRef;
 @property (nonatomic)NSUInteger ID;
-@property (nonatomic)NSArray * repos;
+@property (nonatomic)NSString * reposRef;
 
++(GitHubUser *)userFromDictionary:(NSDictionary *)dictionary;
 @end
