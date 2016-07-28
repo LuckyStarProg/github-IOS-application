@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface menuViewController : UIViewController
+@interface defaultUserMenuViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UITableView *table;
 
 @end

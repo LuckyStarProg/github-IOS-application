@@ -8,8 +8,9 @@
 
 #import "AppDelegate.h"
 #import "AMSideBarViewController.h"
-#import "menuViewController.h"
+#import "defaultUserMenuViewController.h"
 #import "detailsViewController.h"
+#import "LogInViewController.h"
 
 @interface AppDelegate ()
 
@@ -22,8 +23,8 @@
 {
     self.window=[[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     UIStoryboard * storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    menuViewController * menu=[storyboard instantiateViewControllerWithIdentifier:@"menu"];
-    detailsViewController * details=[storyboard instantiateViewControllerWithIdentifier:@"navi"];
+    defaultUserMenuViewController * menu=[storyboard instantiateViewControllerWithIdentifier:@"menu"];
+    LogInViewController * details=[storyboard instantiateViewControllerWithIdentifier:@"LOG_IN"];
     
     
     self.window.rootViewController=[AMSideBarViewController sideBarWithFrontVC:details andBackVC:menu];

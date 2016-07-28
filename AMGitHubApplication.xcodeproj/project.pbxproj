@@ -13,8 +13,12 @@
 		2774FD751D44CBFD00B6A24B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2774FD731D44CBFD00B6A24B /* Main.storyboard */; };
 		2774FD771D44CBFD00B6A24B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2774FD761D44CBFD00B6A24B /* Assets.xcassets */; };
 		2774FD7A1D44CBFD00B6A24B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2774FD781D44CBFD00B6A24B /* LaunchScreen.storyboard */; };
-		2774FD911D451E8F00B6A24B /* menuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD901D451E8F00B6A24B /* menuViewController.m */; };
+		2774FD911D451E8F00B6A24B /* defaultUserMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD901D451E8F00B6A24B /* defaultUserMenuViewController.m */; };
 		2774FD941D46125500B6A24B /* detailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD931D46125500B6A24B /* detailsViewController.m */; };
+		2774FD971D48BD7400B6A24B /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD961D48BD7400B6A24B /* WebViewController.m */; };
+		2774FD9A1D48D05E00B6A24B /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD991D48D05E00B6A24B /* LogInViewController.m */; };
+		2774FD9D1D48D78500B6A24B /* LogInTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD9C1D48D78500B6A24B /* LogInTableViewCell.m */; };
+		2774FD9F1D48D7E100B6A24B /* LogInTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2774FD9E1D48D7E100B6A24B /* LogInTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,10 +32,17 @@
 		2774FD761D44CBFD00B6A24B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2774FD791D44CBFD00B6A24B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2774FD7B1D44CBFD00B6A24B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2774FD8F1D451E8F00B6A24B /* menuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = menuViewController.h; sourceTree = "<group>"; };
-		2774FD901D451E8F00B6A24B /* menuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = menuViewController.m; sourceTree = "<group>"; };
+		2774FD8F1D451E8F00B6A24B /* defaultUserMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = defaultUserMenuViewController.h; sourceTree = "<group>"; };
+		2774FD901D451E8F00B6A24B /* defaultUserMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = defaultUserMenuViewController.m; sourceTree = "<group>"; };
 		2774FD921D46125500B6A24B /* detailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = detailsViewController.h; sourceTree = "<group>"; };
 		2774FD931D46125500B6A24B /* detailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = detailsViewController.m; sourceTree = "<group>"; };
+		2774FD951D48BD7400B6A24B /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		2774FD961D48BD7400B6A24B /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		2774FD981D48D05E00B6A24B /* LogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInViewController.h; sourceTree = "<group>"; };
+		2774FD991D48D05E00B6A24B /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInViewController.m; sourceTree = "<group>"; };
+		2774FD9B1D48D78500B6A24B /* LogInTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInTableViewCell.h; sourceTree = "<group>"; };
+		2774FD9C1D48D78500B6A24B /* LogInTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInTableViewCell.m; sourceTree = "<group>"; };
+		2774FD9E1D48D7E100B6A24B /* LogInTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogInTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,10 +84,17 @@
 				2774FD781D44CBFD00B6A24B /* LaunchScreen.storyboard */,
 				2774FD7B1D44CBFD00B6A24B /* Info.plist */,
 				2774FD6A1D44CBFD00B6A24B /* Supporting Files */,
-				2774FD8F1D451E8F00B6A24B /* menuViewController.h */,
-				2774FD901D451E8F00B6A24B /* menuViewController.m */,
+				2774FD8F1D451E8F00B6A24B /* defaultUserMenuViewController.h */,
+				2774FD901D451E8F00B6A24B /* defaultUserMenuViewController.m */,
 				2774FD921D46125500B6A24B /* detailsViewController.h */,
 				2774FD931D46125500B6A24B /* detailsViewController.m */,
+				2774FD951D48BD7400B6A24B /* WebViewController.h */,
+				2774FD961D48BD7400B6A24B /* WebViewController.m */,
+				2774FD981D48D05E00B6A24B /* LogInViewController.h */,
+				2774FD991D48D05E00B6A24B /* LogInViewController.m */,
+				2774FD9B1D48D78500B6A24B /* LogInTableViewCell.h */,
+				2774FD9C1D48D78500B6A24B /* LogInTableViewCell.m */,
+				2774FD9E1D48D7E100B6A24B /* LogInTableViewCell.xib */,
 			);
 			path = AMGitHubApplication;
 			sourceTree = "<group>";
@@ -150,6 +168,7 @@
 				2774FD7A1D44CBFD00B6A24B /* LaunchScreen.storyboard in Resources */,
 				2774FD771D44CBFD00B6A24B /* Assets.xcassets in Resources */,
 				2774FD751D44CBFD00B6A24B /* Main.storyboard in Resources */,
+				2774FD9F1D48D7E100B6A24B /* LogInTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,7 +179,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2774FD911D451E8F00B6A24B /* menuViewController.m in Sources */,
+				2774FD9A1D48D05E00B6A24B /* LogInViewController.m in Sources */,
+				2774FD911D451E8F00B6A24B /* defaultUserMenuViewController.m in Sources */,
+				2774FD971D48BD7400B6A24B /* WebViewController.m in Sources */,
+				2774FD9D1D48D78500B6A24B /* LogInTableViewCell.m in Sources */,
 				2774FD721D44CBFD00B6A24B /* AMSideBarViewController.m in Sources */,
 				2774FD6F1D44CBFD00B6A24B /* AppDelegate.m in Sources */,
 				2774FD6C1D44CBFD00B6A24B /* main.m in Sources */,
@@ -321,6 +343,7 @@
 				2774FD801D44CBFD00B6A24B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

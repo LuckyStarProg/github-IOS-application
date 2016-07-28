@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="4Wm-wc-qQq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -9,7 +9,6 @@
         <!--Navigation Controller-->
         <scene sceneID="77F-b7-jwi">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="uDY-kQ-61K" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="navi" id="vh4-3S-XkB" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="jXS-xs-uh9">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -19,13 +18,83 @@
                         <segue destination="LzN-6W-Vdw" kind="relationship" relationship="rootViewController" id="lda-00-AYN"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uDY-kQ-61K" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1016" y="-1156"/>
+            <point key="canvasLocation" x="1189" y="-1179"/>
         </scene>
-        <!--Menu View Controller-->
+        <!--Log In Navigation Controller-->
+        <scene sceneID="nfY-KS-m3Z">
+            <objects>
+                <navigationController storyboardIdentifier="LOG_IN" title="Log In Navigation Controller" id="S4G-cJ-DxE" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="A0V-Tl-NzD">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="dE2-LR-v4M">
+                        <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="j3w-DL-w4p" kind="relationship" relationship="rootViewController" id="bU9-Nb-qCi"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="p77-OO-8Zh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1847" y="-1876"/>
+        </scene>
+        <!--Log In View Controller-->
+        <scene sceneID="mqM-Ze-kms">
+            <objects>
+                <viewController title="Log In View Controller" id="j3w-DL-w4p" customClass="LogInViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xIk-GE-1ek"/>
+                        <viewControllerLayoutGuide type="bottom" id="BVs-PW-2fI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="XOK-fG-1mw">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ohG-CQ-vz5">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.92156862745098034" green="0.92156862745098034" blue="0.92156862745098034" alpha="1" colorSpace="calibratedRGB"/>
+                                <sections/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="ohG-CQ-vz5" secondAttribute="trailing" constant="-20" id="4cv-tC-u82"/>
+                            <constraint firstItem="ohG-CQ-vz5" firstAttribute="top" secondItem="xIk-GE-1ek" secondAttribute="bottom" id="EWZ-KV-zgK"/>
+                            <constraint firstItem="ohG-CQ-vz5" firstAttribute="leading" secondItem="XOK-fG-1mw" secondAttribute="leadingMargin" constant="-20" id="UJf-W8-5oj"/>
+                            <constraint firstItem="BVs-PW-2fI" firstAttribute="top" secondItem="ohG-CQ-vz5" secondAttribute="bottom" id="tnC-lD-jm8"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="GitHub" id="pHK-xi-PJA">
+                        <barButtonItem key="leftBarButtonItem" image="menu_icon" id="wxM-VK-fMU">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="menuDidTap:" destination="j3w-DL-w4p" id="U2c-YS-Taj"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Enter" style="done" id="HKQ-As-iGa">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="enterDidTap:" destination="j3w-DL-w4p" id="9Pa-We-DIN"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="loginTable" destination="ohG-CQ-vz5" id="rtR-Wt-O2F"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZDO-Yj-mBR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1847" y="-1179"/>
+        </scene>
+        <!--Default User Menu View Controller-->
         <scene sceneID="Sl2-TT-MPa">
             <objects>
-                <viewController storyboardIdentifier="menu" id="omL-pC-ss0" customClass="menuViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="menu" id="omL-pC-ss0" customClass="defaultUserMenuViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rrc-bV-9CE"/>
                         <viewControllerLayoutGuide type="bottom" id="9Kr-hj-su1"/>
@@ -56,10 +125,10 @@
             </objects>
             <point key="canvasLocation" x="485" y="-444"/>
         </scene>
-        <!--Details View Controller-->
+        <!--Default User Menu View Controller-->
         <scene sceneID="wzi-g0-aMX">
             <objects>
-                <viewController id="LzN-6W-Vdw" customClass="detailsViewController" sceneMemberID="viewController">
+                <viewController id="LzN-6W-Vdw" customClass="defaultUserMenuViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Sih-Pn-dmf"/>
                         <viewControllerLayoutGuide type="bottom" id="r9C-ZL-hSi"/>
@@ -69,7 +138,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </view>
                     <navigationItem key="navigationItem" id="e8L-iu-veG">
-                        <barButtonItem key="leftBarButtonItem" title="Menu" style="done" id="dgF-ir-cdd">
+                        <barButtonItem key="leftBarButtonItem" image="menu_icon" style="done" id="dgF-ir-cdd">
                             <connections>
                                 <action selector="menuDidTap:" destination="LzN-6W-Vdw" id="pTa-cJ-eXA"/>
                             </connections>
@@ -92,11 +161,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TQp-dK-TEH">
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TQp-dK-TEH">
                                 <rect key="frame" x="20" y="87" width="46" height="30"/>
                                 <state key="normal" title="Button"/>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dxu-FI-Ip0">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dxu-FI-Ip0">
                                 <rect key="frame" x="20" y="125" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -118,4 +187,7 @@
             <point key="canvasLocation" x="1189" y="243"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="menu_icon" width="24" height="19"/>
+    </resources>
 </document>

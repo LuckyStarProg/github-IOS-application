@@ -7,7 +7,7 @@
 //
 
 #import "AMSideBarViewController.h"
-#import "menuViewController.h"
+#import "defaultUserMenuViewController.h"
 #import "detailsViewController.h"
 
 @interface AMSideBarViewController ()<UIGestureRecognizerDelegate>

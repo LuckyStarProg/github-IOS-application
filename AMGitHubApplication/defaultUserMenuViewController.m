@@ -6,12 +6,12 @@
 //  Copyright © 2016 Амин. All rights reserved.
 //
 
-#import "menuViewController.h"
+#import "defaultUserMenuViewController.h"
 
-@interface menuViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface defaultUserMenuViewController ()<UITableViewDelegate, UITableViewDataSource>
 @end
 
-@implementation menuViewController
+@implementation defaultUserMenuViewController
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 6;
@@ -27,8 +27,15 @@
             cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifaer];
         }
     cell.backgroundColor=[UIColor colorWithRed:0.10 green:0.30 blue:0.37 alpha:1.0];
-    cell.textLabel.text=@"allah";
-    cell.textLabel.textColor=[UIColor whiteColor];
+    if(!indexPath.row)
+    {
+        [cell setBackgroundView:[[UISearchBar alloc] initWithFrame:cell.frame]];
+    }
+    else
+    {
+        cell.textLabel.text=@"allah";
+        cell.textLabel.textColor=[UIColor whiteColor];
+    }
     return cell;
 }
 
@@ -39,6 +46,5 @@
     self.table.dataSource=self;
     self.view.backgroundColor=[UIColor colorWithRed:0.10 green:0.30 blue:0.37 alpha:1.0];
     self.table.backgroundColor=[UIColor colorWithRed:0.10 green:0.30 blue:0.37 alpha:1.0];
-    self.table.tintColor=[UIColor colorWithRed:42 green:54 blue:67 alpha:1.0];
 }
 @end
