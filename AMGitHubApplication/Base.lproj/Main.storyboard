@@ -111,9 +111,9 @@
                         <color key="backgroundColor" red="0.039215686274509803" green="0.11764705882352941" blue="0.14509803921568626" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="9Kr-hj-su1" firstAttribute="top" secondItem="sIP-VO-BHC" secondAttribute="bottom" id="1du-9p-hSW"/>
-                            <constraint firstItem="sIP-VO-BHC" firstAttribute="top" secondItem="rrc-bV-9CE" secondAttribute="bottom" id="Let-ab-jQI"/>
                             <constraint firstItem="sIP-VO-BHC" firstAttribute="leading" secondItem="c4g-Jc-ZRd" secondAttribute="leadingMargin" constant="-20" id="VMI-fC-iCr"/>
                             <constraint firstAttribute="trailingMargin" secondItem="sIP-VO-BHC" secondAttribute="trailing" constant="-20" id="bpL-Rs-jGh"/>
+                            <constraint firstItem="sIP-VO-BHC" firstAttribute="top" secondItem="rrc-bV-9CE" secondAttribute="bottom" id="kKJ-gE-X2I"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="uPp-iz-7AL"/>

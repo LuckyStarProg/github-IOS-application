@@ -19,6 +19,8 @@
 		2774FD9A1D48D05E00B6A24B /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD991D48D05E00B6A24B /* LogInViewController.m */; };
 		2774FD9D1D48D78500B6A24B /* LogInTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD9C1D48D78500B6A24B /* LogInTableViewCell.m */; };
 		2774FD9F1D48D7E100B6A24B /* LogInTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2774FD9E1D48D7E100B6A24B /* LogInTableViewCell.xib */; };
+		2774FDA11D49FF6800B6A24B /* searchBarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2774FDA01D49FF6800B6A24B /* searchBarCell.xib */; };
+		2774FDA41D4A10BB00B6A24B /* searchBarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FDA31D4A10BB00B6A24B /* searchBarCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +45,9 @@
 		2774FD9B1D48D78500B6A24B /* LogInTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInTableViewCell.h; sourceTree = "<group>"; };
 		2774FD9C1D48D78500B6A24B /* LogInTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInTableViewCell.m; sourceTree = "<group>"; };
 		2774FD9E1D48D7E100B6A24B /* LogInTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogInTableViewCell.xib; sourceTree = "<group>"; };
+		2774FDA01D49FF6800B6A24B /* searchBarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = searchBarCell.xib; sourceTree = "<group>"; };
+		2774FDA21D4A10BB00B6A24B /* searchBarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = searchBarCell.h; sourceTree = "<group>"; };
+		2774FDA31D4A10BB00B6A24B /* searchBarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = searchBarCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +100,9 @@
 				2774FD9B1D48D78500B6A24B /* LogInTableViewCell.h */,
 				2774FD9C1D48D78500B6A24B /* LogInTableViewCell.m */,
 				2774FD9E1D48D7E100B6A24B /* LogInTableViewCell.xib */,
+				2774FDA01D49FF6800B6A24B /* searchBarCell.xib */,
+				2774FDA21D4A10BB00B6A24B /* searchBarCell.h */,
+				2774FDA31D4A10BB00B6A24B /* searchBarCell.m */,
 			);
 			path = AMGitHubApplication;
 			sourceTree = "<group>";
@@ -167,6 +175,7 @@
 			files = (
 				2774FD7A1D44CBFD00B6A24B /* LaunchScreen.storyboard in Resources */,
 				2774FD771D44CBFD00B6A24B /* Assets.xcassets in Resources */,
+				2774FDA11D49FF6800B6A24B /* searchBarCell.xib in Resources */,
 				2774FD751D44CBFD00B6A24B /* Main.storyboard in Resources */,
 				2774FD9F1D48D7E100B6A24B /* LogInTableViewCell.xib in Resources */,
 			);
@@ -184,6 +193,7 @@
 				2774FD971D48BD7400B6A24B /* WebViewController.m in Sources */,
 				2774FD9D1D48D78500B6A24B /* LogInTableViewCell.m in Sources */,
 				2774FD721D44CBFD00B6A24B /* AMSideBarViewController.m in Sources */,
+				2774FDA41D4A10BB00B6A24B /* searchBarCell.m in Sources */,
 				2774FD6F1D44CBFD00B6A24B /* AppDelegate.m in Sources */,
 				2774FD6C1D44CBFD00B6A24B /* main.m in Sources */,
 				2774FD941D46125500B6A24B /* detailsViewController.m in Sources */,

@@ -115,7 +115,7 @@
     {
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
          {
-             [self moveFrontViewOnPosition:[UIScreen mainScreen].bounds.size.width*0.8];
+             [self moveFrontViewOnPosition:[UIScreen mainScreen].bounds.size.width*0.85];
          } completion:nil];
     }
     else
