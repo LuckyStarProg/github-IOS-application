@@ -13,8 +13,6 @@
 @interface LogInViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic)UITextField * loginField;
 @property (nonatomic)UITextField * passwordField;
-- (IBAction)enterDidTap:(UIBarButtonItem *)sender;
-- (IBAction)menuDidTap:(UIBarButtonItem *)sender;
 @end
 
 @implementation LogInViewController
@@ -77,20 +75,31 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.loginTable=[[UITableView alloc] initWithFrame:self.view.bounds];
+    self.title=@"GitHub";
+    UIBarButtonItem * enterItem=[[UIBarButtonItem alloc] initWithTitle:@"Enter" style:UIBarButtonItemStylePlain target:self action:@selector(enterDidTap)];
+    enterItem.tintColor=[UIColor whiteColor];
+    UIBarButtonItem * menuItem=[[UIBarButtonItem alloc] initWithTitle:@"Enter" style:UIBarButtonItemStylePlain target:self action:@selector(menuDidTap)];
+    menuItem.tintColor=[UIColor whiteColor];
+    menuItem.image=[UIImage imageNamed:@"menu_icon"];
+    
+    self.navigationItem.rightBarButtonItem=enterItem;
+    self.navigationItem.leftBarButtonItem=menuItem;
     self.loginTable.backgroundColor=self.loginTable.separatorColor;
     self.navigationController.navigationBar.barTintColor=[UIColor colorWithRed:0.10 green:0.30 blue:0.37 alpha:1.0];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.navigationItem.rightBarButtonItem.enabled=NO;
     self.loginTable.delegate=self;
     self.loginTable.dataSource=self;
-    
+    [self.view addSubview:self.loginTable];
 }
-- (IBAction)enterDidTap:(UIBarButtonItem *)sender
+- (void)enterDidTap
 {
     
 }
 
-- (IBAction)menuDidTap:(UIBarButtonItem *)sender
+- (void)menuDidTap
 {
     AMSideBarViewController * sider=(AMSideBarViewController *)self.navigationController.parentViewController;
     [sider side];

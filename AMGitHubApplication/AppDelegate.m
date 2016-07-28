@@ -24,10 +24,10 @@
     self.window=[[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     UIStoryboard * storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
     defaultUserMenuViewController * menu=[storyboard instantiateViewControllerWithIdentifier:@"menu"];
-    LogInViewController * details=[storyboard instantiateViewControllerWithIdentifier:@"LOG_IN"];
+    LogInViewController * logIn=[[LogInViewController alloc]init];//[storyboard instantiateViewControllerWithIdentifier:@"LOG_IN"];
+    UINavigationController * navigation=[[UINavigationController alloc] initWithRootViewController:logIn];
     
-    
-    self.window.rootViewController=[AMSideBarViewController sideBarWithFrontVC:details andBackVC:menu];
+    self.window.rootViewController=[AMSideBarViewController sideBarWithFrontVC:navigation andBackVC:menu];
     [self.window makeKeyAndVisible];
     return YES;
 }

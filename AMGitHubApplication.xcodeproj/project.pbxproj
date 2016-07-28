@@ -21,6 +21,11 @@
 		2774FD9F1D48D7E100B6A24B /* LogInTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2774FD9E1D48D7E100B6A24B /* LogInTableViewCell.xib */; };
 		2774FDA11D49FF6800B6A24B /* searchBarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2774FDA01D49FF6800B6A24B /* searchBarCell.xib */; };
 		2774FDA41D4A10BB00B6A24B /* searchBarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FDA31D4A10BB00B6A24B /* searchBarCell.m */; };
+		2774FDA71D4A29EE00B6A24B /* repoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FDA61D4A29EE00B6A24B /* repoListViewController.m */; };
+		2774FDA91D4A2A8500B6A24B /* repoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2774FDA81D4A2A8500B6A24B /* repoCell.xib */; };
+		2774FDAC1D4A4A7700B6A24B /* repoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FDAB1D4A4A7700B6A24B /* repoCell.m */; };
+		2774FDAF1D4A5A9900B6A24B /* GitHubRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FDAE1D4A5A9900B6A24B /* GitHubRepository.m */; };
+		2774FDB21D4A5ADF00B6A24B /* GitHubUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FDB11D4A5ADF00B6A24B /* GitHubUser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +53,15 @@
 		2774FDA01D49FF6800B6A24B /* searchBarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = searchBarCell.xib; sourceTree = "<group>"; };
 		2774FDA21D4A10BB00B6A24B /* searchBarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = searchBarCell.h; sourceTree = "<group>"; };
 		2774FDA31D4A10BB00B6A24B /* searchBarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = searchBarCell.m; sourceTree = "<group>"; };
+		2774FDA51D4A29EE00B6A24B /* repoListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = repoListViewController.h; sourceTree = "<group>"; };
+		2774FDA61D4A29EE00B6A24B /* repoListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = repoListViewController.m; sourceTree = "<group>"; };
+		2774FDA81D4A2A8500B6A24B /* repoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = repoCell.xib; sourceTree = "<group>"; };
+		2774FDAA1D4A4A7700B6A24B /* repoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = repoCell.h; sourceTree = "<group>"; };
+		2774FDAB1D4A4A7700B6A24B /* repoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = repoCell.m; sourceTree = "<group>"; };
+		2774FDAD1D4A5A9900B6A24B /* GitHubRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GitHubRepository.h; sourceTree = "<group>"; };
+		2774FDAE1D4A5A9900B6A24B /* GitHubRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GitHubRepository.m; sourceTree = "<group>"; };
+		2774FDB01D4A5ADF00B6A24B /* GitHubUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GitHubUser.h; sourceTree = "<group>"; };
+		2774FDB11D4A5ADF00B6A24B /* GitHubUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GitHubUser.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +117,15 @@
 				2774FDA01D49FF6800B6A24B /* searchBarCell.xib */,
 				2774FDA21D4A10BB00B6A24B /* searchBarCell.h */,
 				2774FDA31D4A10BB00B6A24B /* searchBarCell.m */,
+				2774FDA51D4A29EE00B6A24B /* repoListViewController.h */,
+				2774FDA61D4A29EE00B6A24B /* repoListViewController.m */,
+				2774FDA81D4A2A8500B6A24B /* repoCell.xib */,
+				2774FDAA1D4A4A7700B6A24B /* repoCell.h */,
+				2774FDAB1D4A4A7700B6A24B /* repoCell.m */,
+				2774FDAD1D4A5A9900B6A24B /* GitHubRepository.h */,
+				2774FDAE1D4A5A9900B6A24B /* GitHubRepository.m */,
+				2774FDB01D4A5ADF00B6A24B /* GitHubUser.h */,
+				2774FDB11D4A5ADF00B6A24B /* GitHubUser.m */,
 			);
 			path = AMGitHubApplication;
 			sourceTree = "<group>";
@@ -178,6 +201,7 @@
 				2774FDA11D49FF6800B6A24B /* searchBarCell.xib in Resources */,
 				2774FD751D44CBFD00B6A24B /* Main.storyboard in Resources */,
 				2774FD9F1D48D7E100B6A24B /* LogInTableViewCell.xib in Resources */,
+				2774FDA91D4A2A8500B6A24B /* repoCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,12 +214,16 @@
 			files = (
 				2774FD9A1D48D05E00B6A24B /* LogInViewController.m in Sources */,
 				2774FD911D451E8F00B6A24B /* defaultUserMenuViewController.m in Sources */,
+				2774FDA71D4A29EE00B6A24B /* repoListViewController.m in Sources */,
 				2774FD971D48BD7400B6A24B /* WebViewController.m in Sources */,
 				2774FD9D1D48D78500B6A24B /* LogInTableViewCell.m in Sources */,
 				2774FD721D44CBFD00B6A24B /* AMSideBarViewController.m in Sources */,
 				2774FDA41D4A10BB00B6A24B /* searchBarCell.m in Sources */,
+				2774FDB21D4A5ADF00B6A24B /* GitHubUser.m in Sources */,
 				2774FD6F1D44CBFD00B6A24B /* AppDelegate.m in Sources */,
+				2774FDAF1D4A5A9900B6A24B /* GitHubRepository.m in Sources */,
 				2774FD6C1D44CBFD00B6A24B /* main.m in Sources */,
+				2774FDAC1D4A4A7700B6A24B /* repoCell.m in Sources */,
 				2774FD941D46125500B6A24B /* detailsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

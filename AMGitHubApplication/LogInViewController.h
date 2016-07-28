@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface LogInViewController : UIViewController
-@property (strong, nonatomic) IBOutlet UITableView *loginTable;
+@property (nonatomic) UITableView *loginTable;
 
 @end

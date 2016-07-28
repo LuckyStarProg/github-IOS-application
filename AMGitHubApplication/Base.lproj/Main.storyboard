@@ -45,7 +45,7 @@
         <!--Log In View Controller-->
         <scene sceneID="mqM-Ze-kms">
             <objects>
-                <viewController title="Log In View Controller" id="j3w-DL-w4p" customClass="LogInViewController" sceneMemberID="viewController">
+                <viewController title="Log In View Controller" id="j3w-DL-w4p" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xIk-GE-1ek"/>
                         <viewControllerLayoutGuide type="bottom" id="BVs-PW-2fI"/>
@@ -53,43 +53,48 @@
                     <view key="view" contentMode="scaleToFill" id="XOK-fG-1mw">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ohG-CQ-vz5">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="separatorColor" red="0.92156862745098034" green="0.92156862745098034" blue="0.92156862745098034" alpha="1" colorSpace="calibratedRGB"/>
-                                <sections/>
-                            </tableView>
-                        </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="ohG-CQ-vz5" secondAttribute="trailing" constant="-20" id="4cv-tC-u82"/>
-                            <constraint firstItem="ohG-CQ-vz5" firstAttribute="top" secondItem="xIk-GE-1ek" secondAttribute="bottom" id="EWZ-KV-zgK"/>
-                            <constraint firstItem="ohG-CQ-vz5" firstAttribute="leading" secondItem="XOK-fG-1mw" secondAttribute="leadingMargin" constant="-20" id="UJf-W8-5oj"/>
-                            <constraint firstItem="BVs-PW-2fI" firstAttribute="top" secondItem="ohG-CQ-vz5" secondAttribute="bottom" id="tnC-lD-jm8"/>
-                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="GitHub" id="pHK-xi-PJA">
-                        <barButtonItem key="leftBarButtonItem" image="menu_icon" id="wxM-VK-fMU">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="menuDidTap:" destination="j3w-DL-w4p" id="U2c-YS-Taj"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Enter" style="done" id="HKQ-As-iGa">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="enterDidTap:" destination="j3w-DL-w4p" id="9Pa-We-DIN"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="loginTable" destination="ohG-CQ-vz5" id="rtR-Wt-O2F"/>
-                    </connections>
+                    <navigationItem key="navigationItem" title="GitHub" id="pHK-xi-PJA"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZDO-Yj-mBR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1847" y="-1179"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="KsB-HF-mZp">
+            <objects>
+                <navigationController id="s88-Oc-1lq" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="YKN-1y-UYC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="CNu-w4-GKg" kind="relationship" relationship="rootViewController" id="aVd-EG-sro"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="o1D-r4-gi6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1934" y="-443"/>
+        </scene>
+        <!--Repositories-->
+        <scene sceneID="7Gr-DD-hIr">
+            <objects>
+                <tableViewController id="CNu-w4-GKg" customClass="repoListViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="vkS-hR-NBD">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="CNu-w4-GKg" id="UHk-kG-TNZ"/>
+                            <outlet property="delegate" destination="CNu-w4-GKg" id="dwk-G5-PhD"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Repositories" id="cvg-u6-Pxl"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yHk-2m-NMu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2701" y="-443"/>
         </scene>
         <!--Default User Menu View Controller-->
         <scene sceneID="Sl2-TT-MPa">
