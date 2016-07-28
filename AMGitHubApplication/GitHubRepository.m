@@ -10,4 +10,10 @@
 
 @implementation GitHubRepository
 
+-(GitHubRepository *)repositoryFromDictionary:(NSDictionary *)dictionary
+{
+    GitHubRepository * result=[[GitHubRepository alloc] init];
+    
+    return result;
+}
 @end

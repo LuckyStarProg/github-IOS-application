@@ -10,13 +10,11 @@
 
 @interface InternetConnectionController : NSObject
 
--(void)downloadDataWithReference:(NSString *)reference
-                       andSuccess:(void (^)(NSString * path))Success
-                          orError:(void (^)(NSString * message))Error;
++(InternetConnectionController *) sharedController;
 
 -(void)performRequestWithReference:(NSString *)reference
                          andMethod:(NSString *)method
                      andParameters:(id)params
-                    andSuccesBlock:(void (^)(NSData * data))Success
-                           orError:(void (^)(NSString * message))Error;
+                        andSuccess:(void (^)(NSData * data))Success
+                         orFailure:(void (^)(NSString * message))Error;
 @end

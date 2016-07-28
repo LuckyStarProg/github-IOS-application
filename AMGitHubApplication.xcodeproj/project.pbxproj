@@ -26,6 +26,7 @@
 		2774FDAC1D4A4A7700B6A24B /* repoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FDAB1D4A4A7700B6A24B /* repoCell.m */; };
 		2774FDAF1D4A5A9900B6A24B /* GitHubRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FDAE1D4A5A9900B6A24B /* GitHubRepository.m */; };
 		2774FDB21D4A5ADF00B6A24B /* GitHubUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FDB11D4A5ADF00B6A24B /* GitHubUser.m */; };
+		2774FDB51D4A636100B6A24B /* InternetConnectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FDB41D4A636100B6A24B /* InternetConnectionController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,8 @@
 		2774FDAE1D4A5A9900B6A24B /* GitHubRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GitHubRepository.m; sourceTree = "<group>"; };
 		2774FDB01D4A5ADF00B6A24B /* GitHubUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GitHubUser.h; sourceTree = "<group>"; };
 		2774FDB11D4A5ADF00B6A24B /* GitHubUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GitHubUser.m; sourceTree = "<group>"; };
+		2774FDB31D4A636100B6A24B /* InternetConnectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InternetConnectionController.h; sourceTree = "<group>"; };
+		2774FDB41D4A636100B6A24B /* InternetConnectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InternetConnectionController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +129,8 @@
 				2774FDAE1D4A5A9900B6A24B /* GitHubRepository.m */,
 				2774FDB01D4A5ADF00B6A24B /* GitHubUser.h */,
 				2774FDB11D4A5ADF00B6A24B /* GitHubUser.m */,
+				2774FDB31D4A636100B6A24B /* InternetConnectionController.h */,
+				2774FDB41D4A636100B6A24B /* InternetConnectionController.m */,
 			);
 			path = AMGitHubApplication;
 			sourceTree = "<group>";
@@ -216,6 +221,7 @@
 				2774FD911D451E8F00B6A24B /* defaultUserMenuViewController.m in Sources */,
 				2774FDA71D4A29EE00B6A24B /* repoListViewController.m in Sources */,
 				2774FD971D48BD7400B6A24B /* WebViewController.m in Sources */,
+				2774FDB51D4A636100B6A24B /* InternetConnectionController.m in Sources */,
 				2774FD9D1D48D78500B6A24B /* LogInTableViewCell.m in Sources */,
 				2774FD721D44CBFD00B6A24B /* AMSideBarViewController.m in Sources */,
 				2774FDA41D4A10BB00B6A24B /* searchBarCell.m in Sources */,

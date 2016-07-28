@@ -34,7 +34,7 @@
     {
         cell=[[repoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifaer];
     }
-    cell.userAvatar=repo
+    //cell.userAvatar=re;po;
     
     return cell;
 }
