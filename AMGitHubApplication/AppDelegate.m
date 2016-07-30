@@ -11,6 +11,7 @@
 #import "defaultUserMenuViewController.h"
 #import "detailsViewController.h"
 #import "LogInViewController.h"
+#import "repoListViewController.h"
 
 @interface AppDelegate ()
 

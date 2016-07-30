@@ -19,6 +19,7 @@ typedef NS_ENUM(NSUInteger, SideDirection) {
 @property (nonatomic)UIViewController * backViewController;
 @property (nonatomic)UIViewController * frontViewController;
 
+-(void)setNewFrontViewController:(UIViewController *)frontViewController;
 -(void)side;
 @end
 

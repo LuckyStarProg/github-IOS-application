@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface repoListViewController : UITableViewController
+@interface repoListViewController : UIViewController
 
+-(void)reloadData;
+
+@property (nonatomic)UIActivityIndicatorView * activityIndicator;
+@property (nonatomic)NSMutableArray * repos;
+@property (nonatomic)UITableView * tableView;
 @end

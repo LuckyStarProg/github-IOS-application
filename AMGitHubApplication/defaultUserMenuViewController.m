@@ -10,6 +10,8 @@
 #import "searchBarCell.h"
 #import "AMSideBarViewController.h"
 #import "InternetConnectionController.h"
+#import "repoListViewController.h"
+#import "GitHubRepository.h"
 
 @interface defaultUserMenuViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 @property (nonatomic)UISearchBar * reposSearchBar;
@@ -67,16 +69,45 @@
 {
     [searchBar resignFirstResponder];
     AMSideBarViewController * sider=(AMSideBarViewController *)self.parentViewController;
+    repoListViewController * repoController=[[repoListViewController alloc] init];
     [[InternetConnectionController sharedController] performRequestWithReference:@"https://api.github.com/search/repositories" andMethod:@"GET" andParameters:[NSArray arrayWithObject:[NSString stringWithFormat:@"q=%@",searchBar.text]] andSuccess:^(NSData *data) {
-        NSError * error=[[NSError alloc] init];
+        NSError * error=nil;
         NSDictionary * dict=[NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-        NSLog(@"%@",dict);
-    } orFailure:^(NSString *message) {
+        if(error)
+        {
+            NSLog(@"%@",error);
+            return;
+        }
+        if(dict)
+        {
+            NSArray * repoDicts=dict[@"items"];
+            for(NSDictionary * repo in repoDicts)
+            {
+               // NSIndexPath * temp = [NSIndexPath indexPathForItem:repoController.repos.count inSection:0];
+                
+                [repoController.repos addObject:[GitHubRepository repositoryFromDictionary:repo]];
+                
+//                [repoController.tableView beginUpdates];
+//                [repoController.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:temp]  withRowAnimation:UITableViewRowAnimationFade];
+//                [repoController.tableView endUpdates];
+            }
+                [repoController.tableView reloadData];
+                //[repoController reloadData];
+                [repoController.activityIndicator stopAnimating];
+
+        }
+       // NSLog(@"%@",dict);
+    } orFailure:^(NSString *message)
+    {
         NSLog(@"%@",message);
     }];
     
+    [sider setNewFrontViewController:[[UINavigationController alloc] initWithRootViewController:repoController]];
+    searchBar.showsCancelButton=NO;
+    searchBar.text=@"";
     //https://api.github.com
     [sider side];
+    //[repoController reloadData];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar

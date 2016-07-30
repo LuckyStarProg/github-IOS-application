@@ -42,34 +42,15 @@
 
 #pragma mark - Life Cycle
 
-+(AMSideBarViewController *)sideBarWithFrontVC:(UIViewController *)frontVC andBackVC:(UIViewController *)backVC
+-(void)setNewFrontViewController:(UIViewController *)frontViewController
 {
-    AMSideBarViewController * sideBar=[[AMSideBarViewController alloc] init];
-    sideBar.backViewController=backVC;
-    sideBar.frontViewController=frontVC;
-    return sideBar;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    NSMutableArray * array=[NSMutableArray array];
-    for(int i=0;i<self.view.subviews.count;++i)
+    if(self.frontViewController)
     {
-        [array addObject:self.view.subviews[i]];
+        [self.frontViewController.view removeFromSuperview];
+        [self.frontViewController removeFromParentViewController];
     }
     
-    for(int i=0;i<self.view.subviews.count;++i)
-    {
-        [array[i] removeFromSuperview];
-    }
-    
-    self.pan=[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(gesturePan)];
-    self.pan.delegate=self;
-    
-    //self.frontViewController.view.layer.masksToBounds = NO;
-    //self.frontViewController.view.clipsToBounds = YES;
+    self.frontViewController=frontViewController;
     CGRect pathRect=self.frontViewController.view.bounds;
     pathRect.size=self.frontViewController.view.frame.size;
     self.frontViewController.view.layer.shadowColor=[UIColor blackColor].CGColor;
@@ -77,16 +58,49 @@
     self.frontViewController.view.layer.shadowRadius=10.0;
     self.frontViewController.view.layer.shadowOpacity = 1.0f;
     self.frontViewController.view.layer.rasterizationScale=[UIScreen mainScreen].scale;
+    [self addChildViewController:self.frontViewController];
+    [self.view addSubview:self.frontViewController.view];
+    self.pan=[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(gesturePan)];
+    self.pan.delegate=self;
+    
+    [self.frontViewController.view addGestureRecognizer:self.pan];
+}
+
+
++(AMSideBarViewController *)sideBarWithFrontVC:(UIViewController *)frontVC andBackVC:(UIViewController *)backVC
+{
+    AMSideBarViewController * sideBar=[[AMSideBarViewController alloc] init];
+    
+    NSMutableArray * array=[NSMutableArray array];
+    for(int i=0;i<sideBar.view.subviews.count;++i)
+    {
+        [array addObject:sideBar.view.subviews[i]];
+    }
+    
+    for(int i=0;i<sideBar.view.subviews.count;++i)
+    {
+        [array[i] removeFromSuperview];
+    }
+    
+    sideBar.backViewController=backVC;
+    [sideBar addChildViewController:backVC];
+    [sideBar.view addSubview:backVC.view];
+    [sideBar setNewFrontViewController:frontVC];
+    return sideBar;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    
+    //self.frontViewController.view.layer.masksToBounds = NO;
+    //self.frontViewController.view.clipsToBounds = YES;
+
     
     self.startPoint=CGPointMake(0, 0);
     
-    [self addChildViewController:self.backViewController];
-    [self.view addSubview:self.backViewController.view];
-    [self addChildViewController:self.frontViewController];
-    [self.view addSubview:self.frontViewController.view];
     
-    [self.frontViewController.view addGestureRecognizer:self.pan];
-    NSLog(@"Ок, сделаем это!)");
 }
 
 -(void)timerTick

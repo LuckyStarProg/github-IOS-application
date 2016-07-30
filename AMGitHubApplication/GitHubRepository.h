@@ -15,6 +15,7 @@
 @property (nonatomic)NSString * name;
 @property (nonatomic)NSString * fullName;
 @property (nonatomic)NSString * descriptionStr;
+@property (nonatomic)NSString * stars;
 @property (nonatomic)GitHubUser * user;
 
 +(GitHubRepository *)repositoryFromDictionary:(NSDictionary *)dictionary;

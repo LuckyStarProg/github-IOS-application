@@ -16,11 +16,11 @@
     GitHubRepository * result=[[GitHubRepository alloc] init];
     
     result.ID=(NSUInteger)dictionary[@"id"];
-    result.name=(NSString *)dictionary[@"name"];
-    result.fullName=(NSString *)dictionary[@"full_name"];
-    result.descriptionStr=(NSString *)dictionary[@"description"];
+    result.name=[NSString stringWithFormat:@"%@",dictionary[@"name"]];
+    result.fullName=[NSString stringWithFormat:@"%@",dictionary[@"full_name"]];
+    result.descriptionStr=[NSString stringWithFormat:@"%@",dictionary[@"description"]];
     result.user=[GitHubUser userFromDictionary:dictionary[@"owner"]];
-    
+    result.stars=[NSString stringWithFormat:@"%@",dictionary[@"stargazers_count"]];
     return result;
 }
 @end

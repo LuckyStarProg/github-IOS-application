@@ -15,10 +15,10 @@
     GitHubUser * result=[[GitHubUser alloc] init];
     
     result.ID=(NSUInteger)dictionary[@"id"];
-    result.name=(NSString *)dictionary[@"name"];
-    result.apiRef=(NSString *)dictionary[@"url"];
-    result.avatarRef=(NSString *)dictionary[@"avatar_url"];
-    result.reposRef=(NSString *)dictionary[@"repos_url"];
+    result.name=[NSString stringWithFormat:@"%@",dictionary[@"name"]];
+    result.apiRef=[NSString stringWithFormat:@"%@",dictionary[@"url"]];
+    result.avatarRef=[NSString stringWithFormat:@"%@",dictionary[@"avatar_url"]];
+    result.reposRef=[NSString stringWithFormat:@"%@",dictionary[@"repos_url"]];
     
     return result;
 }

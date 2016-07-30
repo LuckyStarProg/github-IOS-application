@@ -24,6 +24,42 @@
     return internetConnectionControllerInstance;
 }
 
+-(NSString *)statusCodeWithResponse:(NSURLResponse *)response andError:(NSError *)error
+{
+    if(error)
+    {
+        return error.description;
+    }
+
+    NSHTTPURLResponse * httpResponse=nil;
+    if(![response isKindOfClass:[NSHTTPURLResponse class]])
+    {
+        return nil;
+    }
+
+    httpResponse=(NSHTTPURLResponse *)response;
+    NSString * errorStr=nil;
+    NSInteger status=httpResponse.statusCode;
+    
+    if(status>=200 && status<300)
+    {
+        //success
+    }
+    else if(status>=400 && status<500)
+    {
+        errorStr=@"Client error";
+    }
+    else if(status>=500 && status<600)
+    {
+        errorStr=@"Server error";
+    }
+    else
+    {
+        errorStr=@"Unknown error";
+    }
+
+    return errorStr;
+}
 
 -(void)performRequestWithReference:(NSString *)reference
                          andMethod:(NSString *)method
@@ -31,6 +67,7 @@
                         andSuccess:(void (^)(NSData * data))Success
                            orFailure:(void (^)(NSString * message))Error
 {
+    
     NSMutableURLRequest * request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:reference]
                                             cachePolicy:NSURLRequestUseProtocolCachePolicy
                                         timeoutInterval:10];
@@ -71,14 +108,21 @@
                                     completionHandler:^
      (NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
     {
-        
+        NSString * errorStr=nil;
+        if((errorStr=[self statusCodeWithResponse:response andError:error]))
+        {
+            Error(errorStr);
+            return;
+        }
         if(data==nil)
         {
             Error(@"Data is nil!");
             return;
         }
         
-        Success(data);
+        dispatch_async(dispatch_get_main_queue(), ^{
+                Success(data);
+        });
     }] resume];
 }
 @end
