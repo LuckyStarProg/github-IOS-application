@@ -74,11 +74,6 @@
     [self.frontViewController.view addGestureRecognizer:self.pan];
 }
 
--(void)presentAlertController:(UIAlertController *)alert
-{
-    [self.frontViewController.navigationController presentViewController:alert animated:YES completion:nil];
-}
-
 +(AMSideBarViewController *)sideBarWithFrontVC:(UIViewController *)frontVC andBackVC:(UIViewController *)backVC
 {
     AMSideBarViewController * sideBar=[[AMSideBarViewController alloc] init];

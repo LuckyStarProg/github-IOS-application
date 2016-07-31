@@ -21,6 +21,5 @@ typedef NS_ENUM(NSUInteger, SideDirection) {
 
 -(void)setNewFrontViewController:(UIViewController *)frontViewController;
 -(void)side;
--(void)presentAlertController:(UIAlertController *)alert;
 @end
 

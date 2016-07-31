@@ -132,16 +132,10 @@
     self.navigationController.navigationBar.barTintColor=[UIColor colorWithRed:0.10 green:0.30 blue:0.37 alpha:1.0];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
-    //UIView * activityView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
     self.activityIndicator=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
     self.activityIndicator.activityIndicatorViewStyle=UIActivityIndicatorViewStyleGray;
     self.activityIndicator.hidesWhenStopped=YES;
-//    self.activityIndicator.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin |
-//                                      UIViewAutoresizingFlexibleRightMargin |
-//                                      UIViewAutoresizingFlexibleTopMargin |
-//                                      UIViewAutoresizingFlexibleBottomMargin);
-    
-    //[activityView addSubview:self.activityIndicator];
+
     self.tableView.tableHeaderView=self.activityIndicator;
     
     self.repos=[NSMutableArray array];
@@ -154,7 +148,7 @@
 
 -(void)menuDidTap
 {
-    AMSideBarViewController * sider=(AMSideBarViewController *)self.navigationController.parentViewController;
+    AMSideBarViewController * sider=[self.navigationController.parentViewController isKindOfClass:[AMSideBarViewController class]]?(AMSideBarViewController *)self.navigationController.parentViewController:nil;
     [sider side];
 }
 /*
