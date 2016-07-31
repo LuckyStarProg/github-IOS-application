@@ -14,5 +14,4 @@
 
 @property (nonatomic)UIActivityIndicatorView * activityIndicator;
 @property (nonatomic)NSMutableArray * repos;
-@property (nonatomic)UITableView * tableView;
 @end

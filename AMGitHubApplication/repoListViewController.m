@@ -10,9 +10,10 @@
 #import "AMSideBarViewController.h"
 #import "repoCell.h"
 #import "GitHubRepository.h"
+#import "InternetConnectionController.h"
 
 @interface repoListViewController ()<UITableViewDataSource, UITableViewDelegate>
-
+@property (nonatomic)UITableView * tableView;
 @end
 
 @implementation repoListViewController
@@ -34,9 +35,39 @@
 //    return nil;
 //}
 
+- (UIImage *)ScaleImgPropoWidth:(UIImage *)image scaledToSize:(CGSize)newSize {
+    double ratio;
+    double delta;
+    //проверка на то если новый размер картинки больше или равен старому то вернуть ту же картинку
+//    if(newSize.width>=image.size.width){
+//        return image;
+//    }//если данная проверка вам ненужна вы можете её убрать, напрмиер если хотите в любом случае кропить размер или же при увеличении размеров заменить условие на if(newSize.width<=image.size.width)
+    ratio = newSize.width / image.size.width;
+    delta = (ratio*image.size.height-ratio*image.size.width);
+    UIImage *scaledImage =
+    [UIImage imageWithCGImage:[image CGImage]
+                        scale:(image.scale / ratio)
+                  orientation:(image.imageOrientation)];
+    CGRect clipRect = CGRectMake(0, 0,
+                                 scaledImage.size.width,
+                                 scaledImage.size.height);
+    CGSize sz = CGSizeMake(newSize.width, scaledImage.size.height);
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
+        UIGraphicsBeginImageContextWithOptions(sz, YES, 0.0);
+    } else {
+        UIGraphicsBeginImageContext(sz);
+    }
+    UIRectClip(clipRect);
+    [image drawInRect:clipRect];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 141.0;
+    GitHubRepository * repo=self.repos[indexPath.row];
+    return [repoCell heightForText:repo.descriptionStr] + 65;//65 - height of other cell elements
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -59,7 +90,26 @@
     cell.repoName.text= repo.name;
     cell.repoDescription.text=repo.descriptionStr;
     cell.repoStarsLabel.text=repo.stars;
-    //cell.imageView.image=[UIImage imageWith
+    //cell.userAvatar.frame=CGRectMake(8, 8, 108, 80);
+    if(repo.user.avatarPath.length>0)
+    {
+        cell.userAvatar.image=[self ScaleImgPropoWidth:[UIImage imageWithContentsOfFile:repo.user.avatarPath] scaledToSize:cell.userAvatar.frame.size];
+        [cell setNeedsLayout];
+    }
+    else
+    {
+        [[InternetConnectionController sharedController] downloadDataWithReference:repo.user.avatarRef andSuccess:^(NSString *path)
+         {
+             repo.user.avatarPath=path;
+             NSLog(@"%@",cell.userAvatar);
+             cell.userAvatar.image=[self ScaleImgPropoWidth:[UIImage imageWithContentsOfFile:repo.user.avatarPath] scaledToSize:cell.userAvatar.frame.size];
+             [cell setNeedsLayout];
+        
+         } orFailure:^(NSString *message)
+         {
+             NSLog(@"Error: %@",message);
+         }];
+    }
     return cell;
 }
 
@@ -68,9 +118,7 @@
 
 -(void)reloadData
 {
-    [self.tableView beginUpdates];
-    //[self.tableView reloadData];
-    [self.tableView endUpdates];
+    [self.tableView reloadData];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -87,10 +135,11 @@
     //UIView * activityView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
     self.activityIndicator=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
     self.activityIndicator.activityIndicatorViewStyle=UIActivityIndicatorViewStyleGray;
-    self.activityIndicator.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin |
-                                      UIViewAutoresizingFlexibleRightMargin |
-                                      UIViewAutoresizingFlexibleTopMargin |
-                                      UIViewAutoresizingFlexibleBottomMargin);
+    self.activityIndicator.hidesWhenStopped=YES;
+//    self.activityIndicator.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin |
+//                                      UIViewAutoresizingFlexibleRightMargin |
+//                                      UIViewAutoresizingFlexibleTopMargin |
+//                                      UIViewAutoresizingFlexibleBottomMargin);
     
     //[activityView addSubview:self.activityIndicator];
     self.tableView.tableHeaderView=self.activityIndicator;

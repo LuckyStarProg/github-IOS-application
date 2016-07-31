@@ -44,13 +44,21 @@
 
 -(void)setNewFrontViewController:(UIViewController *)frontViewController
 {
+    CGPoint lastCoords;
     if(self.frontViewController)
     {
+        lastCoords=self.frontViewController.view.frame.origin;
         [self.frontViewController.view removeFromSuperview];
         [self.frontViewController removeFromParentViewController];
     }
     
     self.frontViewController=frontViewController;
+    self.frontViewController.view.frame=
+    CGRectMake(lastCoords.x,
+               self.frontViewController.view.frame.origin.y,
+               self.frontViewController.view.frame.size.width,
+               self.frontViewController.view.frame.size.height);
+    
     CGRect pathRect=self.frontViewController.view.bounds;
     pathRect.size=self.frontViewController.view.frame.size;
     self.frontViewController.view.layer.shadowColor=[UIColor blackColor].CGColor;
@@ -66,6 +74,10 @@
     [self.frontViewController.view addGestureRecognizer:self.pan];
 }
 
+-(void)presentAlertController:(UIAlertController *)alert
+{
+    [self.frontViewController.navigationController presentViewController:alert animated:YES completion:nil];
+}
 
 +(AMSideBarViewController *)sideBarWithFrontVC:(UIViewController *)frontVC andBackVC:(UIViewController *)backVC
 {

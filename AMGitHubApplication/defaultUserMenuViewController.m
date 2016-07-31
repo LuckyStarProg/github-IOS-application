@@ -75,7 +75,7 @@
         NSDictionary * dict=[NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
         if(error)
         {
-            NSLog(@"%@",error);
+           [self showAllertWithMessage:error.description];
             return;
         }
         if(dict)
@@ -83,23 +83,17 @@
             NSArray * repoDicts=dict[@"items"];
             for(NSDictionary * repo in repoDicts)
             {
-               // NSIndexPath * temp = [NSIndexPath indexPathForItem:repoController.repos.count inSection:0];
-                
                 [repoController.repos addObject:[GitHubRepository repositoryFromDictionary:repo]];
-                
-//                [repoController.tableView beginUpdates];
-//                [repoController.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:temp]  withRowAnimation:UITableViewRowAnimationFade];
-//                [repoController.tableView endUpdates];
             }
-                [repoController.tableView reloadData];
-                //[repoController reloadData];
+                [repoController reloadData];
                 [repoController.activityIndicator stopAnimating];
-
         }
-       // NSLog(@"%@",dict);
     } orFailure:^(NSString *message)
     {
-        NSLog(@"%@",message);
+        dispatch_async(dispatch_get_main_queue(), ^
+        {
+                [self showAllertWithMessage:message];
+        });
     }];
     
     [sider setNewFrontViewController:[[UINavigationController alloc] initWithRootViewController:repoController]];
@@ -107,9 +101,21 @@
     searchBar.text=@"";
     //https://api.github.com
     [sider side];
-    //[repoController reloadData];
 }
 
+-(void)showAllertWithMessage:(NSString *)message
+{
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                   message:message
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {}];
+    
+    [alert addAction:defaultAction];
+    AMSideBarViewController * sider=(AMSideBarViewController *)self.parentViewController;
+    [sider.frontViewController presentViewController:alert animated:YES completion:nil];
+}
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];

@@ -28,7 +28,7 @@
 {
     if(error)
     {
-        return error.description;
+        return @"The request to load this item did not complete successfuly! Please check your connection and try again.";
     }
 
     NSHTTPURLResponse * httpResponse=nil;
@@ -59,6 +59,50 @@
     }
 
     return errorStr;
+}
+
+-(void)downloadDataWithReference:(NSString *)reference
+                      andSuccess:(void (^)(NSString * path))Success
+                       orFailure:(void (^)(NSString * message))Error
+{
+    NSURLRequest * request=[NSURLRequest requestWithURL:[NSURL URLWithString:reference]
+                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                        timeoutInterval:10];
+    
+    [[[NSURLSession sharedSession] downloadTaskWithRequest:request
+                                         completionHandler:^
+      (NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error)
+      {
+          NSString * errorStr=nil;
+          if((errorStr=[self statusCodeWithResponse:response andError:error]))
+          {
+              Error(errorStr);
+              return;
+          }
+          
+          if(!location)
+          {
+              Error(@"Error location is nil!");
+          }
+          
+          NSString * pathToData=[NSTemporaryDirectory() stringByAppendingPathComponent:[NSUUID UUID].UUIDString];
+          
+          NSError * fileError=nil;
+          NSLog(@"%@",location.path);
+          NSLog(@"%@",pathToData);
+          [[NSFileManager defaultManager] copyItemAtPath:location.path
+                                                  toPath:pathToData
+                                                   error:&fileError];
+          if(fileError)
+          {
+              Error(@"Error copy file!");
+              return;
+          }
+          dispatch_async(dispatch_get_main_queue(), ^
+          {
+                Success(pathToData);
+          });
+      }] resume];
 }
 
 -(void)performRequestWithReference:(NSString *)reference

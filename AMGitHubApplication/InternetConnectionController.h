@@ -12,6 +12,10 @@
 
 +(InternetConnectionController *) sharedController;
 
+-(void)downloadDataWithReference:(NSString *)reference
+                      andSuccess:(void (^)(NSString * path))Success
+                       orFailure:(void (^)(NSString * message))Error;
+
 -(void)performRequestWithReference:(NSString *)reference
                          andMethod:(NSString *)method
                      andParameters:(id)params

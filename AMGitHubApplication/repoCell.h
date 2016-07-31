@@ -11,8 +11,9 @@
 @interface repoCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UIImageView *userAvatar;
 @property (strong, nonatomic) IBOutlet UILabel *repoName;
-@property (strong, nonatomic) IBOutlet UITextView *repoDescription;
+@property (strong, nonatomic) IBOutlet UILabel *repoDescription;
 @property (strong, nonatomic) IBOutlet UILabel *repoStarsLabel;
 
++(CGFloat)heightForText:(NSString *)text;
 -(void)awakeFromNib;
 @end
