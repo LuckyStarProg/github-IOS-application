@@ -91,18 +91,19 @@
     cell.repoDescription.text=repo.descriptionStr;
     cell.repoStarsLabel.text=repo.stars;
     //cell.userAvatar.frame=CGRectMake(8, 8, 108, 80);
-    if(repo.user.avatarPath.length>0)
+//    if(repo.user.avatarPath.length>0)
+//    {
+//        cell.userAvatar.image=[self ScaleImgPropoWidth:[UIImage imageWithContentsOfFile:repo.user.avatarPath] scaledToSize:cell.userAvatar.frame.size];
+//        [cell setNeedsLayout];
+//    }
+//    else
+    if(1)
     {
-        cell.userAvatar.image=[self ScaleImgPropoWidth:[UIImage imageWithContentsOfFile:repo.user.avatarPath] scaledToSize:cell.userAvatar.frame.size];
-        [cell setNeedsLayout];
-    }
-    else
-    {
-        [[InternetConnectionController sharedController] downloadDataWithReference:repo.user.avatarRef andSuccess:^(NSString *path)
+        [[InternetConnectionController sharedController] performRequestWithReference:repo.user.avatarRef andMethod:nil andParameters:nil andSuccess:^(NSData *data)
          {
-             repo.user.avatarPath=path;
+             //repo.user.avatarPath=path;
              NSLog(@"%@",cell.userAvatar);
-             cell.userAvatar.image=[self ScaleImgPropoWidth:[UIImage imageWithContentsOfFile:repo.user.avatarPath] scaledToSize:cell.userAvatar.frame.size];
+             cell.userAvatar.image=[self ScaleImgPropoWidth:[UIImage imageWithData:data] scaledToSize:cell.userAvatar.frame.size];
              [cell setNeedsLayout];
         
          } orFailure:^(NSString *message)

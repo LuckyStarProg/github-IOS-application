@@ -10,6 +10,5 @@
 
 @interface detailsViewController : UIViewController
 @property (nonatomic) UITableView *table;
-- (IBAction)menuDidTap:(UIBarButtonItem *)sender;
 
 @end

@@ -30,7 +30,6 @@
     {
         return @"The request to load this item did not complete successfuly! Please check your connection and try again.";
     }
-
     NSHTTPURLResponse * httpResponse=nil;
     if(![response isKindOfClass:[NSHTTPURLResponse class]])
     {
@@ -164,7 +163,8 @@
             return;
         }
         
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^
+        {
                 Success(data);
         });
     }] resume];
