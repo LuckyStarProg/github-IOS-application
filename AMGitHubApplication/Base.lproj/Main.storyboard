@@ -25,7 +25,6 @@
         <!--Log In Navigation Controller-->
         <scene sceneID="nfY-KS-m3Z">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="p77-OO-8Zh" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="LOG_IN" title="Log In Navigation Controller" id="S4G-cJ-DxE" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="A0V-Tl-NzD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -39,13 +38,13 @@
                         <segue destination="j3w-DL-w4p" kind="relationship" relationship="rootViewController" id="bU9-Nb-qCi"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="p77-OO-8Zh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1847" y="-1876"/>
         </scene>
         <!--Log In View Controller-->
         <scene sceneID="mqM-Ze-kms">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ZDO-Yj-mBR" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController title="Log In View Controller" id="j3w-DL-w4p" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xIk-GE-1ek"/>
@@ -58,6 +57,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="GitHub" id="pHK-xi-PJA"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZDO-Yj-mBR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1847" y="-1179"/>
         </scene>

@@ -27,7 +27,8 @@
 		2774FDAF1D4A5A9900B6A24B /* GitHubRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FDAE1D4A5A9900B6A24B /* GitHubRepository.m */; };
 		2774FDB21D4A5ADF00B6A24B /* GitHubUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FDB11D4A5ADF00B6A24B /* GitHubUser.m */; };
 		2774FDB51D4A636100B6A24B /* InternetConnectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FDB41D4A636100B6A24B /* InternetConnectionController.m */; };
-		27A23D701D4E460B0013259C /* AMCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A23D6F1D4E460B0013259C /* AMCache.m */; };
+		27A23D731D4E72AD0013259C /* AMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A23D721D4E72AD0013259C /* AMDataManager.m */; };
+		27A23D761D4EA7E10013259C /* UIImage+ResizingImg.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A23D751D4EA7E10013259C /* UIImage+ResizingImg.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,8 +67,10 @@
 		2774FDB11D4A5ADF00B6A24B /* GitHubUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GitHubUser.m; sourceTree = "<group>"; };
 		2774FDB31D4A636100B6A24B /* InternetConnectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InternetConnectionController.h; sourceTree = "<group>"; };
 		2774FDB41D4A636100B6A24B /* InternetConnectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InternetConnectionController.m; sourceTree = "<group>"; };
-		27A23D6E1D4E460B0013259C /* AMCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMCache.h; sourceTree = "<group>"; };
-		27A23D6F1D4E460B0013259C /* AMCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMCache.m; sourceTree = "<group>"; };
+		27A23D711D4E72AD0013259C /* AMDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDataManager.h; sourceTree = "<group>"; };
+		27A23D721D4E72AD0013259C /* AMDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDataManager.m; sourceTree = "<group>"; };
+		27A23D741D4EA7E10013259C /* UIImage+ResizingImg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ResizingImg.h"; sourceTree = "<group>"; };
+		27A23D751D4EA7E10013259C /* UIImage+ResizingImg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ResizingImg.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,8 +103,6 @@
 		2774FD691D44CBFD00B6A24B /* AMGitHubApplication */ = {
 			isa = PBXGroup;
 			children = (
-				27A23D6E1D4E460B0013259C /* AMCache.h */,
-				27A23D6F1D4E460B0013259C /* AMCache.m */,
 				2774FD6D1D44CBFD00B6A24B /* AppDelegate.h */,
 				2774FD6E1D44CBFD00B6A24B /* AppDelegate.m */,
 				2774FD701D44CBFD00B6A24B /* AMSideBarViewController.h */,
@@ -136,6 +137,10 @@
 				2774FDB11D4A5ADF00B6A24B /* GitHubUser.m */,
 				2774FDB31D4A636100B6A24B /* InternetConnectionController.h */,
 				2774FDB41D4A636100B6A24B /* InternetConnectionController.m */,
+				27A23D711D4E72AD0013259C /* AMDataManager.h */,
+				27A23D721D4E72AD0013259C /* AMDataManager.m */,
+				27A23D741D4EA7E10013259C /* UIImage+ResizingImg.h */,
+				27A23D751D4EA7E10013259C /* UIImage+ResizingImg.m */,
 			);
 			path = AMGitHubApplication;
 			sourceTree = "<group>";
@@ -223,10 +228,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				2774FD9A1D48D05E00B6A24B /* LogInViewController.m in Sources */,
-				27A23D701D4E460B0013259C /* AMCache.m in Sources */,
 				2774FD911D451E8F00B6A24B /* defaultUserMenuViewController.m in Sources */,
 				2774FDA71D4A29EE00B6A24B /* repoListViewController.m in Sources */,
 				2774FD971D48BD7400B6A24B /* WebViewController.m in Sources */,
+				27A23D761D4EA7E10013259C /* UIImage+ResizingImg.m in Sources */,
 				2774FDB51D4A636100B6A24B /* InternetConnectionController.m in Sources */,
 				2774FD9D1D48D78500B6A24B /* LogInTableViewCell.m in Sources */,
 				2774FD721D44CBFD00B6A24B /* AMSideBarViewController.m in Sources */,
@@ -235,6 +240,7 @@
 				2774FD6F1D44CBFD00B6A24B /* AppDelegate.m in Sources */,
 				2774FDAF1D4A5A9900B6A24B /* GitHubRepository.m in Sources */,
 				2774FD6C1D44CBFD00B6A24B /* main.m in Sources */,
+				27A23D731D4E72AD0013259C /* AMDataManager.m in Sources */,
 				2774FDAC1D4A4A7700B6A24B /* repoCell.m in Sources */,
 				2774FD941D46125500B6A24B /* detailsViewController.m in Sources */,
 			);
