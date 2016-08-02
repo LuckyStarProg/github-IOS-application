@@ -29,6 +29,10 @@
 		2774FDB51D4A636100B6A24B /* InternetConnectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FDB41D4A636100B6A24B /* InternetConnectionController.m */; };
 		27A23D731D4E72AD0013259C /* AMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A23D721D4E72AD0013259C /* AMDataManager.m */; };
 		27A23D761D4EA7E10013259C /* UIImage+ResizingImg.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A23D751D4EA7E10013259C /* UIImage+ResizingImg.m */; };
+		27A23D791D4F5E300013259C /* RepositoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A23D781D4F5E300013259C /* RepositoryViewController.m */; };
+		27A23D7E1D4F66780013259C /* RepoAvatarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A23D7D1D4F66780013259C /* RepoAvatarView.m */; };
+		27A23D811D4F91100013259C /* UIColor+GitHubColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A23D801D4F91100013259C /* UIColor+GitHubColor.m */; };
+		27A23D881D50C0EF0013259C /* repoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A23D871D50C0EF0013259C /* repoCollectionViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +75,14 @@
 		27A23D721D4E72AD0013259C /* AMDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDataManager.m; sourceTree = "<group>"; };
 		27A23D741D4EA7E10013259C /* UIImage+ResizingImg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ResizingImg.h"; sourceTree = "<group>"; };
 		27A23D751D4EA7E10013259C /* UIImage+ResizingImg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ResizingImg.m"; sourceTree = "<group>"; };
+		27A23D771D4F5E300013259C /* RepositoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepositoryViewController.h; sourceTree = "<group>"; };
+		27A23D781D4F5E300013259C /* RepositoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepositoryViewController.m; sourceTree = "<group>"; };
+		27A23D7C1D4F66780013259C /* RepoAvatarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepoAvatarView.h; sourceTree = "<group>"; };
+		27A23D7D1D4F66780013259C /* RepoAvatarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepoAvatarView.m; sourceTree = "<group>"; };
+		27A23D7F1D4F91100013259C /* UIColor+GitHubColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+GitHubColor.h"; sourceTree = "<group>"; };
+		27A23D801D4F91100013259C /* UIColor+GitHubColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+GitHubColor.m"; sourceTree = "<group>"; };
+		27A23D861D50C0EF0013259C /* repoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = repoCollectionViewCell.h; sourceTree = "<group>"; };
+		27A23D871D50C0EF0013259C /* repoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = repoCollectionViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +153,14 @@
 				27A23D721D4E72AD0013259C /* AMDataManager.m */,
 				27A23D741D4EA7E10013259C /* UIImage+ResizingImg.h */,
 				27A23D751D4EA7E10013259C /* UIImage+ResizingImg.m */,
+				27A23D771D4F5E300013259C /* RepositoryViewController.h */,
+				27A23D781D4F5E300013259C /* RepositoryViewController.m */,
+				27A23D7C1D4F66780013259C /* RepoAvatarView.h */,
+				27A23D7D1D4F66780013259C /* RepoAvatarView.m */,
+				27A23D7F1D4F91100013259C /* UIColor+GitHubColor.h */,
+				27A23D801D4F91100013259C /* UIColor+GitHubColor.m */,
+				27A23D861D50C0EF0013259C /* repoCollectionViewCell.h */,
+				27A23D871D50C0EF0013259C /* repoCollectionViewCell.m */,
 			);
 			path = AMGitHubApplication;
 			sourceTree = "<group>";
@@ -227,19 +247,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27A23D881D50C0EF0013259C /* repoCollectionViewCell.m in Sources */,
 				2774FD9A1D48D05E00B6A24B /* LogInViewController.m in Sources */,
 				2774FD911D451E8F00B6A24B /* defaultUserMenuViewController.m in Sources */,
 				2774FDA71D4A29EE00B6A24B /* repoListViewController.m in Sources */,
 				2774FD971D48BD7400B6A24B /* WebViewController.m in Sources */,
 				27A23D761D4EA7E10013259C /* UIImage+ResizingImg.m in Sources */,
+				27A23D7E1D4F66780013259C /* RepoAvatarView.m in Sources */,
 				2774FDB51D4A636100B6A24B /* InternetConnectionController.m in Sources */,
 				2774FD9D1D48D78500B6A24B /* LogInTableViewCell.m in Sources */,
+				27A23D811D4F91100013259C /* UIColor+GitHubColor.m in Sources */,
 				2774FD721D44CBFD00B6A24B /* AMSideBarViewController.m in Sources */,
 				2774FDA41D4A10BB00B6A24B /* searchBarCell.m in Sources */,
 				2774FDB21D4A5ADF00B6A24B /* GitHubUser.m in Sources */,
 				2774FD6F1D44CBFD00B6A24B /* AppDelegate.m in Sources */,
 				2774FDAF1D4A5A9900B6A24B /* GitHubRepository.m in Sources */,
 				2774FD6C1D44CBFD00B6A24B /* main.m in Sources */,
+				27A23D791D4F5E300013259C /* RepositoryViewController.m in Sources */,
 				27A23D731D4E72AD0013259C /* AMDataManager.m in Sources */,
 				2774FDAC1D4A4A7700B6A24B /* repoCell.m in Sources */,
 				2774FD941D46125500B6A24B /* detailsViewController.m in Sources */,

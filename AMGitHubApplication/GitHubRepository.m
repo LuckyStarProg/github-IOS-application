@@ -21,6 +21,14 @@
     result.descriptionStr=[NSString stringWithFormat:@"%@",dictionary[@"description"]];
     result.user=[GitHubUser userFromDictionary:dictionary[@"owner"]];
     result.stars=[NSString stringWithFormat:@"%@",dictionary[@"stargazers_count"]];
+    result.forks=[NSString stringWithFormat:@"%@",dictionary[@"forks_count"]];
+    result.watchers=[NSString stringWithFormat:@"%@",dictionary[@"watchers"]];
+    result.issues=[NSString stringWithFormat:@"%@",dictionary[@"open_issues_count"]];
+    result.isPrivate=(BOOL)dictionary[@"private"];
+    result.date=[[NSString stringWithFormat:@"%@",dictionary[@"updated_at"]] substringToIndex:10];
+    
+    NSString * lang=[NSString stringWithFormat:@"%@",dictionary[@"language"]];
+    result.language=[lang isEqualToString:@"<null>"]?@"N/A":lang;
     return result;
 }
 @end

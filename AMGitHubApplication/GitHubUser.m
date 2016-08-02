@@ -19,7 +19,7 @@
     result.apiRef=[NSString stringWithFormat:@"%@",dictionary[@"url"]];
     result.avatarRef=[NSString stringWithFormat:@"%@",dictionary[@"avatar_url"]];
     result.reposRef=[NSString stringWithFormat:@"%@",dictionary[@"repos_url"]];
-    
+    result.login=[NSString stringWithFormat:@"%@",dictionary[@"login"]];
     return result;
 }
 @end

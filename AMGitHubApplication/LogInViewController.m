@@ -9,6 +9,7 @@
 #import "LogInViewController.h"
 #import "LogInTableViewCell.h"
 #import "AMSideBarViewController.h"
+#import "UIColor+GitHubColor.h"
 
 @interface LogInViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic)UITextField * loginField;
@@ -86,12 +87,16 @@
     
     self.navigationItem.rightBarButtonItem=enterItem;
     self.navigationItem.leftBarButtonItem=menuItem;
-    self.loginTable.backgroundColor=self.loginTable.separatorColor;
-    self.navigationController.navigationBar.barTintColor=[UIColor colorWithRed:0.10 green:0.30 blue:0.37 alpha:1.0];
+    NSLog(@"%@",self.loginTable.separatorColor);
+    self.loginTable.backgroundColor=[UIColor SeparatorColor];
+    self.navigationController.navigationBar.barTintColor=[UIColor GitHubColor];
+    self.navigationController.navigationBar.alpha=1.0;
+    self.navigationController.navigationBar.translucent=NO;
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.navigationItem.rightBarButtonItem.enabled=NO;
     self.loginTable.delegate=self;
     self.loginTable.dataSource=self;
+    self.loginTable.tableFooterView=[UIView new];
     [self.view addSubview:self.loginTable];
 }
 - (void)enterDidTap

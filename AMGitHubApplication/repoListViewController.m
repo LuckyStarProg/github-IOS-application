@@ -13,6 +13,8 @@
 #import "InternetConnectionController.h"
 #import "AMDataManager.h"
 #import "UIImage+ResizingImg.h"
+#import "RepositoryViewController.h"
+#import "UIColor+GitHubColor.h"
 
 @interface repoListViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic)UITableView * tableView;
@@ -25,7 +27,14 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    GitHubRepository * repo=self.repos[indexPath.row];
+    RepositoryViewController * repoViewController=(RepositoryViewController *)[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"repoInfo"];
+    repoViewController.repo=repo;
+    //UINavigationController * navigation=[[UINavigationController alloc] initWithRootViewController:repoViewController];
+    
+    [self.navigationController pushViewController:repoViewController animated:YES];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -92,9 +101,8 @@
     [self.tableView reloadData];
 }
 
--(void)viewWillDisappear:(BOOL)animated
+-(void)dealloc
 {
-    [super viewWillDisappear:animated];
     [self.dataManager cancel];
     [self.dataManager clearData];
 }
@@ -108,9 +116,13 @@
     menuItem.image=[UIImage imageNamed:@"menu_icon"];
     
     self.navigationItem.leftBarButtonItem=menuItem;
-    self.navigationController.navigationBar.barTintColor=[UIColor colorWithRed:0.10 green:0.30 blue:0.37 alpha:1.0];
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    self.navigationController.navigationBar.alpha=1.0;
+    self.navigationController.navigationBar.translucent=NO;
+    self.navigationController.navigationBar.barTintColor=[UIColor GitHubColor];
+    self.navigationController.navigationBar.barStyle=UIBarStyleBlackTranslucent;
+    self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
     
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.activityIndicator=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
     self.activityIndicator.activityIndicatorViewStyle=UIActivityIndicatorViewStyleGray;
     self.activityIndicator.hidesWhenStopped=YES;

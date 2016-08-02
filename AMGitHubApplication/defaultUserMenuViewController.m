@@ -12,6 +12,7 @@
 #import "InternetConnectionController.h"
 #import "repoListViewController.h"
 #import "GitHubRepository.h"
+#import "UIColor+GitHubColor.h"
 
 @interface defaultUserMenuViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 @property (nonatomic)UISearchBar * reposSearchBar;
@@ -50,7 +51,7 @@
             cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifaer];
         }
     }
-    cell.backgroundColor=[UIColor colorWithRed:0.10 green:0.30 blue:0.37 alpha:1.0];
+    cell.backgroundColor=[UIColor GitHubColor];
    if(indexPath.row)
     {
         cell.textLabel.text=@"allah";
@@ -135,8 +136,10 @@
     [super viewDidLoad];
     self.table.delegate=self;
     self.table.dataSource=self;
-    self.view.backgroundColor=[UIColor colorWithRed:0.10 green:0.30 blue:0.37 alpha:1.0];
-    self.table.backgroundColor=[UIColor colorWithRed:0.10 green:0.30 blue:0.37 alpha:1.0];
+    self.view.backgroundColor=[UIColor GitHubColor];
+    self.table.backgroundColor=[UIColor GitHubColor];
     self.table.tableFooterView = [UIView new];
+    
+    [[UITextField appearanceWhenContainedInInstancesOfClasses:[NSArray arrayWithObject:[UISearchBar class]]] setTextColor:[UIColor whiteColor]];
 }
 @end
