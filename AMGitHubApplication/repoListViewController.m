@@ -19,6 +19,8 @@
 @interface repoListViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic)UITableView * tableView;
 @property (nonatomic)AMDataManager * dataManager;
+@property (nonatomic)UIView * shadowView;
+@property (nonatomic)UIAlertController* alert;
 @end
 
 @implementation repoListViewController
@@ -96,9 +98,51 @@
 
 #pragma mark Lyfe Cycle
 
+-(void)startSearching
+{
+    UIView * searchView=[[UIView alloc] initWithFrame:CGRectMake(self.shadowView.bounds.size.width/2-65.0, self.shadowView.bounds.size.height/3, 130.0, 80.0)];
+    searchView.backgroundColor=[UIColor SeparatorColor];
+    searchView.layer.cornerRadius=8.0;
+    
+    UILabel * searchLabel=[[UILabel alloc] initWithFrame:CGRectMake(0.0, 50.0, 130.0, 30.0)];
+    searchLabel.text=@"Searching...";
+    searchLabel.adjustsFontSizeToFitWidth=YES;
+    searchLabel.textAlignment=NSTextAlignmentCenter;
+    searchLabel.textColor=[UIColor GitHubColor];
+    
+    UIActivityIndicatorView * activityInd=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(40.0, 10.0, 50.0, 50.0)];
+    activityInd.activityIndicatorViewStyle=UIActivityIndicatorViewStyleWhiteLarge;
+    activityInd.color=[UIColor GitHubColor];
+    activityInd.hidesWhenStopped=YES;
+    
+    [searchView addSubview:searchLabel];
+    [searchView addSubview:activityInd];
+    
+    [self.shadowView addSubview:searchView];
+    [self.view addSubview:self.shadowView];
+    [activityInd startAnimating];
+}
+
+-(void)stopSearching
+{
+    [self.shadowView removeFromSuperview];
+}
 -(void)reloadData
 {
     [self.tableView reloadData];
+    if(!self.repos.count)
+    {
+        [self.tableView removeFromSuperview];
+        UIView * noResultView=[[UIView alloc] initWithFrame:self.view.bounds];
+        noResultView.backgroundColor=[UIColor SeparatorColor];
+        UILabel * info=[[UILabel alloc] initWithFrame:CGRectMake(noResultView.bounds.size.width/2-100, noResultView.bounds.size.height/2-40, 200.0, 80.0)];
+        info.text=@"The search hasn't give any results";
+        info.textAlignment=NSTextAlignmentCenter;
+        info.numberOfLines=0;
+        
+        [noResultView addSubview:info];
+        [self.view addSubview:noResultView];
+    }
 }
 
 -(void)dealloc
@@ -107,9 +151,10 @@
     [self.dataManager clearData];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    self.tableView=[[UITableView alloc] initWithFrame:self.view.bounds];
+    self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, self.view.bounds.size.height)];
     self.title=@"Repositories";
     UIBarButtonItem * menuItem=[[UIBarButtonItem alloc] initWithTitle:@"Enter" style:UIBarButtonItemStylePlain target:self action:@selector(menuDidTap)];
     menuItem.tintColor=[UIColor whiteColor];
@@ -119,24 +164,36 @@
     self.navigationController.navigationBar.alpha=1.0;
     self.navigationController.navigationBar.translucent=NO;
     self.navigationController.navigationBar.barTintColor=[UIColor GitHubColor];
-    self.navigationController.navigationBar.barStyle=UIBarStyleBlackTranslucent;
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
     
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-    self.activityIndicator=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
-    self.activityIndicator.activityIndicatorViewStyle=UIActivityIndicatorViewStyleGray;
-    self.activityIndicator.hidesWhenStopped=YES;
 
-    self.tableView.tableHeaderView=self.activityIndicator;
+    //self.tableView.tableHeaderView=self.activityIndicator;
     
     self.repos=[NSMutableArray array];
     
-    [self.activityIndicator startAnimating];
     self.tableView.delegate=self;
     self.tableView.dataSource=self;
     [self.view addSubview:self.tableView];
-    
     self.dataManager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
+    
+//    self.alert=[UIAlertController alertControllerWithTitle:@"Allah"
+//                                                   message:@"Searching..."
+//                                            preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+//                                                          handler:^(UIAlertAction * action) {}];
+//    [self.alert addAction:defaultAction];
+//    self.activityIndicator=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(self.alert.view.bounds.size.width/2-13, 30, 26, 26)];
+//    self.activityIndicator.activityIndicatorViewStyle=UIActivityIndicatorViewStyleGray;
+//    self.activityIndicator.hidesWhenStopped=YES;
+//    
+//    [self.activityIndicator startAnimating];
+    
+    self.shadowView=[[UIView alloc] initWithFrame:self.view.bounds];
+    self.shadowView.backgroundColor=[UIColor colorWithWhite:0.0 alpha:0.5];
+    [self startSearching];
+    //[self.alert.view addSubview:self.activityIndicator];
+    //[self presentViewController:self.alert animated:YES completion:nil];
 }
 
 -(void)menuDidTap

@@ -86,17 +86,17 @@
             {
                 [repoController.repos addObject:[GitHubRepository repositoryFromDictionary:repo]];
             }
-                [repoController reloadData];
-                [repoController.activityIndicator stopAnimating];
+            [repoController reloadData];
+            [repoController stopSearching];
         }
     } orFailure:^(NSString *message)
     {
         dispatch_async(dispatch_get_main_queue(), ^
         {
-                [self showAllertWithMessage:message];
+            [self showAllertWithMessage:message];
+            [repoController stopSearching];
         });
     }];
-    
     [sider setNewFrontViewController:[[UINavigationController alloc] initWithRootViewController:repoController]];
     searchBar.showsCancelButton=NO;
     searchBar.text=@"";

@@ -23,7 +23,7 @@
 }
 +(CGFloat)heightForText:(NSString *)text
 {
-    CGFloat offset = 1.0;
+    CGFloat offset = 5.0;
     UIFont* font = [UIFont systemFontOfSize:13.0];
     
     NSMutableParagraphStyle* paragraph = [[NSMutableParagraphStyle alloc] init];
@@ -33,7 +33,8 @@
                                font , NSFontAttributeName,
                                paragraph, NSParagraphStyleAttributeName, nil];
     
-    CGRect rect = [text boundingRectWithSize:CGSizeMake( [UIScreen mainScreen].bounds.size.width*0.8, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil];
+    NSLog(@"%f",[UIScreen mainScreen].bounds.size.width);
+    CGRect rect = [text boundingRectWithSize:CGSizeMake( [UIScreen mainScreen].bounds.size.width*0.78 - 2*offset, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil];
     
     return CGRectGetHeight(rect) + 2 * offset;
 }

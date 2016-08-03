@@ -85,7 +85,17 @@
 //}
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
-    return CGSizeMake(collectionView.bounds.size.width, collectionView.bounds.size.height*0.3 + [RepoAvatarView heightForText:self.repo.descriptionStr]);
+    CGSize size;
+    if(self.preferredInterfaceOrientationForPresentation==UIInterfaceOrientationPortrait || self.preferredInterfaceOrientationForPresentation==UIInterfaceOrientationPortraitUpsideDown)
+    {
+        size=CGSizeMake(collectionView.bounds.size.width, collectionView.bounds.size.height*0.3 + [RepoAvatarView heightForText:self.repo.descriptionStr]);
+    }
+    else
+    {
+        size=CGSizeMake(collectionView.bounds.size.width, collectionView.bounds.size.height*0.5 + [RepoAvatarView heightForText:self.repo.descriptionStr]);
+    }
+    
+    return size;
 }
 -(CGSize)collectionView:(UICollectionView *)collectionView
                  layout:(UICollectionViewLayout*)collectionViewLayout
@@ -95,7 +105,7 @@
     if(indexPath.row>=0&&indexPath.row<3)
     {
         size.height=44.0;
-        size.width=collectionView.bounds.size.width/3;
+        size.width=collectionView.bounds.size.width/3-0.05;
     }
     else if(indexPath.row==3 || indexPath.row==9)
     {
@@ -182,13 +192,15 @@
     [super viewWillAppear:animated];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration;
 {
-    if(interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight)
+        //[self.collectionView reloadInputViews];
+        //[self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:indexpath]];
+    [UIView animateWithDuration:duration animations:^
     {
-        [self.collectionView reloadData];
-    }
-    return YES;
+           [self.collectionView reloadData];
+    }];
+
 }
 
 -(void)viewDidLoad
