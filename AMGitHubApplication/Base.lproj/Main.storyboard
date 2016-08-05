@@ -45,7 +45,7 @@
         <!--Log In View Controller-->
         <scene sceneID="mqM-Ze-kms">
             <objects>
-                <viewController title="Log In View Controller" id="j3w-DL-w4p" sceneMemberID="viewController">
+                <viewController title="Log In View Controller" id="j3w-DL-w4p" customClass="LogInViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xIk-GE-1ek"/>
                         <viewControllerLayoutGuide type="bottom" id="BVs-PW-2fI"/>

@@ -12,6 +12,7 @@
 #import "detailsViewController.h"
 #import "LogInViewController.h"
 #import "repoListViewController.h"
+#import "NewsViewController.h"
 
 @interface AppDelegate ()
 
@@ -26,9 +27,13 @@
     UIStoryboard * storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
     defaultUserMenuViewController * menu=[storyboard instantiateViewControllerWithIdentifier:@"menu"];
     LogInViewController * logIn=[[LogInViewController alloc]init];//[storyboard instantiateViewControllerWithIdentifier:@"LOG_IN"];
-    UINavigationController * navigation=[[UINavigationController alloc] initWithRootViewController:logIn];
+    NewsViewController * news=[[NewsViewController alloc] init];
     
-    self.window.rootViewController=[AMSideBarViewController sideBarWithFrontVC:navigation andBackVC:menu];
+    UINavigationController * navigation=[[UINavigationController alloc] initWithRootViewController:news];
+    
+
+    
+    self.window.rootViewController=navigation;//[AMSideBarViewController sideBarWithFrontVC:navigation andBackVC:menu];
     [self.window makeKeyAndVisible];
     return YES;
 }

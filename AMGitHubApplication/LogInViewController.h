@@ -9,6 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface LogInViewController : UIViewController
-@property (nonatomic) UITableView *loginTable;
-
+@property (nonatomic) UIWebView *webView;
 @end

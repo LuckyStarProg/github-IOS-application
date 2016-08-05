@@ -40,6 +40,7 @@
     NSString * errorStr=nil;
     NSInteger status=httpResponse.statusCode;
     
+    NSLog(@"%@",response);
     if(status>=200 && status<300)
     {
         //success
@@ -58,6 +59,20 @@
     }
 
     return errorStr;
+}
+
+-(NSString *)encodeString:(id)params
+{
+    NSMutableArray * result=[NSMutableArray array];
+    NSDictionary * dict=params;
+    NSArray * keys=[dict allKeys];
+    NSArray * values=[dict allValues];
+    
+    for(int i=0;i<keys.count;++i)
+    {
+        [result addObject:[NSString stringWithFormat:@"%@=%@",keys[i],values[i]]];
+    }
+    return [result componentsJoinedByString:@"&"];
 }
 
 -(void)performRequestWithReference:(NSString *)reference
@@ -93,14 +108,12 @@
             }
             
             request.HTTPBody=data;
+            [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
             [request setValue:[NSString stringWithFormat:@"%ld",data.length] forHTTPHeaderField:@"Content-length"];
             [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
         }
-        else
-        {
-            NSString * encodedStr=[params componentsJoinedByString:@"&"];
-            request.URL=[NSURL URLWithString:[NSString stringWithFormat:@"%@?%@",reference,encodedStr]];
-        }
+        //NSString * encodedStr=[self encodeString:params];
+        //request.URL=[NSURL URLWithString:[NSString stringWithFormat:@"%@?%@",reference,encodedStr]];
     }
     
     [[[NSURLSession sharedSession] dataTaskWithRequest:request
@@ -110,7 +123,7 @@
         NSString * errorStr=nil;
         if((errorStr=[self statusCodeWithResponse:response andError:error]))
         {
-            Error(errorStr);
+            //Error(errorStr);
             return;
         }
         if(data==nil)

@@ -27,6 +27,19 @@
 		2774FDAF1D4A5A9900B6A24B /* GitHubRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FDAE1D4A5A9900B6A24B /* GitHubRepository.m */; };
 		2774FDB21D4A5ADF00B6A24B /* GitHubUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FDB11D4A5ADF00B6A24B /* GitHubUser.m */; };
 		2774FDB51D4A636100B6A24B /* InternetConnectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FDB41D4A636100B6A24B /* InternetConnectionController.m */; };
+		2791D7491D52710400FCD464 /* GitHubApiController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2791D7481D52710400FCD464 /* GitHubApiController.m */; };
+		2791D74C1D538D2B00FCD464 /* AuthorizedUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2791D74B1D538D2B00FCD464 /* AuthorizedUser.m */; };
+		2791D74F1D53A46C00FCD464 /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2791D74E1D53A46C00FCD464 /* NewsViewController.m */; };
+		2791D7521D5517C600FCD464 /* EventCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2791D7511D5517C600FCD464 /* EventCell.m */; };
+		2791D7541D5519BB00FCD464 /* EventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2791D7531D5519BB00FCD464 /* EventCell.xib */; };
+		2791D7571D551EF400FCD464 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 2791D7561D551EF400FCD464 /* Event.m */; };
+		2791D75A1D55236800FCD464 /* CreateEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2791D7591D55236800FCD464 /* CreateEvent.m */; };
+		2791D75D1D5536A700FCD464 /* PushEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2791D75C1D5536A700FCD464 /* PushEvent.m */; };
+		2791D7601D55387200FCD464 /* IssueCommentEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2791D75F1D55387200FCD464 /* IssueCommentEvent.m */; };
+		2791D7631D55395D00FCD464 /* IssuesEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2791D7621D55395D00FCD464 /* IssuesEvent.m */; };
+		2791D7661D553B3F00FCD464 /* ForkEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2791D7651D553B3F00FCD464 /* ForkEvent.m */; };
+		2791D7691D553C5700FCD464 /* WatchEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2791D7681D553C5700FCD464 /* WatchEvent.m */; };
+		2791D76C1D553CFF00FCD464 /* MemberEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2791D76B1D553CFF00FCD464 /* MemberEvent.m */; };
 		27A23D731D4E72AD0013259C /* AMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A23D721D4E72AD0013259C /* AMDataManager.m */; };
 		27A23D761D4EA7E10013259C /* UIImage+ResizingImg.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A23D751D4EA7E10013259C /* UIImage+ResizingImg.m */; };
 		27A23D791D4F5E300013259C /* RepositoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A23D781D4F5E300013259C /* RepositoryViewController.m */; };
@@ -71,6 +84,31 @@
 		2774FDB11D4A5ADF00B6A24B /* GitHubUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GitHubUser.m; sourceTree = "<group>"; };
 		2774FDB31D4A636100B6A24B /* InternetConnectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InternetConnectionController.h; sourceTree = "<group>"; };
 		2774FDB41D4A636100B6A24B /* InternetConnectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InternetConnectionController.m; sourceTree = "<group>"; };
+		2791D7471D52710400FCD464 /* GitHubApiController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GitHubApiController.h; sourceTree = "<group>"; };
+		2791D7481D52710400FCD464 /* GitHubApiController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GitHubApiController.m; sourceTree = "<group>"; };
+		2791D74A1D538D2B00FCD464 /* AuthorizedUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthorizedUser.h; sourceTree = "<group>"; };
+		2791D74B1D538D2B00FCD464 /* AuthorizedUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthorizedUser.m; sourceTree = "<group>"; };
+		2791D74D1D53A46C00FCD464 /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
+		2791D74E1D53A46C00FCD464 /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
+		2791D7501D5517C600FCD464 /* EventCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventCell.h; sourceTree = "<group>"; };
+		2791D7511D5517C600FCD464 /* EventCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventCell.m; sourceTree = "<group>"; };
+		2791D7531D5519BB00FCD464 /* EventCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventCell.xib; sourceTree = "<group>"; };
+		2791D7551D551EF400FCD464 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		2791D7561D551EF400FCD464 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
+		2791D7581D55236800FCD464 /* CreateEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateEvent.h; sourceTree = "<group>"; };
+		2791D7591D55236800FCD464 /* CreateEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateEvent.m; sourceTree = "<group>"; };
+		2791D75B1D5536A700FCD464 /* PushEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushEvent.h; sourceTree = "<group>"; };
+		2791D75C1D5536A700FCD464 /* PushEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushEvent.m; sourceTree = "<group>"; };
+		2791D75E1D55387200FCD464 /* IssueCommentEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IssueCommentEvent.h; sourceTree = "<group>"; };
+		2791D75F1D55387200FCD464 /* IssueCommentEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IssueCommentEvent.m; sourceTree = "<group>"; };
+		2791D7611D55395D00FCD464 /* IssuesEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IssuesEvent.h; sourceTree = "<group>"; };
+		2791D7621D55395D00FCD464 /* IssuesEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IssuesEvent.m; sourceTree = "<group>"; };
+		2791D7641D553B3F00FCD464 /* ForkEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForkEvent.h; sourceTree = "<group>"; };
+		2791D7651D553B3F00FCD464 /* ForkEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForkEvent.m; sourceTree = "<group>"; };
+		2791D7671D553C5700FCD464 /* WatchEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WatchEvent.h; sourceTree = "<group>"; };
+		2791D7681D553C5700FCD464 /* WatchEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WatchEvent.m; sourceTree = "<group>"; };
+		2791D76A1D553CFF00FCD464 /* MemberEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberEvent.h; sourceTree = "<group>"; };
+		2791D76B1D553CFF00FCD464 /* MemberEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberEvent.m; sourceTree = "<group>"; };
 		27A23D711D4E72AD0013259C /* AMDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDataManager.h; sourceTree = "<group>"; };
 		27A23D721D4E72AD0013259C /* AMDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDataManager.m; sourceTree = "<group>"; };
 		27A23D741D4EA7E10013259C /* UIImage+ResizingImg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ResizingImg.h"; sourceTree = "<group>"; };
@@ -161,6 +199,31 @@
 				27A23D801D4F91100013259C /* UIColor+GitHubColor.m */,
 				27A23D861D50C0EF0013259C /* repoCollectionViewCell.h */,
 				27A23D871D50C0EF0013259C /* repoCollectionViewCell.m */,
+				2791D7471D52710400FCD464 /* GitHubApiController.h */,
+				2791D7481D52710400FCD464 /* GitHubApiController.m */,
+				2791D74A1D538D2B00FCD464 /* AuthorizedUser.h */,
+				2791D74B1D538D2B00FCD464 /* AuthorizedUser.m */,
+				2791D74D1D53A46C00FCD464 /* NewsViewController.h */,
+				2791D74E1D53A46C00FCD464 /* NewsViewController.m */,
+				2791D7501D5517C600FCD464 /* EventCell.h */,
+				2791D7511D5517C600FCD464 /* EventCell.m */,
+				2791D7531D5519BB00FCD464 /* EventCell.xib */,
+				2791D7551D551EF400FCD464 /* Event.h */,
+				2791D7561D551EF400FCD464 /* Event.m */,
+				2791D7581D55236800FCD464 /* CreateEvent.h */,
+				2791D7591D55236800FCD464 /* CreateEvent.m */,
+				2791D75B1D5536A700FCD464 /* PushEvent.h */,
+				2791D75C1D5536A700FCD464 /* PushEvent.m */,
+				2791D75E1D55387200FCD464 /* IssueCommentEvent.h */,
+				2791D75F1D55387200FCD464 /* IssueCommentEvent.m */,
+				2791D7611D55395D00FCD464 /* IssuesEvent.h */,
+				2791D7621D55395D00FCD464 /* IssuesEvent.m */,
+				2791D7641D553B3F00FCD464 /* ForkEvent.h */,
+				2791D7651D553B3F00FCD464 /* ForkEvent.m */,
+				2791D7671D553C5700FCD464 /* WatchEvent.h */,
+				2791D7681D553C5700FCD464 /* WatchEvent.m */,
+				2791D76A1D553CFF00FCD464 /* MemberEvent.h */,
+				2791D76B1D553CFF00FCD464 /* MemberEvent.m */,
 			);
 			path = AMGitHubApplication;
 			sourceTree = "<group>";
@@ -237,6 +300,7 @@
 				2774FD751D44CBFD00B6A24B /* Main.storyboard in Resources */,
 				2774FD9F1D48D7E100B6A24B /* LogInTableViewCell.xib in Resources */,
 				2774FDA91D4A2A8500B6A24B /* repoCell.xib in Resources */,
+				2791D7541D5519BB00FCD464 /* EventCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,25 +311,37 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2791D75A1D55236800FCD464 /* CreateEvent.m in Sources */,
 				27A23D881D50C0EF0013259C /* repoCollectionViewCell.m in Sources */,
+				2791D76C1D553CFF00FCD464 /* MemberEvent.m in Sources */,
 				2774FD9A1D48D05E00B6A24B /* LogInViewController.m in Sources */,
+				2791D7631D55395D00FCD464 /* IssuesEvent.m in Sources */,
+				2791D7491D52710400FCD464 /* GitHubApiController.m in Sources */,
 				2774FD911D451E8F00B6A24B /* defaultUserMenuViewController.m in Sources */,
 				2774FDA71D4A29EE00B6A24B /* repoListViewController.m in Sources */,
 				2774FD971D48BD7400B6A24B /* WebViewController.m in Sources */,
 				27A23D761D4EA7E10013259C /* UIImage+ResizingImg.m in Sources */,
+				2791D7571D551EF400FCD464 /* Event.m in Sources */,
 				27A23D7E1D4F66780013259C /* RepoAvatarView.m in Sources */,
 				2774FDB51D4A636100B6A24B /* InternetConnectionController.m in Sources */,
 				2774FD9D1D48D78500B6A24B /* LogInTableViewCell.m in Sources */,
+				2791D7601D55387200FCD464 /* IssueCommentEvent.m in Sources */,
+				2791D7661D553B3F00FCD464 /* ForkEvent.m in Sources */,
 				27A23D811D4F91100013259C /* UIColor+GitHubColor.m in Sources */,
 				2774FD721D44CBFD00B6A24B /* AMSideBarViewController.m in Sources */,
 				2774FDA41D4A10BB00B6A24B /* searchBarCell.m in Sources */,
 				2774FDB21D4A5ADF00B6A24B /* GitHubUser.m in Sources */,
 				2774FD6F1D44CBFD00B6A24B /* AppDelegate.m in Sources */,
+				2791D74C1D538D2B00FCD464 /* AuthorizedUser.m in Sources */,
+				2791D7521D5517C600FCD464 /* EventCell.m in Sources */,
 				2774FDAF1D4A5A9900B6A24B /* GitHubRepository.m in Sources */,
 				2774FD6C1D44CBFD00B6A24B /* main.m in Sources */,
 				27A23D791D4F5E300013259C /* RepositoryViewController.m in Sources */,
+				2791D74F1D53A46C00FCD464 /* NewsViewController.m in Sources */,
 				27A23D731D4E72AD0013259C /* AMDataManager.m in Sources */,
 				2774FDAC1D4A4A7700B6A24B /* repoCell.m in Sources */,
+				2791D7691D553C5700FCD464 /* WatchEvent.m in Sources */,
+				2791D75D1D5536A700FCD464 /* PushEvent.m in Sources */,
 				2774FD941D46125500B6A24B /* detailsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -154,7 +154,7 @@
             break;
         case 4:
             cell.backgroundColor=[UIColor whiteColor];
-            cell.data.text=self.repo.isPrivate?@"Private":@"Public";
+            cell.data.text=self.repo.isPrivate?@"Public":@"Private";
             [cell addSubview:bottomSeparatorView];
             break;
         case 5:

@@ -10,11 +10,5 @@
 
 @interface repoListViewController : UIViewController
 
--(void)reloadData;
-
-@property (nonatomic)UIActivityIndicatorView * activityIndicator;
-@property (nonatomic)NSMutableArray * repos;
-
--(void)startSearching;
--(void)stopSearching;
+-(instancetype)initWithToken:(NSString *)token;
 @end
