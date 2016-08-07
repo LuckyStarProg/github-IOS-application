@@ -21,5 +21,4 @@ typedef NS_ENUM(NSInteger, AMDataManageMod)
 
 -(void)loadDataWithURLString:(NSString *)reference andSuccess:(void (^)(NSString *))reloadData orFailure:(void (^)(NSString *))Error;
 -(void)cancel;
--(void)clearData;
 @end

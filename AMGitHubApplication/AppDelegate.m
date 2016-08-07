@@ -25,15 +25,18 @@
 {
     self.window=[[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     UIStoryboard * storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    defaultUserMenuViewController * menu=[storyboard instantiateViewControllerWithIdentifier:@"menu"];
-    LogInViewController * logIn=[[LogInViewController alloc]init];//[storyboard instantiateViewControllerWithIdentifier:@"LOG_IN"];
-    NewsViewController * news=[[NewsViewController alloc] init];
     
-    UINavigationController * navigation=[[UINavigationController alloc] initWithRootViewController:news];
+    application.statusBarStyle=UIStatusBarStyleLightContent;
+    
+    defaultUserMenuViewController * menu=[storyboard instantiateViewControllerWithIdentifier:@"menu"];
+    LogInViewController * logIn=[storyboard instantiateViewControllerWithIdentifier:@"login"];
+    NewsViewController * news=[storyboard instantiateViewControllerWithIdentifier:@"news"];
+    //[news addChildViewController:logIn];
+    AMSideBarViewController * sider=[AMSideBarViewController sideBarWithFrontVC:[[UINavigationController alloc] initWithRootViewController:news] andBackVC:menu];
     
 
     
-    self.window.rootViewController=navigation;//[AMSideBarViewController sideBarWithFrontVC:navigation andBackVC:menu];
+    self.window.rootViewController=sider;//[AMSideBarViewController sideBarWithFrontVC:navigation andBackVC:menu];
     [self.window makeKeyAndVisible];
     return YES;
 }

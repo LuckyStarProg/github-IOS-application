@@ -7,25 +7,33 @@
 //
 
 #import "Event.h"
-
+#import "AMDataManager.h"
 @implementation Event
 
-+(Event *)eventFromDictionary:(NSDictionary *)dict
+-(Event *)eventFromDictionary:(NSDictionary *)dict
 {
-    Event * result=[[Event alloc] init];
-    
-    result.ID=[NSString stringWithFormat:@"%@",dict[@"id"]];
-    result.type=[NSString stringWithFormat:@"%@",dict[@"type"]];
-    result.actor=dict[@"actor"];
-    result.repo=dict[@"repo"];
-    result.payload=dict[@"payload"];
-    result.date=[[NSString stringWithFormat:@"%@",dict[@"updated_at"]] substringToIndex:10];
-    
-    return result;
+    Event * event=[[Event alloc] init];
+        event.ID=[NSString stringWithFormat:@"%@",dict[@"id"]];
+        event.actor=dict[@"actor"];
+        event.repo=dict[@"repo"];
+        event.payload=dict[@"payload"];
+        event.date=[[NSString stringWithFormat:@"%@",dict[@"created_at"]] substringToIndex:10];
+    return event;
 }
 
 -(void)fillCell:(EventCell *)cell
 {
-    
+    AMDataManager * manager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
+    cell.eventHeader.text=[NSString stringWithFormat:@"Unknown event"];
+    [manager loadDataWithURLString:self.actor[@"avatar_url"] andSuccess:^(NSString * path)
+     {
+         cell.avatarView.image=[UIImage imageWithContentsOfFile:path];
+     } orFailure:^(NSString * message)
+     {
+         NSLog(@"%@",message);
+     }];
+    cell.date.text=self.date;
+    cell.descriptionLabel.text=@"";
 }
+
 @end

@@ -16,7 +16,7 @@
 
 @interface Event : NSObject <CellFill>
 
-+(Event *)eventFromDictionary:(NSDictionary *)dict;
+-(Event *)eventFromDictionary:(NSDictionary *)dict;
 -(void)fillCell:(EventCell *)cell;
 
 @property (nonatomic)NSString * ID;

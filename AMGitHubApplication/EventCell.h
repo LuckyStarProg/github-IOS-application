@@ -14,4 +14,5 @@
 @property (strong, nonatomic) IBOutlet UILabel *eventHeader;
 @property (strong, nonatomic) IBOutlet UILabel *descriptionLabel;
 
++(CGFloat)heightForText:(NSString *)text;
 @end

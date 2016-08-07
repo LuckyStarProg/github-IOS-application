@@ -40,6 +40,7 @@
 		2791D7661D553B3F00FCD464 /* ForkEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2791D7651D553B3F00FCD464 /* ForkEvent.m */; };
 		2791D7691D553C5700FCD464 /* WatchEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2791D7681D553C5700FCD464 /* WatchEvent.m */; };
 		2791D76C1D553CFF00FCD464 /* MemberEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2791D76B1D553CFF00FCD464 /* MemberEvent.m */; };
+		2791D76F1D55DCC100FCD464 /* EventController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2791D76E1D55DCC100FCD464 /* EventController.m */; };
 		27A23D731D4E72AD0013259C /* AMDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A23D721D4E72AD0013259C /* AMDataManager.m */; };
 		27A23D761D4EA7E10013259C /* UIImage+ResizingImg.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A23D751D4EA7E10013259C /* UIImage+ResizingImg.m */; };
 		27A23D791D4F5E300013259C /* RepositoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27A23D781D4F5E300013259C /* RepositoryViewController.m */; };
@@ -109,6 +110,9 @@
 		2791D7681D553C5700FCD464 /* WatchEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WatchEvent.m; sourceTree = "<group>"; };
 		2791D76A1D553CFF00FCD464 /* MemberEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberEvent.h; sourceTree = "<group>"; };
 		2791D76B1D553CFF00FCD464 /* MemberEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberEvent.m; sourceTree = "<group>"; };
+		2791D76D1D55DCC100FCD464 /* EventController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventController.h; sourceTree = "<group>"; };
+		2791D76E1D55DCC100FCD464 /* EventController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventController.m; sourceTree = "<group>"; };
+		2791D7701D55DDD200FCD464 /* EventsHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventsHeader.h; sourceTree = "<group>"; };
 		27A23D711D4E72AD0013259C /* AMDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDataManager.h; sourceTree = "<group>"; };
 		27A23D721D4E72AD0013259C /* AMDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDataManager.m; sourceTree = "<group>"; };
 		27A23D741D4EA7E10013259C /* UIImage+ResizingImg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ResizingImg.h"; sourceTree = "<group>"; };
@@ -224,6 +228,9 @@
 				2791D7681D553C5700FCD464 /* WatchEvent.m */,
 				2791D76A1D553CFF00FCD464 /* MemberEvent.h */,
 				2791D76B1D553CFF00FCD464 /* MemberEvent.m */,
+				2791D76D1D55DCC100FCD464 /* EventController.h */,
+				2791D76E1D55DCC100FCD464 /* EventController.m */,
+				2791D7701D55DDD200FCD464 /* EventsHeader.h */,
 			);
 			path = AMGitHubApplication;
 			sourceTree = "<group>";
@@ -330,6 +337,7 @@
 				27A23D811D4F91100013259C /* UIColor+GitHubColor.m in Sources */,
 				2774FD721D44CBFD00B6A24B /* AMSideBarViewController.m in Sources */,
 				2774FDA41D4A10BB00B6A24B /* searchBarCell.m in Sources */,
+				2791D76F1D55DCC100FCD464 /* EventController.m in Sources */,
 				2774FDB21D4A5ADF00B6A24B /* GitHubUser.m in Sources */,
 				2774FD6F1D44CBFD00B6A24B /* AppDelegate.m in Sources */,
 				2791D74C1D538D2B00FCD464 /* AuthorizedUser.m in Sources */,

@@ -9,5 +9,7 @@
 #import "Event.h"
 
 @interface ForkEvent : Event
-
+-(instancetype)init;
+-(Event *)eventFromDictionary:(NSDictionary *)dict;
+-(void)fillCell:(EventCell *)cell;
 @end

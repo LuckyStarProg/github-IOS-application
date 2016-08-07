@@ -275,7 +275,6 @@
 -(void)dealloc
 {
     [self.dataManager cancel];
-    [self.dataManager clearData];
 }
 
 -(instancetype)initWithToken:(NSString *)token
@@ -294,6 +293,7 @@
     self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, self.view.bounds.size.height-60)];
     //[self.tableView addConstraints:[NSArray arrayWithObjects:NSLayoutAttributeTop,, nil]];
     self.title=@"Repositories";
+    
     UIBarButtonItem * menuItem=[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(menuDidTap)];
     menuItem.tintColor=[UIColor whiteColor];
     

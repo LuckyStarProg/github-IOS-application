@@ -112,10 +112,10 @@
             [request setValue:[NSString stringWithFormat:@"%ld",data.length] forHTTPHeaderField:@"Content-length"];
             [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
         }
-        //NSString * encodedStr=[self encodeString:params];
-        //request.URL=[NSURL URLWithString:[NSString stringWithFormat:@"%@?%@",reference,encodedStr]];
+        NSString * encodedStr=[self encodeString:params];
+        request.URL=[NSURL URLWithString:[NSString stringWithFormat:@"%@?%@",reference,encodedStr]];
     }
-    
+    NSLog(@"%@",request.URL);
     [[[NSURLSession sharedSession] dataTaskWithRequest:request
                                     completionHandler:^
      (NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)

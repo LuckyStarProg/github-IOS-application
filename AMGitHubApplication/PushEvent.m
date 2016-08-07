@@ -11,12 +11,23 @@
 
 @implementation PushEvent
 
-+(PushEvent *)eventFromDictionary:(NSDictionary *)dict
+-(instancetype)init
 {
-    PushEvent * result=(PushEvent *)[Event eventFromDictionary:dict];
-    //result.ref=result.payload[@"ref"];
-    //result.ref_type=result.payload[@"ref_type"];
-    //result.descriptionStr=result.payload[@"description"];
+    if(self=[super init])
+    {
+        self.type=@"PushEvent";
+    }
+    return self;
+}
+
+-(Event *)eventFromDictionary:(NSDictionary *)dict
+{
+    PushEvent * result=[[PushEvent alloc] init];
+    result.ID=[NSString stringWithFormat:@"%@",dict[@"id"]];
+    result.actor=dict[@"actor"];
+    result.repo=dict[@"repo"];
+    result.payload=dict[@"payload"];
+    result.date=[[NSString stringWithFormat:@"%@",dict[@"created_at"]] substringToIndex:10];
     return result;
 }
 
@@ -26,7 +37,11 @@
     cell.eventHeader.text=[NSString stringWithFormat:@"%@ pushed to %@ at %@",self.actor[@"login"],self.payload[@"ref"],self.repo[@"name"]];
     [manager loadDataWithURLString:self.actor[@"avatar_url"] andSuccess:^(NSString * path)
      {
-         cell.avatarView.image=[UIImage imageWithContentsOfFile:path];
+         dispatch_async(dispatch_get_main_queue(), ^
+                        {
+                            cell.avatarView.image=[UIImage imageWithContentsOfFile:path];
+                            [cell setNeedsLayout];
+                        });
      } orFailure:^(NSString * message)
      {
          NSLog(@"%@",message);

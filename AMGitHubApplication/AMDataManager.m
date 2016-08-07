@@ -22,18 +22,19 @@
     if(self)
     {
         self.mod=mod;
-        self.storagePath=[NSTemporaryDirectory() stringByAppendingPathComponent:@"ManagedData"];
+        NSArray *myPathList = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        self.storagePath=[myPathList firstObject];
         
-        if(![[NSFileManager defaultManager] fileExistsAtPath:self.storagePath])
-        {
-            NSError * error;
-            [[NSFileManager defaultManager] createDirectoryAtPath:self.storagePath withIntermediateDirectories:NO attributes:nil error:&error];
-            if(error)
-            {
-                NSLog(@"%@",error.localizedDescription);
-                return nil;
-            }
-        }
+//        if(![[NSFileManager defaultManager] fileExistsAtPath:self.storagePath])
+//        {
+//            NSError * error;
+//            [[NSFileManager defaultManager] createDirectoryAtPath:self.storagePath withIntermediateDirectories:NO attributes:nil error:&error];
+//            if(error)
+//            {
+//                NSLog(@"%@",error.localizedDescription);
+//                return nil;
+//            }
+//        }
     }
     return self;
 }
@@ -63,7 +64,7 @@
 -(void)loadImageFromServerWithCompletion:(void (^)(NSString *))reloadData andFailure:(void (^)(NSString *))Error
 {
     NSURLRequest * request=[NSURLRequest requestWithURL:[NSURL URLWithString:self.reference]
-                                            cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
                                         timeoutInterval:10];
     self.dataTask=[[NSURLSession sharedSession]
     downloadTaskWithRequest:request
@@ -97,35 +98,6 @@
 -(void)cancel
 {
     [self.dataTask cancel];
-}
-
--(void)clearData
-{
-    NSThread * thread=[[NSThread alloc] initWithTarget:self selector:@selector(clearDataThread) object:nil];
-    thread.threadPriority=0.5;
-    [thread start];
-}
-
--(void)clearDataThread
-{
-    
-    NSError * error;
-    NSArray * files=[[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storagePath error:&error];
-    if(error)
-    {
-        NSLog(@"%@",error.localizedDescription);
-    }
-    
-    NSError * deletError;
-    for(NSString * path in files)
-    {
-        [[NSFileManager defaultManager] removeItemAtPath:[self.storagePath stringByAppendingPathComponent:path] error:&deletError];
-        if(deletError)
-        {
-            NSLog(@"%@",deletError);
-        }
-    }
-    
 }
 
 -(void)loadDataWithURLString:(NSString *)reference andSuccess:(void (^)(NSString *))reloadData orFailure:(void (^)(NSString *))Error;

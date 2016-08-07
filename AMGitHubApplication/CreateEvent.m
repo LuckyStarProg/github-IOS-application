@@ -11,27 +11,42 @@
 
 @implementation CreateEvent
 
-+(CreateEvent *)eventFromDictionary:(NSDictionary *)dict
+-(instancetype)init
 {
-    CreateEvent * result=(CreateEvent *)[Event eventFromDictionary:dict];
-    result.ref=result.payload[@"ref"];
-    result.ref_type=result.payload[@"ref_type"];
-    result.descriptionStr=result.payload[@"description"];
+    if(self=[super init])
+    {
+        self.type=@"CreateEvent";
+    }
+    return self;
+}
+
+-(Event *)eventFromDictionary:(NSDictionary *)dict
+{
+    CreateEvent * result=[[CreateEvent alloc] init];
+    result.ID=[NSString stringWithFormat:@"%@",dict[@"id"]];
+    result.actor=dict[@"actor"];
+    result.repo=dict[@"repo"];
+    result.payload=dict[@"payload"];
+    result.date=[[NSString stringWithFormat:@"%@",dict[@"created_at"]] substringToIndex:10];
     return result;
 }
 
 -(void)fillCell:(EventCell *)cell
 {
     AMDataManager * manager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
-    cell.eventHeader.text=[NSString stringWithFormat:@"%@ created %@ %@ in %@",self.actor[@"login"],self.ref_type,self.ref,self.repo[@"name"]];
+    cell.eventHeader.text=[NSString stringWithFormat:@"%@ created %@ %@ in %@",self.actor[@"login"],self.payload[@"ref_type"],self.payload[@"ref"],self.repo[@"name"]];
     [manager loadDataWithURLString:self.actor[@"avatar_url"] andSuccess:^(NSString * path)
     {
-        cell.avatarView.image=[UIImage imageWithContentsOfFile:path];
+        dispatch_async(dispatch_get_main_queue(), ^
+        {
+            cell.avatarView.image=[UIImage imageWithContentsOfFile:path];
+            [cell setNeedsLayout];
+        });
     } orFailure:^(NSString * message)
     {
         NSLog(@"%@",message);
     }];
     cell.date.text=self.date;
-    cell.descriptionLabel.text=@"";
+    cell.descriptionLabel.text=self.payload[@"description"];
 }
 @end

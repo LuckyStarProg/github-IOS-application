@@ -14,7 +14,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *repoDescription;
 @property (strong, nonatomic) IBOutlet UILabel *repoStarsLabel;
 
-@property (nonatomic)NSUInteger tag;
 +(CGFloat)heightForText:(NSString *)text;
 -(void)awakeFromNib;
 @end

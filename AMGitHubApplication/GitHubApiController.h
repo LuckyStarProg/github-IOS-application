@@ -8,13 +8,15 @@
 
 #import "InternetConnectionController.h"
 #import "GitHubUser.h"
+#import "EventController.h"
+#import "AuthorizedUser.h"
 
 @interface GitHubApiController : InternetConnectionController
 
 +(GitHubApiController *)sharedController;
 
 -(void)searchReposByToken:(NSString *)token andPerPage:(NSUInteger)perPage andPage:(NSUInteger)page andSuccess:(void(^)(NSData *data))Success orFailure:(void(^)(NSString *message))Fail;
-
+-(void)newsWithPer_page:(NSUInteger)per_page andPage:(NSUInteger)page andComplation:(void (^)(NSArray<Event *> *))completion;
 -(void)loginUserWithCode:(NSString *)code andSuccess:(void (^)(void))Success orFailure:(void (^)(void))Fail;
 -(NSString *)tokenFromCode:(NSString *)code;
 -(NSString *)verificationURL;

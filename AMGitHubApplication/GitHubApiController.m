@@ -7,7 +7,6 @@
 //
 
 #import "GitHubApiController.h"
-#import "AuthorizedUser.h"
 
 @interface GitHubApiController ()
 @property (nonatomic)NSString * apiRef;
@@ -88,6 +87,32 @@
                       [NSString stringWithFormat:@"page=%ld",page],nil];
                        
     [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:@"/search/repositories"] andMethod:@"GET" andParameters:params andSuccess:Success orFailure:Fail];
+}
+
+-(void)newsWithPer_page:(NSUInteger)per_page andPage:(NSUInteger)page andComplation:(void (^)(NSArray<Event *> *))completion
+{
+    [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:[NSString stringWithFormat:@"/users/%@/received_events",[AuthorizedUser sharedUser].login]] andMethod:@"GET" andParameters:@{@"per_page":[NSString stringWithFormat:@"%ld",per_page], @"page":[NSString stringWithFormat:@"%ld",page]} andSuccess:^(NSData *data)
+    {
+        NSError * error=nil;
+        NSArray * eventDictionary=[NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        NSMutableArray<Event *> * news=[NSMutableArray array];
+        if(error)
+        {
+            NSLog(@"%@",error.localizedDescription);
+            return;
+        }
+
+        EventController * controller=[[EventController alloc] init];
+        for(NSUInteger i=0; i<eventDictionary.count; ++i)
+        {
+            [news addObject:[controller eventFromDictionary:eventDictionary[i]]];
+        }
+        completion(news);
+    } orFailure:^(NSString *message)
+    {
+        NSLog(@"%@",message);
+    }];
+    
 }
 
 -(void)loginUserWithCode:(NSString *)code andSuccess:(void (^)(void))Success orFailure:(void (^)(void))Fail

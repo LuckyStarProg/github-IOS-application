@@ -10,9 +10,7 @@
 
 @interface CreateEvent : Event
 
-@property (nonatomic)NSString * ref;
-@property (nonatomic)NSString * ref_type;
-@property (nonatomic)NSString * descriptionStr;
-
+-(instancetype)init;
+-(Event *)eventFromDictionary:(NSDictionary *)dict;
 -(void)fillCell:(EventCell *)cell;
 @end

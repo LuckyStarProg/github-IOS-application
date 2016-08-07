@@ -7,17 +7,11 @@
 //
 
 #import "LogInViewController.h"
-#import "LogInTableViewCell.h"
-#import "AMSideBarViewController.h"
-#import "UIColor+GitHubColor.h"
 #import "GitHubApiController.h"
-#import "AuthorizedUser.h"
-#import "InternetConnectionController.h"
+#import "UIColor+GitHubColor.h"
+#import "UIImage+ResizingImg.h"
 
 @interface LogInViewController ()<UIWebViewDelegate>
-@property (nonatomic)UITextField * loginField;
-@property (nonatomic)UITextField * passwordField;
-@property (nonatomic)UIView * loadView;
 @property (nonatomic)UIActivityIndicatorView * indicatior;
 @property (nonatomic)UIImageView * avatarView;
 @end
@@ -87,57 +81,30 @@
 //{
 //    [super viewWillAppear:animated];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged) name:UITextFieldTextDidChangeNotification object:nil];
-//}
 
--(void)textChanged
+
+- (void)didReceiveMemoryWarning
 {
-    if(self.loginField.text.length>0 && self.passwordField.text.length>0)
-    {
-        self.navigationItem.rightBarButtonItem.enabled=YES;
-    }
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-//    self.loginTable=[[UITableView alloc] initWithFrame:self.view.bounds];
-//    self.title=@"GitHub";
     UIBarButtonItem * refreshItem=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(validate)];
-    //enterItem.tintColor=[UIColor whiteColor];
-//    UIBarButtonItem * menuItem=[[UIBarButtonItem alloc] initWithTitle:@"Enter" style:UIBarButtonItemStylePlain target:self action:@selector(menuDidTap)];
-//    menuItem.tintColor=[UIColor whiteColor];
-//    menuItem.image=[UIImage imageNamed:@"menu_icon"];
-    
     self.navigationItem.rightBarButtonItem=refreshItem;
-//    self.navigationItem.leftBarButtonItem=menuItem;
-//    NSLog(@"%@",self.loginTable.separatorColor);
-//    self.loginTable.backgroundColor=[UIColor SeparatorColor];
-//    self.navigationController.navigationBar.barTintColor=[UIColor GitHubColor];
-//    self.navigationController.navigationBar.alpha=1.0;
-//    self.navigationController.navigationBar.translucent=NO;
-//    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-//    self.navigationItem.rightBarButtonItem.enabled=NO;
-//    self.loginTable.delegate=self;
-//    self.loginTable.dataSource=self;
-//    self.loginTable.tableFooterView=[UIView new];
-    //[self.view addSubview:self.loginTable];
-    self.webView=[[UIWebView alloc] initWithFrame:self.view.bounds];
+    
+    self.navigationController.navigationBar.alpha=1.0;
+    self.navigationController.navigationBar.translucent=NO;
+    self.navigationController.navigationBar.barTintColor=[UIColor GitHubColor];
+    self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
+    self.webView=[[UIWebView alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.frame.size.height+20, self.view.bounds.size.width, self.view.bounds.size.height-self.navigationController.navigationBar.frame.size.height)];
     self.webView.delegate=self;
     
     [AuthorizedUser readUser];
-    self.loadView=[[UIView alloc] initWithFrame:self.view.bounds];
-    self.loadView.backgroundColor=[UIColor SeparatorColor];
-    self.indicatior=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(self.loadView.bounds.size.width/2-25, self.loadView.bounds.size.height/2+80, 50.0, 50.0)];
-    [self.indicatior setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    self.indicatior.color=[UIColor blackColor];
     
-    self.avatarView=[[UIImageView alloc] initWithFrame:CGRectMake(self.loadView.bounds.size.width/2-75, self.loadView.bounds.size.height/2-100, 150.0, 150.0)];
-    self.avatarView.layer.cornerRadius=30.0;
-    self.avatarView.image=[UIImage imageNamed:@"login_user_unknown"];
-    
-    [self.loadView addSubview:self.avatarView];
-    [self.loadView addSubview:self.indicatior];
-    [self.view addSubview:self.loadView];
+    [self showLoadingPage];
     [self validate];
     
 }
@@ -160,35 +127,54 @@
     [alert addAction:defaultAction];
     [self presentViewController:alert animated:YES completion:nil];
 }
--(void)validate
+
+-(void)showLoadingPage
 {
+    self.indicatior=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2-25, self.view.bounds.size.height/2+80, 50.0, 50.0)];
+    [self.indicatior setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    self.indicatior.color=[UIColor blackColor];
+    
+    self.avatarView=[[UIImageView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2-75, self.view.bounds.size.height/2-100, 150.0, 150.0)];
+    self.avatarView.layer.cornerRadius=20.0;
+    self.avatarView.image=[UIImage imageNamed:@"login_user_unknown"];
     if([AuthorizedUser isExist])
     {
         AMDataManager * manager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
         [manager loadDataWithURLString:[[AuthorizedUser sharedUser] avatarRef] andSuccess:^(NSString * path)
          {
-             [AuthorizedUser sharedUser].avatarPath=path;
-             self.avatarView.image=[UIImage imageWithContentsOfFile:path];
+             dispatch_async(dispatch_get_main_queue(), ^
+             {
+                 [AuthorizedUser sharedUser].avatarPath=path;
+                 self.avatarView.image=[UIImage imageWithContentsOfFile:path];
+             });
          } orFailure:^(NSString * message)
          {
-             
+             NSLog(@"%@",message);
          }];
     }
     
-    NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:@"https://api.github.com/user?access_token=%@",[AuthorizedUser isExist]?[AuthorizedUser sharedUser].accessToken:@"<null>"]];
+    [self.view addSubview:self.avatarView];
+    [self.view addSubview:self.indicatior];
+}
+
+-(void)validate
+{
+    [self.indicatior startAnimating];
+    NSString * str=[NSString stringWithFormat:@"https://api.github.com/user?access_token=%@",[AuthorizedUser isExist]?[AuthorizedUser sharedUser].accessToken:@"invalidToken"];
+    NSURL *url = [NSURL URLWithString: str];
+    
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"GET"];
-    [self.indicatior startAnimating];
     
     [[[NSURLSession sharedSession] dataTaskWithRequest:request
                                      completionHandler:^
       (NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
       {
-          //username=luckystar.od@gmail.com&password=Allah2911&&note=admin script
           NSLog(@"%@",response);
           if(data==nil)
           {
               NSLog(@"%@",error.localizedDescription);
+              [self.indicatior stopAnimating];
               [self showAlert];
               return;
           }
@@ -197,9 +183,14 @@
           NSLog(@"%@",dict);
           if([dict[@"message"] isEqualToString:@"Bad credentials"])
           {
-              [self refresh];
-              [self.view addSubview:self.webView];
-              [self.loadView removeFromSuperview];
+              NSLog(@"%@",self.webView);
+              dispatch_async(dispatch_get_main_queue(), ^
+              {
+                  [self.indicatior removeFromSuperview];
+                  [self.avatarView removeFromSuperview];
+                  [self.view addSubview:self.webView];
+                  [self refresh];
+              });
           }
           else
           {
@@ -208,9 +199,4 @@
           NSLog(@"%@",dict);
       }] resume];
 }
-//- (void)menuDidTap
-//{
-//    AMSideBarViewController * sider=(AMSideBarViewController *)self.navigationController.parentViewController;
-//    [sider side];
-//}
 @end
