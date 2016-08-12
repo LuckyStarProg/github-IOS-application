@@ -19,4 +19,6 @@
 +(BOOL)isExist;
 +(void)readUser;
 -(void)saveUser;
++(void)setUser:(GitHubUser *)user;
+-(void)update;
 @end

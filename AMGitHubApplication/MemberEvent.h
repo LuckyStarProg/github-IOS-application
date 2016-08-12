@@ -11,5 +11,5 @@
 @interface MemberEvent : Event
 -(instancetype)init;
 -(Event *)eventFromDictionary:(NSDictionary *)dict;
--(void)fillCell:(EventCell *)cell;
+//-(void)fillCell:(EventCell *)cell;
 @end

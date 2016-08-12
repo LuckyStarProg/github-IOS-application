@@ -11,4 +11,5 @@
 @interface UIColor (GitHubColor)
 +(UIColor *)GitHubColor;
 +(UIColor *)SeparatorColor;
++(UIColor *)SelectedCellColor;
 @end

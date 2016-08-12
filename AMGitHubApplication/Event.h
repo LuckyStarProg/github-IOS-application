@@ -21,8 +21,12 @@
 
 @property (nonatomic)NSString * ID;
 @property (nonatomic)NSString * type;
+@property (nonatomic)NSString * descriptionStr;
+@property (nonatomic)NSString * headerInfo;
+@property (nonatomic)NSString * avatarUrl;
 @property (nonatomic)NSDictionary * actor;
 @property (nonatomic)NSDictionary * repo;
 @property (nonatomic)NSDictionary * payload;
 @property (nonatomic)NSString * date;
+@property (nonatomic)NSString * avatarPath;
 @end

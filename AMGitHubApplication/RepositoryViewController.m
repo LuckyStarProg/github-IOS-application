@@ -10,8 +10,15 @@
 #import "UIImage+ResizingImg.h"
 #import "repoCollectionViewCell.h"
 #import "UIColor+GitHubColor.h"
+#import "GitHubApiController.h"
+#import "UserProfileViewController.h"
+#import "IssuesViewController.h"
 
 @interface RepositoryViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+@property (nonatomic)UIView * noResultView;
+@property (nonatomic)UIImageView * imageView;
+@property (nonatomic)NSArray * methods;
+@property (nonatomic)UIView * footerView;
 @end
 @implementation RepositoryViewController
 
@@ -33,56 +40,14 @@
     }
     return headerView;
 }
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.collectionView deselectItemAtIndexPath:indexPath animated:NO];
+    
+    SEL selector = NSSelectorFromString(self.methods[indexPath.row]);
+    ((void (*)(id, SEL))[self methodForSelector:selector])(self, selector);
+}
 
-//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-//{
-//    return 0;
-//}
-//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-//    return 0;
-//}
-//- (UIEdgeInsets)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-//{
-////    UIEdgeInsets insets;
-////    switch (indexPath.row)
-////    {
-////        case 0:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        case 1:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        case 2:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        case 4:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        case 5:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        case 6:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        case 7:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        case 8:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        case 9:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        case 10:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        default:
-////            cell.backgroundColor=[UIColor grayColor];
-////            break;
-////    }
-//    
-//    return UIEdgeInsetsMake(0, 0, 0, 0);
-//}
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
     CGSize size;
@@ -126,7 +91,7 @@
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 10;
+    return 11;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -178,6 +143,9 @@
             cell.backgroundColor=[UIColor whiteColor];
             cell.data.text=self.repo.user.login;
             break;
+        case 10:
+            cell.backgroundColor=[UIColor whiteColor];
+            break;
         default:
             cell.backgroundColor=[UIColor SeparatorColor];
             break;
@@ -192,6 +160,18 @@
     [super viewWillAppear:animated];
 }
 
+-(void)setRepo:(GitHubRepository *)repo
+{
+    _repo=repo;
+    [[GitHubApiController sharedController] listWatchesForRepo:repo withComplation:^(NSArray *watchers)
+    {
+        repo.watchers=[NSString stringWithFormat:@"%ld",watchers.count];
+        dispatch_async(dispatch_get_main_queue(), ^
+        {
+            [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]]];
+        });
+    }];
+}
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration;
 {
         //[self.collectionView reloadInputViews];
@@ -201,6 +181,122 @@
            [self.collectionView reloadData];
     }];
 
+}
+-(void)emptyMethod
+{
+}
+-(void)starDidPress
+{
+    [[GitHubApiController sharedController] repo:self.repo isStarred:^(BOOL isStarred)
+     {
+         if(!isStarred)
+         {
+             [[GitHubApiController sharedController] starRepo:self.repo andSuccess:^(NSData *data)
+              {
+                  dispatch_async(dispatch_get_main_queue(), ^
+                                 {
+                                     self.imageView.image=[UIImage imageNamed:@"star"];
+                                     [UIView animateWithDuration:0.5 animations:^
+                                      {
+                                          self.imageView.alpha=1.0;
+                                          self.imageView.alpha=0.0;
+                                      }];
+                                     self.repo.stars=[NSString stringWithFormat:@"%ld",self.repo.stars.integerValue+1];
+                                     [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]];
+                                 });
+                  
+                  //for(int i=0;i<100000000;++i);
+                  //[self.noResultView removeFromSuperview];
+              } orFailure:^(NSString *message)
+              {
+                  
+              }];
+         }
+         else
+         {
+             
+             [[GitHubApiController sharedController] unStarRepo:self.repo andSuccess:^(NSData *data)
+              {
+                  dispatch_async(dispatch_get_main_queue(), ^
+                                 {
+                                     self.imageView.image=[UIImage imageNamed:@"unstar"];
+                                     [UIView animateWithDuration:0.5 animations:^
+                                      {
+                                          self.imageView.alpha=1.0;
+                                          self.imageView.alpha=0.0;
+                                      }];
+                                     self.repo.stars=[NSString stringWithFormat:@"%ld",self.repo.stars.integerValue-1];
+                                     [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]];
+                                 });
+                  //for(int i=0;i<100000000;++i);
+                  //[self.noResultView removeFromSuperview];
+              } orFailure:^(NSString *message)
+              {
+                  
+              }];
+         }
+         
+     }];
+}
+
+-(void)watchDidPress
+{
+    [[GitHubApiController sharedController] watchRepo:self.repo watchComplation:^
+     {
+         dispatch_async(dispatch_get_main_queue(), ^
+                        {
+                            self.imageView.image=[UIImage imageNamed:@"watch"];
+                            [UIView animateWithDuration:1 animations:^
+                             {
+                                 self.imageView.alpha=1.0;
+                                 self.imageView.alpha=0.0;
+                             }];
+                            self.repo.watchers=[NSString stringWithFormat:@"%ld",self.repo.watchers.integerValue+1];
+                            [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]]];
+                        });
+     } unWatchComplation:^
+     {
+         dispatch_async(dispatch_get_main_queue(), ^
+                        {
+                            self.imageView.image=[UIImage imageNamed:@"unwatch"];
+                            [UIView animateWithDuration:1 animations:^
+                             {
+                                 self.imageView.alpha=1.0;
+                                 self.imageView.alpha=0.0;
+                             }];
+                            self.repo.watchers=[NSString stringWithFormat:@"%ld",self.repo.watchers.integerValue-1];
+                            [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]]];
+                        });
+     }];
+}
+-(void)ownerDidTap
+{
+    UserProfileViewController * profile=[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"profile"];
+    [[GitHubApiController sharedController] userFromLogin:self.repo.user.login andComplation:^(GitHubUser * user)
+     {
+         user.avatarPath=self.repo.user.avatarPath;
+         profile.user=user;
+     }];
+//    UINavigationController * navi=[[UINavigationController alloc] initWithRootViewController:profile];
+//    navi.navigationBar.alpha=1.0;
+//    navi.navigationBar.translucent=NO;
+//    navi.navigationBar.barTintColor=[UIColor GitHubColor];
+//    navi.navigationBar.tintColor=[UIColor whiteColor];
+//    [navi.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    [self.navigationController pushViewController:profile animated:YES];
+}
+
+-(void) scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    self.footerView.frame=CGRectMake(self.footerView.frame.origin.x, -self.collectionView.contentOffset.y, self.footerView.frame.size.width, self.footerView.frame.size.height);
+}
+
+-(void)issuesDidTap
+{
+    IssuesViewController * issuesController=[[IssuesViewController alloc] initWithUpdateNotification:@"RepoIssues"];
+    issuesController.repo=self.repo;
+    //UINavigationController * navi=[[UINavigationController alloc] initWithRootViewController:issuesController];
+    [self.navigationController pushViewController:issuesController animated:YES];
 }
 
 -(void)viewDidLoad
@@ -227,9 +323,21 @@
     NSLog(@"%@",self.collectionView.backgroundView);
     self.collectionView.backgroundView=upperView;
     
-    UIView * footerView=[[UIView alloc] initWithFrame:CGRectMake(0, self.collectionView.bounds.size.height/3.3, self.collectionView.bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
-    footerView.backgroundColor=[UIColor SeparatorColor];
-    [upperView addSubview:footerView];
+    self.footerView=[[UIView alloc] initWithFrame:CGRectMake(0, self.collectionView.bounds.size.height/3.3, self.collectionView.bounds.size.width, [UIScreen mainScreen].bounds.size.height*2)];
+    self.footerView.backgroundColor=[UIColor SeparatorColor];
+    [upperView addSubview:self.footerView];
+    
+    self.noResultView=[[UIView alloc] initWithFrame:self.view.bounds];
+    
+    self.imageView=[[UIImageView alloc] initWithFrame:CGRectMake(self.noResultView.bounds.size.width/2-75, self.noResultView.bounds.size.height/2-75, 150, 150)];
+    
+    self.methods=[NSArray arrayWithObjects:@"starDidPress",@"watchDidPress",@"emptyMethod",@"emptyMethod",@"emptyMethod",@"emptyMethod",@"emptyMethod",@"emptyMethod",@"ownerDidTap",@"emptyMethod",@"issuesDidTap", nil];
+    
+    //[self.noResultView addSubview:self.imageView];
+    //self.noResultView.backgroundColor=[UIColor blackColor];
+    //self.noResultView.alpha=0.0;
+    
+    [self.view addSubview:self.imageView];
     //self.collectionView.backgroundColor=[UIColor SeparatorColor];
     //upperView.backgroundColor=[UIColor GitHubColor];
     //self.collectionView.layer;

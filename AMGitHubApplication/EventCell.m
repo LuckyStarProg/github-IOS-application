@@ -12,7 +12,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.avatarView.layer.cornerRadius=20.0;
+    self.avatarView.layer.cornerRadius=self.avatarView.bounds.size.width/2;
     // Initialization code
 }
 

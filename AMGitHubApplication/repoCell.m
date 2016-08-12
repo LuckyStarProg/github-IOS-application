@@ -12,7 +12,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.userAvatar.layer.cornerRadius=30;
+    self.userAvatar.layer.cornerRadius=self.userAvatar.bounds.size.width/2;
 //    self.userAvatar.frame=CGRectMake(8, 8, 108, 80);
 }
 

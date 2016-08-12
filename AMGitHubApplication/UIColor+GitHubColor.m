@@ -17,4 +17,8 @@
 {
     return [UIColor colorWithRed:240.0/255.0 green:240.0/255.0 blue:245.0/255.0 alpha:1.0];
 }
++(UIColor *)SelectedCellColor
+{
+    return [UIColor colorWithRed:55.0/255.0 green:55.0/255.0 blue:55.0/255.0 alpha:1.0];
+}
 @end

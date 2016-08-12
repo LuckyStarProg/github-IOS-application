@@ -33,6 +33,7 @@ static AuthorizedUser * authorizedUserInstance;
     
         
             NSString* token=[[GitHubApiController sharedController] tokenFromCode:code];
+            authorizedUserInstance=[[AuthorizedUser alloc] init];
             [AuthorizedUser setUser:[[GitHubApiController sharedController] userFromToken:token]];
             if(authorizedUserInstance)
             {
@@ -50,13 +51,19 @@ static AuthorizedUser * authorizedUserInstance;
 
 +(void)setUser:(GitHubUser *)user
 {
-    authorizedUserInstance=[[AuthorizedUser alloc] init];
     authorizedUserInstance.ID=user.ID;
     authorizedUserInstance.login=user.login;
     authorizedUserInstance.apiRef=user.apiRef;
     authorizedUserInstance.name=user.name;
     authorizedUserInstance.avatarRef=user.avatarRef;
     authorizedUserInstance.reposRef=user.reposRef;
+    authorizedUserInstance.followers_count=user.followers_count;
+    authorizedUserInstance.following_count=user.following_count;
+    authorizedUserInstance.location=user.location;
+    authorizedUserInstance.bio=user.bio;
+    authorizedUserInstance.email=user.email;
+    authorizedUserInstance.company=user.company;
+    authorizedUserInstance.blog=user.blog;
 }
 +(void) writeTokenToFile
 {
@@ -90,11 +97,6 @@ static AuthorizedUser * authorizedUserInstance;
     [manager loadDataWithURLString:authorizedUserInstance.avatarRef andSuccess:^(NSString * avatar_path)
     {
         NSDictionary * userDict =[NSDictionary dictionaryWithObjectsAndKeys:
-                                  [NSString stringWithFormat:@"%ld",authorizedUserInstance.ID] , @"id",
-                                  authorizedUserInstance.name , @"name",
-                                  authorizedUserInstance.apiRef , @"url",
-                                  authorizedUserInstance.avatarRef , @"avatar_url",
-                                  authorizedUserInstance.reposRef , @"repos_url",
                                   authorizedUserInstance.login , @"login",
                                   authorizedUserInstance.accessToken , @"token", nil];
         
@@ -130,10 +132,11 @@ static AuthorizedUser * authorizedUserInstance;
         [stream close];
         if(jsonError)
         {
-        NSLog(@"%@",jsonError.localizedDescription);
-        return;
+            NSLog(@"%@",jsonError.localizedDescription);
+            return;
         }
-        [AuthorizedUser setUser:[GitHubUser userFromDictionary:dict]];
+        authorizedUserInstance=[[AuthorizedUser alloc] init];
+        authorizedUserInstance.login=[NSString stringWithFormat:@"%@",dict[@"login"]];
         authorizedUserInstance.accessToken=[NSString stringWithFormat:@"%@",dict[@"token"]];
     }
 }
@@ -144,4 +147,10 @@ static AuthorizedUser * authorizedUserInstance;
     NSString *documentsDirectory = [paths objectAtIndex:0];
     return [[NSFileManager defaultManager] fileExistsAtPath:[documentsDirectory stringByAppendingPathComponent:@"AuthorizedUser.dat"]];
 }
+
+-(void)update
+{
+    [[GitHubApiController sharedController] updateUserWithComplation:nil];
+}
+
 @end

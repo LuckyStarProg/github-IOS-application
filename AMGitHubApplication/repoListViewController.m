@@ -7,27 +7,18 @@
 //
 
 #import "repoListViewController.h"
-#import "AMSideBarViewController.h"
-#import "repoCell.h"
-#import "GitHubRepository.h"
-#import "InternetConnectionController.h"
-#import "AMDataManager.h"
-#import "UIImage+ResizingImg.h"
-#import "RepositoryViewController.h"
-#import "UIColor+GitHubColor.h"
-#import "GitHubApiController.h"
 
 @interface repoListViewController ()<UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic)UITableView * tableView;
+//@property (nonatomic)UITableView * tableView;
 @property (nonatomic)AMDataManager * dataManager;
 @property (nonatomic)UIView * shadowView;
 @property (nonatomic)UIAlertController* alert;
-@property (nonatomic)NSString * token;
-@property (nonatomic)NSMutableArray * repos;
+@property (nonatomic)NSString * item;
+@property (nonatomic)NSMutableArray<GitHubRepository *> * repos;
 @property (nonatomic)NSUInteger currentPage;
-@property (nonatomic)BOOL isAllData;
-@property (nonatomic)BOOL direction;//YES - up , NO-down
+@property (nonatomic)BOOL direction;
 @property (nonatomic)CGPoint lastContentOffset;
+@property (nonatomic)NSString * notification;
 @end
 
 @implementation repoListViewController
@@ -39,10 +30,9 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     GitHubRepository * repo=self.repos[indexPath.row];
+    repo.user.avatarPath=self.repos[indexPath.row].user.avatarPath;
     RepositoryViewController * repoViewController=(RepositoryViewController *)[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"repoInfo"];
     repoViewController.repo=repo;
-    //UINavigationController * navigation=[[UINavigationController alloc] initWithRootViewController:repoViewController];
-    
     [self.navigationController pushViewController:repoViewController animated:YES];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -63,20 +53,10 @@
     GitHubRepository * repo;
     repo=self.repos[indexPath.row];
     
-    if(indexPath.row==self.repos.count-5)
+    if(!self.isAll && indexPath.row==self.repos.count-5)
     {
-        self.currentPage++;
-//        NSThread * thread=[[NSThread alloc] initWithTarget:self selector:@selector(search) object:nil];
-//        thread.threadPriority=0.5;
-//        [thread start];
-        [self search];
+        [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
     }
-    
-//    if(self.direction && indexPath.row-2==0)
-//    {
-//        self.currentPage--;
-//        [self search];
-//    }
     
     cell=(repoCell *)[tableView dequeueReusableCellWithIdentifier:identifaer];
     if(cell==nil)
@@ -89,9 +69,13 @@
     cell.repoDescription.text=repo.descriptionStr;
     cell.repoStarsLabel.text=repo.stars;
     cell.tag=indexPath.row;
-    if(repo.user)
-    {
-        
+//        if(!self.item)
+//        {
+//            cell.userAvatar.image=[[UIImage imageWithContentsOfFile:[AuthorizedUser sharedUser].avatarPath] toSize:cell.userAvatar.frame.size];
+//            [cell setNeedsLayout];
+//            repo.user.avatarPath=[AuthorizedUser sharedUser].avatarPath;
+//            return cell;
+//        }
         if(repo.user.avatarPath)
         {
             cell.userAvatar.image=[[UIImage imageWithContentsOfFile:repo.user.avatarPath] toSize:cell.userAvatar.frame.size];
@@ -113,140 +97,103 @@
                 NSLog(@"%@",message);
              }];
         }
-    }
     return cell;
 }
 
 
 #pragma mark Lyfe Cycle
 
--(void) scrollViewDidScroll:(UIScrollView *)scrollView
+-(void)setIsAll:(BOOL)isAll
 {
-    CGPoint currentOffset = scrollView.contentOffset;
-    if (currentOffset.y > self.lastContentOffset.y)
+    _isAll=isAll;
+    if(!self.repos.count)
     {
-       NSLog(@"Down");
-        self.direction=NO;
+        [self.tableView removeFromSuperview];
+//        UIView * noResultView=[[UIView alloc] initWithFrame:self.view.bounds];
+//        noResultView.backgroundColor=[UIColor SeparatorColor];
+//        UILabel * info=[[UILabel alloc] initWithFrame:CGRectMake(noResultView.bounds.size.width/2-100, noResultView.bounds.size.height/2+30, 200.0, 80.0)];
+//        info.text=@"The search hasn't give any results";
+//        info.textAlignment=NSTextAlignmentCenter;
+//        info.numberOfLines=2;
+//        
+//        UIImageView * imageView=[[UIImageView alloc] initWithFrame:CGRectMake(noResultView.bounds.size.width/2-105, noResultView.bounds.size.height/2-160, 210.0, 180.0)];
+//        imageView.image=[UIImage imageNamed:@"github-cat"];
+//        
+//        [noResultView addSubview:imageView];
+//        [noResultView addSubview:info];
+        
+        [self.view addSubview:self.noResultView];
     }
-    else
-    {
-        NSLog(@"Up");
-        self.direction=YES;
-    }
-    self.lastContentOffset = currentOffset;
-}
--(void)showAllertWithMessage:(NSString *)message
-{
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                   message:message
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {}];
-    
-    [alert addAction:defaultAction];
-    [self presentViewController:alert animated:YES completion:nil];
 }
 
--(void)search
-{
-    [[GitHubApiController sharedController]searchReposByToken:self.token andPerPage:15 andPage:self.currentPage andSuccess:^(NSData *data) {
-        NSError * error=nil;
-        NSDictionary * dict=[NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-        if(error)
-        {
-            [self showAllertWithMessage:error.description];
-            return;
-        }
-        if(dict)
-        {
-            NSArray * repoDicts=dict[@"items"];
-            //repoCell * visibleCell;
-//            if(!self.direction)
+//-(void)search
+//{
+//    [[GitHubApiController sharedController]searchReposByToken:self.item andPerPage:15 andPage:self.repos.count/15+1 andSuccess:^(NSData *data)
+//    {
+//        NSError * error=nil;
+//        NSDictionary * dict=[NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+//        if(error)
+//        {
+//            [self showAllertWithMessage:error.description];
+//            return;
+//        }
+//        if(dict)
+//        {
+//            NSArray * repoDicts=dict[@"items"];
+//            if(!repoDicts.count)
 //            {
-//                if(self.repos.count)
-//                {
-////                visibleCell=self.tableView.visibleCells[0];
-////                if(visibleCell.tag+1-3>0)
-////                {
-////                    for(NSUInteger i=0;i<5;++i)
-////                    {
-////                        [self.repos removeObjectAtIndex:0];
-////                    }
-//                    //}
-//                }
-            NSMutableArray<NSIndexPath *> * array=[NSMutableArray array];
-            
-//            NSUInteger arr[15] = {0};
-//            int count=0;
-                for(NSDictionary * repo in repoDicts)
-                {
-                    [array addObject:[NSIndexPath indexPathForRow:self.repos.count inSection:0]];
-                    [self.repos addObject:[GitHubRepository repositoryFromDictionary:repo]];
-                }
-                //NSLog(@"%ld",self.repos.count);
-//            }
-//            else
-//            {
-//                NSUInteger i=0;
-//                for(NSDictionary * repo in repoDicts)
-//                {
-//                    [self.repos insertObject:[GitHubRepository repositoryFromDictionary:repo] atIndex:i];
-//                    i++;
-//                }
-//                
-////                repoCell * visibleCell=self.tableView.visibleCells.lastObject;
-////                if(visibleCell.tag+4<self.repos.count)
-////                {
-////                    for(NSUInteger i=0;i<5;++i)
-////                    {
-////                        [self.repos removeLastObject];
-////                    }
-//                //}
 //
 //            }
-            [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
-            [self stopSearching];
-        }
-    } orFailure:^(NSString *message)
-     {
-         dispatch_async(dispatch_get_main_queue(), ^
-        {
-            self.isAllData=YES;
-            [self showAllertWithMessage:message];
-            [self stopSearching];
-        });
-     }];
-}
--(void)startSearching
+//            NSMutableArray<NSIndexPath *> * array=[NSMutableArray array];
+//            for(NSDictionary * repo in repoDicts)
+//                {
+//                    [array addObject:[NSIndexPath indexPathForRow:self.repos.count inSection:0]];
+//                    [self.repos addObject:[GitHubRepository repositoryFromDictionary:repo]];
+//                }
+//            [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
+//            [self stopLoading];
+//        }
+//    } orFailure:^(NSString *message)
+//     {
+//         dispatch_async(dispatch_get_main_queue(), ^
+//        {
+//            [self showAllertWithMessage:message];
+//            [self stopLoading];
+//        });
+//     }];
+//}
+-(void)startLoading
 {
-    [self search];
-    UIView * searchView=[[UIView alloc] initWithFrame:CGRectMake(self.shadowView.bounds.size.width/2-65.0, self.shadowView.bounds.size.height/3, 130.0, 80.0)];
-    searchView.backgroundColor=[UIColor SeparatorColor];
-    searchView.layer.cornerRadius=8.0;
-    
-    UILabel * searchLabel=[[UILabel alloc] initWithFrame:CGRectMake(0.0, 50.0, 130.0, 30.0)];
-    searchLabel.text=@"Searching...";
-    searchLabel.adjustsFontSizeToFitWidth=YES;
-    searchLabel.textAlignment=NSTextAlignmentCenter;
-    searchLabel.textColor=[UIColor GitHubColor];
-    
-    UIActivityIndicatorView * activityInd=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(40.0, 10.0, 50.0, 50.0)];
-    activityInd.activityIndicatorViewStyle=UIActivityIndicatorViewStyleWhiteLarge;
-    activityInd.color=[UIColor GitHubColor];
-    activityInd.hidesWhenStopped=YES;
-    
-    [searchView addSubview:searchLabel];
-    [searchView addSubview:activityInd];
-    
-    [self.shadowView addSubview:searchView];
-    [self.view addSubview:self.shadowView];
-    [activityInd startAnimating];
+    [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
+    //self.item?[self search]:[self loadOwndContent];
+//    UIView * searchView=[[UIView alloc] initWithFrame:CGRectMake(self.shadowView.bounds.size.width/2-65.0, self.shadowView.bounds.size.height/3, 130.0, 80.0)];
+//    searchView.backgroundColor=[UIColor SeparatorColor];
+//    searchView.layer.cornerRadius=8.0;
+//    
+//    UILabel * searchLabel=[[UILabel alloc] initWithFrame:CGRectMake(0.0, 50.0, 130.0, 30.0)];
+//    searchLabel.text=self.item?@"Searching...":@"Loading...";
+//    searchLabel.adjustsFontSizeToFitWidth=YES;
+//    searchLabel.textAlignment=NSTextAlignmentCenter;
+//    searchLabel.textColor=[UIColor GitHubColor];
+//    
+//    UIActivityIndicatorView * activityInd=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(40.0, 10.0, 50.0, 50.0)];
+//    activityInd.activityIndicatorViewStyle=UIActivityIndicatorViewStyleWhiteLarge;
+//    activityInd.color=[UIColor GitHubColor];
+//    activityInd.hidesWhenStopped=YES;
+//    
+//    [searchView addSubview:searchLabel];
+//    [searchView addSubview:activityInd];
+//    
+//    [self.shadowView addSubview:searchView];
+    NSLog(@"%@",self.view.subviews);
+    [self.view addSubview:self.loadContentView];
+    NSLog(@"%@",self.view.subviews);
+    //[activityInd startAnimating];
 }
 
--(void)stopSearching
+-(void)stopLoading
 {
-    [self.shadowView removeFromSuperview];
+    [self.loadContentView removeFromSuperview];
 }
 
 -(void)reloadData
@@ -255,21 +202,66 @@
     if(!self.repos.count)
     {
         [self.tableView removeFromSuperview];
-        UIView * noResultView=[[UIView alloc] initWithFrame:self.view.bounds];
-        noResultView.backgroundColor=[UIColor SeparatorColor];
-        UILabel * info=[[UILabel alloc] initWithFrame:CGRectMake(noResultView.bounds.size.width/2-100, noResultView.bounds.size.height/2+30, 200.0, 80.0)];
-        info.text=@"The search hasn't give any results";
-        info.textAlignment=NSTextAlignmentCenter;
-        info.numberOfLines=2;
+//        UIView * noResultView=[[UIView alloc] initWithFrame:self.view.bounds];
+//        noResultView.backgroundColor=[UIColor SeparatorColor];
+//        UILabel * info=[[UILabel alloc] initWithFrame:CGRectMake(noResultView.bounds.size.width/2-100, noResultView.bounds.size.height/2+30, 200.0, 80.0)];
+//        info.text=@"The search hasn't give any results";
+//        info.textAlignment=NSTextAlignmentCenter;
+//        info.numberOfLines=2;
+//        
+//        UIImageView * imageView=[[UIImageView alloc] initWithFrame:CGRectMake(noResultView.bounds.size.width/2-105, noResultView.bounds.size.height/2-160, 210.0, 180.0)];
+//        imageView.image=[UIImage imageNamed:@"github-cat"];
+//        
+//        [noResultView addSubview:imageView];
+//        [noResultView addSubview:info];
         
-        UIImageView * imageView=[[UIImageView alloc] initWithFrame:CGRectMake(noResultView.bounds.size.width/2-105, noResultView.bounds.size.height/2-160, 210.0, 180.0)];
-        imageView.image=[UIImage imageNamed:@"github-cat"];
-        
-        [noResultView addSubview:imageView];
-        [noResultView addSubview:info];
-        
-        [self.view addSubview:noResultView];
+        [self.view addSubview:self.noResultView];
     }
+}
+
+//-(void)loadOwndContent
+//{
+//    [[GitHubApiController sharedController] owndReposByUser:self.owner andPer_page:15 andPage:self.repos.count/15+1 andSuccess:^(NSData *data)
+//    {
+//        NSError * error=nil;
+//        NSArray * repoArray=[NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+//        if(error)
+//        {
+//            [self showAllertWithMessage:error.description];
+//            return;
+//        }
+//        if(repoArray)
+//        {
+//            NSMutableArray<NSIndexPath *> * array=[NSMutableArray array];
+//            for(NSDictionary * repo in repoArray)
+//            {
+//                [array addObject:[NSIndexPath indexPathForRow:self.repos.count inSection:0]];
+//                [self.repos addObject:[GitHubRepository repositoryFromDictionary:repo]];
+//            }
+//            [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
+//            [self stopLoading];
+//        }
+//
+//    } orFailure:^(NSString *message)
+//    {
+//        dispatch_async(dispatch_get_main_queue(), ^
+//                       {
+//                           [self showAllertWithMessage:message];
+//                           [self stopLoading];
+//                       });
+//    }];
+//}
+
+-(void)addRepos:(NSArray *)repos
+{
+    NSMutableArray<NSIndexPath *> * array=[NSMutableArray array];
+    for(NSUInteger i=self.repos.count;i<self.repos.count+repos.count;++i)
+    {
+        [array addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+    }
+    [self.repos addObjectsFromArray:repos];
+    [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
+    [self stopLoading];
 }
 
 -(void)dealloc
@@ -277,12 +269,18 @@
     [self.dataManager cancel];
 }
 
--(instancetype)initWithToken:(NSString *)token
+
+//- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration;
+//{
+//    NSLog(@"%f",[UIScreen mainScreen].bounds.size.width);
+//    self.tableView.frame=CGRectMake(0.0, 0.0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
+//}
+
+-(instancetype)initWithUpdateNotification:(NSString *)notification
 {
     if(self=[super init])
     {
-        self.token=token;
-        self.currentPage=1;
+        self.notification=notification;
     }
     return self;
 }
@@ -290,39 +288,96 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, self.view.bounds.size.height-60)];
-    //[self.tableView addConstraints:[NSArray arrayWithObjects:NSLayoutAttributeTop,, nil]];
+    //self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, self.view.bounds.size.height-60)];
+    //self.tableView.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;;
     self.title=@"Repositories";
-    
-    UIBarButtonItem * menuItem=[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(menuDidTap)];
-    menuItem.tintColor=[UIColor whiteColor];
-    
-    self.navigationItem.leftBarButtonItem=menuItem;
-    self.navigationController.navigationBar.alpha=1.0;
-    self.navigationController.navigationBar.translucent=NO;
-    self.navigationController.navigationBar.barTintColor=[UIColor GitHubColor];
-    self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
-    
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    if(self.navigationController.viewControllers.count<2)
+    {
+        UIBarButtonItem * menuItem=[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(menuDidTap)];
+        menuItem.tintColor=[UIColor whiteColor];
+        self.navigationItem.leftBarButtonItem=menuItem;
+    }
     
     self.repos=[NSMutableArray array];
     
     self.tableView.delegate=self;
     self.tableView.dataSource=self;
-    [self.view addSubview:self.tableView];
+//    [self.view addSubview:self.tableView];
     self.dataManager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
     
     self.shadowView=[[UIView alloc] initWithFrame:self.view.bounds];
     self.shadowView.backgroundColor=[UIColor colorWithWhite:0.0 alpha:0.5];
-    self.currentPage=1;
+//    self.view.clipsToBounds=YES;
+//    self.view.autoresizesSubviews=YES;
+//    self.view.opaque=YES;
+//    self.view.clearsContextBeforeDrawing=YES;
+//    NSLog(@"%@",self.view);
+//    //self.view.autoresizingMask=//UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
+//    
+//    NSLayoutConstraint *trailing =[NSLayoutConstraint
+//                                   constraintWithItem:self.tableView
+//                                   attribute:NSLayoutAttributeTrailing
+//                                   relatedBy:NSLayoutRelationEqual
+//                                   toItem:self.view
+//                                   attribute:NSLayoutAttributeTrailing
+//                                   multiplier:1.0f
+//                                   constant:0.f];
+//    
+//    NSLayoutConstraint *leading = [NSLayoutConstraint
+//                                   constraintWithItem:self.tableView
+//                                   attribute:NSLayoutAttributeLeading
+//                                   relatedBy:NSLayoutRelationEqual
+//                                   toItem:self.view
+//                                   attribute:NSLayoutAttributeLeading
+//                                   multiplier:1.0f
+//                                   constant:0.f];
+//    
+//    NSLayoutConstraint *bottom =[NSLayoutConstraint
+//                                 constraintWithItem:self.tableView
+//                                 attribute:NSLayoutAttributeBottom
+//                                 relatedBy:NSLayoutRelationEqual
+//                                 toItem:self.view
+//                                 attribute:NSLayoutAttributeBottom
+//                                 multiplier:1.0f
+//                                 constant:0.f];
+//    
+//    NSLayoutConstraint *top =[NSLayoutConstraint
+//                                 constraintWithItem:self.tableView
+//                                 attribute:NSLayoutAttributeTop
+//                                 relatedBy:NSLayoutRelationEqual
+//                                 toItem:self.view
+//                                 attribute:NSLayoutAttributeTop
+//                                 multiplier:1.0f
+//                                 constant:0.f];
+//    
+//    self.tableView.translatesAutoresizingMaskIntoConstraints=NO;
+//    [self.view addConstraint:trailing];
+//    [self.view addConstraint:leading];
+//    [self.view addConstraint:bottom];
+//    [self.view addConstraint:top];
+//    
     
-    [self startSearching];
+    [self startLoading];
+
 }
 
+-(NSUInteger)repoCount
+{
+    return self.repos.count;
+}
 -(void)menuDidTap
 {
     AMSideBarViewController * sider=[self.navigationController.parentViewController isKindOfClass:[AMSideBarViewController class]]?(AMSideBarViewController *)self.navigationController.parentViewController:nil;
     [sider side];
 }
 
+-(UIImageView *)iconView
+{
+    return [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"repo"]];
+}
+
+-(NSString *)description
+{
+    return @"Owned";
+}
 @end

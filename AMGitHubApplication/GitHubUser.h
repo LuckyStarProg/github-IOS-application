@@ -17,6 +17,14 @@
 @property (nonatomic)NSUInteger ID;
 @property (nonatomic)NSString * reposRef;
 @property (nonatomic)NSString * login;
-
+@property (nonatomic)NSArray<GitHubUser *> * followers;
+@property (nonatomic)NSArray<GitHubUser *> * following;
+@property (nonatomic)NSUInteger followers_count;
+@property (nonatomic)NSUInteger following_count;
+@property (nonatomic)NSString * location;
+@property (nonatomic)NSString * email;
+@property (nonatomic)NSString * company;
+@property (nonatomic)NSString * blog;
+@property (nonatomic)NSString * bio;
 +(GitHubUser *)userFromDictionary:(NSDictionary *)dictionary;
 @end

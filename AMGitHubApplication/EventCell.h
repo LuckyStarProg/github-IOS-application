@@ -13,6 +13,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *date;
 @property (strong, nonatomic) IBOutlet UILabel *eventHeader;
 @property (strong, nonatomic) IBOutlet UILabel *descriptionLabel;
-
+@property (nonatomic)NSString * avatarPath;
 +(CGFloat)heightForText:(NSString *)text;
 @end

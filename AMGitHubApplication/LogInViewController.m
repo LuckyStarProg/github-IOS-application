@@ -10,6 +10,8 @@
 #import "GitHubApiController.h"
 #import "UIColor+GitHubColor.h"
 #import "UIImage+ResizingImg.h"
+#import "NewsViewController.h"
+#import "defaultUserMenuViewController.h"
 
 @interface LogInViewController ()<UIWebViewDelegate>
 @property (nonatomic)UIActivityIndicatorView * indicatior;
@@ -99,12 +101,10 @@
     self.navigationController.navigationBar.translucent=NO;
     self.navigationController.navigationBar.barTintColor=[UIColor GitHubColor];
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
-    self.webView=[[UIWebView alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.frame.size.height+20, self.view.bounds.size.width, self.view.bounds.size.height-self.navigationController.navigationBar.frame.size.height)];
+    self.webView=[[UIWebView alloc] initWithFrame:self.view.bounds];
     self.webView.delegate=self;
     
-    [AuthorizedUser readUser];
-    
-    [self showLoadingPage];
+        [self showLoadingPage];
     [self validate];
     
 }
@@ -130,28 +130,37 @@
 
 -(void)showLoadingPage
 {
-    self.indicatior=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2-25, self.view.bounds.size.height/2+80, 50.0, 50.0)];
+    self.indicatior=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2-25, self.view.bounds.size.height/2+30, 50.0, 50.0)];
     [self.indicatior setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
     self.indicatior.color=[UIColor blackColor];
+    self.indicatior.hidesWhenStopped=YES;
     
-    self.avatarView=[[UIImageView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2-75, self.view.bounds.size.height/2-100, 150.0, 150.0)];
-    self.avatarView.layer.cornerRadius=20.0;
+    self.avatarView=[[UIImageView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2-75, self.view.bounds.size.height/2-135, 150.0, 150.0)];
+    self.avatarView.layer.cornerRadius=self.avatarView.bounds.size.width/2;
+    self.avatarView.clipsToBounds=YES;
+    self.avatarView.autoresizesSubviews=YES;
+    self.avatarView.opaque=YES;
+    self.avatarView.clearsContextBeforeDrawing=YES;
     self.avatarView.image=[UIImage imageNamed:@"login_user_unknown"];
-    if([AuthorizedUser isExist])
-    {
-        AMDataManager * manager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
-        [manager loadDataWithURLString:[[AuthorizedUser sharedUser] avatarRef] andSuccess:^(NSString * path)
-         {
-             dispatch_async(dispatch_get_main_queue(), ^
-             {
-                 [AuthorizedUser sharedUser].avatarPath=path;
-                 self.avatarView.image=[UIImage imageWithContentsOfFile:path];
-             });
-         } orFailure:^(NSString * message)
-         {
-             NSLog(@"%@",message);
-         }];
-    }
+//    if([AuthorizedUser isExist])
+//    {
+//        [[GitHubApiController sharedController] userFromLogin:[AuthorizedUser sharedUser].login andComplation:^(GitHubUser * user)
+//        {
+//            [AuthorizedUser setUser:user];
+//            AMDataManager * manager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
+//            [manager loadDataWithURLString:[[AuthorizedUser sharedUser] avatarRef] andSuccess:^(NSString * path)
+//             {
+//                 dispatch_async(dispatch_get_main_queue(), ^
+//                {
+//                        [AuthorizedUser sharedUser].avatarPath=path;
+//                        self.avatarView.image=[UIImage imageWithContentsOfFile:path];
+//                });
+//             } orFailure:^(NSString * message)
+//             {
+//                 NSLog(@"%@",message);
+//             }];
+//        }];
+//    }
     
     [self.view addSubview:self.avatarView];
     [self.view addSubview:self.indicatior];
@@ -160,6 +169,11 @@
 -(void)validate
 {
     [self.indicatior startAnimating];
+//    NSError * Error=nil;
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *documentsDirectory = [paths objectAtIndex:0];
+//    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"AuthorizedUser.dat"];
+//    [[NSFileManager defaultManager] removeItemAtPath:path error:&Error];
     NSString * str=[NSString stringWithFormat:@"https://api.github.com/user?access_token=%@",[AuthorizedUser isExist]?[AuthorizedUser sharedUser].accessToken:@"invalidToken"];
     NSURL *url = [NSURL URLWithString: str];
     
@@ -174,8 +188,15 @@
           if(data==nil)
           {
               NSLog(@"%@",error.localizedDescription);
-              [self.indicatior stopAnimating];
-              [self showAlert];
+              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^
+              {
+                  [self.indicatior stopAnimating];
+                  [self.indicatior setHidden:YES];
+              });
+
+              //[self.indicatior removeFromSuperview];
+              //[self.avatarView removeFromSuperview];
+              //[self showAlert];
               return;
           }
           NSError * jsonerror;
@@ -194,7 +215,30 @@
           }
           else
           {
-              [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+              [AuthorizedUser setUser:[GitHubUser userFromDictionary:dict]];
+              AMDataManager * manager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
+              [manager loadDataWithURLString:[AuthorizedUser sharedUser].avatarRef andSuccess:^(NSString * path)
+              {
+                  [AuthorizedUser sharedUser].avatarPath=path;
+                  dispatch_async(dispatch_get_main_queue(), ^
+                  {
+                      self.avatarView.image=[UIImage imageWithContentsOfFile:path];
+                      [[NSNotificationCenter defaultCenter] postNotificationName:@"Authorized user loaded" object:nil];
+                  });
+                  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^
+                  {
+                      defaultUserMenuViewController * menu=[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"menu"];
+                      NewsViewController * news=[[NewsViewController alloc] initWithUpdateNotification:@"addResivesNews"];
+                      UINavigationController * navigationVC=[[UINavigationController alloc] initWithRootViewController:news];
+                      
+                      AMSideBarViewController * sider=[AMSideBarViewController sideBarWithFrontVC:navigationVC andBackVC:menu];
+                      [self presentViewController:sider animated:YES completion:nil];
+                  });
+                  
+              } orFailure:^(NSString * message)
+              {
+                  NSLog(@"%@",message);
+              }];
           }
           NSLog(@"%@",dict);
       }] resume];

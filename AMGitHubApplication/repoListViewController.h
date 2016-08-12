@@ -7,8 +7,31 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AMSideBarViewController.h"
+#import "repoCell.h"
+#import "GitHubRepository.h"
+#import "InternetConnectionController.h"
+#import "AMDataManager.h"
+#import "UIImage+ResizingImg.h"
+#import "RepositoryViewController.h"
+#import "UIColor+GitHubColor.h"
+#import "GitHubApiController.h"
+#import "AuthorizedUser.h"
+#import "BaseViewController.h"
+//
+//typedef NS_ENUM(NSInteger, repoListViewControllerState)
+//{
+//    repoListViewControllerSearch=1,
+//    repoListViewControllerOwnd
+//};
 
-@interface repoListViewController : UIViewController
+@interface repoListViewController : BaseViewController
 
--(instancetype)initWithToken:(NSString *)token;
+-(instancetype)initWithUpdateNotification:(NSString *)notification;
+
+-(UIImageView *)iconView;
+@property (nonatomic)GitHubUser * owner;
+@property (nonatomic, readonly)NSUInteger repoCount;
+@property (nonatomic)BOOL isAll;
+-(void)addRepos:(NSArray *)repos;
 @end

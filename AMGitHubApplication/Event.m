@@ -13,27 +13,42 @@
 -(Event *)eventFromDictionary:(NSDictionary *)dict
 {
     Event * event=[[Event alloc] init];
-        event.ID=[NSString stringWithFormat:@"%@",dict[@"id"]];
-        event.actor=dict[@"actor"];
-        event.repo=dict[@"repo"];
-        event.payload=dict[@"payload"];
-        event.date=[[NSString stringWithFormat:@"%@",dict[@"created_at"]] substringToIndex:10];
+    event.ID=[NSString stringWithFormat:@"%@",dict[@"id"]];
+    self.descriptionStr=@"None";
+    self.headerInfo=@"Unkown event!";
+    event.date=[[NSString stringWithFormat:@"%@",dict[@"created_at"]] substringToIndex:10];
+    event.avatarPath=nil;
     return event;
 }
 
 -(void)fillCell:(EventCell *)cell
 {
-    AMDataManager * manager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
-    cell.eventHeader.text=[NSString stringWithFormat:@"Unknown event"];
-    [manager loadDataWithURLString:self.actor[@"avatar_url"] andSuccess:^(NSString * path)
-     {
-         cell.avatarView.image=[UIImage imageWithContentsOfFile:path];
-     } orFailure:^(NSString * message)
-     {
+    cell.eventHeader.text=self.headerInfo;
+    if(!self.avatarPath)
+    {
+        AMDataManager * manager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
+        [manager loadDataWithURLString:self.avatarUrl andSuccess:^(NSString * path)
+         {
+             self.avatarPath=path;
+             dispatch_async(dispatch_get_main_queue(), ^
+             {
+                 cell.avatarView.image=[UIImage imageWithContentsOfFile:path];
+                 [cell setNeedsLayout];
+             });
+         } orFailure:^(NSString * message)
+         {
          NSLog(@"%@",message);
-     }];
+         }];
+    }
+    else
+    {
+        dispatch_async(dispatch_get_main_queue(), ^
+        {
+            cell.avatarView.image=[UIImage imageWithContentsOfFile:self.avatarPath];
+            [cell setNeedsLayout];
+        });
+    }
     cell.date.text=self.date;
-    cell.descriptionLabel.text=@"";
+    cell.descriptionLabel.text=self.descriptionStr;
 }
-
 @end

@@ -23,6 +23,8 @@
 
 @implementation AMSideBarViewController
 
+#define MAX_OFFSET 270.0
+
 #pragma mark - Gesture delegate
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
@@ -77,7 +79,7 @@
 +(AMSideBarViewController *)sideBarWithFrontVC:(UIViewController *)frontVC andBackVC:(UIViewController *)backVC
 {
     AMSideBarViewController * sideBar=[[AMSideBarViewController alloc] init];
-    
+    sideBar.direction=SideDirectionLeft;
     NSMutableArray * array=[NSMutableArray array];
     for(int i=0;i<sideBar.view.subviews.count;++i)
     {
@@ -99,17 +101,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
-    //self.frontViewController.view.layer.masksToBounds = NO;
-    //self.frontViewController.view.clipsToBounds = YES;
 
     
     self.startPoint=CGPointMake(0, 0);
     
     
 }
-
+-(void)setDirection:(SideDirection)direction
+{
+    _direction=direction;
+    if(_direction==SideDirectionRight)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"SideRight" object:nil];
+    }
+}
 -(void)timerTick
 {
     self.time+=0.01;
@@ -136,7 +141,7 @@
     {
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
          {
-             [self moveFrontViewOnPosition:[UIScreen mainScreen].bounds.size.width*0.85];
+             [self moveFrontViewOnPosition:MAX_OFFSET];
          } completion:nil];
     }
     else
@@ -172,7 +177,7 @@
         
         if(self.time>=0.2)
         {
-            if(self.startPoint.x+(location.x-self.tapPoint.x)<self.backViewController.view.bounds.size.width/2 )
+            if(self.startPoint.x+(location.x-self.tapPoint.x)<MAX_OFFSET/2)
             {
                 self.direction=SideDirectionLeft;
             }

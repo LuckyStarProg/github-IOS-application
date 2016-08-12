@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2751D1391D5746A800E28849 /* UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1381D5746A800E28849 /* UserProfileViewController.m */; };
+		2751D13E1D57D49B00E28849 /* testView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2751D13D1D57D49B00E28849 /* testView.xib */; };
+		2751D1441D58B47D00E28849 /* ProfileCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1431D58B47D00E28849 /* ProfileCollectionViewCell.m */; };
+		2751D1471D5A9F7000E28849 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1461D5A9F7000E28849 /* BaseViewController.m */; };
+		2751D14A1D5AA9D400E28849 /* MenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1491D5AA9D400E28849 /* MenuTableViewCell.m */; };
+		2751D14D1D5AC52700E28849 /* usersListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D14C1D5AC52700E28849 /* usersListViewController.m */; };
+		2751D1501D5BCEE600E28849 /* EditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D14F1D5BCEE600E28849 /* EditViewController.m */; };
+		2751D1531D5CE3E000E28849 /* IssuesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1521D5CE3E000E28849 /* IssuesViewController.m */; };
+		2751D1561D5CE92500E28849 /* GitHubIssue.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1551D5CE92500E28849 /* GitHubIssue.m */; };
+		2751D1581D5CEA1800E28849 /* IssueTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2751D1571D5CEA1800E28849 /* IssueTableViewCell.xib */; };
+		2751D15B1D5CF14300E28849 /* IssueTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D15A1D5CF14300E28849 /* IssueTableViewCell.m */; };
 		2774FD6C1D44CBFD00B6A24B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD6B1D44CBFD00B6A24B /* main.m */; };
 		2774FD6F1D44CBFD00B6A24B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD6E1D44CBFD00B6A24B /* AppDelegate.m */; };
 		2774FD721D44CBFD00B6A24B /* AMSideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD711D44CBFD00B6A24B /* AMSideBarViewController.m */; };
@@ -50,6 +61,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2751D1371D5746A800E28849 /* UserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProfileViewController.h; sourceTree = "<group>"; };
+		2751D1381D5746A800E28849 /* UserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserProfileViewController.m; sourceTree = "<group>"; };
+		2751D13D1D57D49B00E28849 /* testView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = testView.xib; sourceTree = "<group>"; };
+		2751D1421D58B47D00E28849 /* ProfileCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileCollectionViewCell.h; sourceTree = "<group>"; };
+		2751D1431D58B47D00E28849 /* ProfileCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileCollectionViewCell.m; sourceTree = "<group>"; };
+		2751D1451D5A9F7000E28849 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		2751D1461D5A9F7000E28849 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		2751D1481D5AA9D400E28849 /* MenuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewCell.h; sourceTree = "<group>"; };
+		2751D1491D5AA9D400E28849 /* MenuTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewCell.m; sourceTree = "<group>"; };
+		2751D14B1D5AC52700E28849 /* usersListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = usersListViewController.h; sourceTree = "<group>"; };
+		2751D14C1D5AC52700E28849 /* usersListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = usersListViewController.m; sourceTree = "<group>"; };
+		2751D14E1D5BCEE600E28849 /* EditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditViewController.h; sourceTree = "<group>"; };
+		2751D14F1D5BCEE600E28849 /* EditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditViewController.m; sourceTree = "<group>"; };
+		2751D1511D5CE3E000E28849 /* IssuesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IssuesViewController.h; sourceTree = "<group>"; };
+		2751D1521D5CE3E000E28849 /* IssuesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IssuesViewController.m; sourceTree = "<group>"; };
+		2751D1541D5CE92500E28849 /* GitHubIssue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GitHubIssue.h; sourceTree = "<group>"; };
+		2751D1551D5CE92500E28849 /* GitHubIssue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GitHubIssue.m; sourceTree = "<group>"; };
+		2751D1571D5CEA1800E28849 /* IssueTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IssueTableViewCell.xib; sourceTree = "<group>"; };
+		2751D1591D5CF14300E28849 /* IssueTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IssueTableViewCell.h; sourceTree = "<group>"; };
+		2751D15A1D5CF14300E28849 /* IssueTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IssueTableViewCell.m; sourceTree = "<group>"; };
 		2774FD671D44CBFD00B6A24B /* AMGitHubApplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AMGitHubApplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2774FD6B1D44CBFD00B6A24B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2774FD6D1D44CBFD00B6A24B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -231,6 +262,26 @@
 				2791D76D1D55DCC100FCD464 /* EventController.h */,
 				2791D76E1D55DCC100FCD464 /* EventController.m */,
 				2791D7701D55DDD200FCD464 /* EventsHeader.h */,
+				2751D1371D5746A800E28849 /* UserProfileViewController.h */,
+				2751D1381D5746A800E28849 /* UserProfileViewController.m */,
+				2751D13D1D57D49B00E28849 /* testView.xib */,
+				2751D1421D58B47D00E28849 /* ProfileCollectionViewCell.h */,
+				2751D1431D58B47D00E28849 /* ProfileCollectionViewCell.m */,
+				2751D1451D5A9F7000E28849 /* BaseViewController.h */,
+				2751D1461D5A9F7000E28849 /* BaseViewController.m */,
+				2751D1481D5AA9D400E28849 /* MenuTableViewCell.h */,
+				2751D1491D5AA9D400E28849 /* MenuTableViewCell.m */,
+				2751D14B1D5AC52700E28849 /* usersListViewController.h */,
+				2751D14C1D5AC52700E28849 /* usersListViewController.m */,
+				2751D14E1D5BCEE600E28849 /* EditViewController.h */,
+				2751D14F1D5BCEE600E28849 /* EditViewController.m */,
+				2751D1511D5CE3E000E28849 /* IssuesViewController.h */,
+				2751D1521D5CE3E000E28849 /* IssuesViewController.m */,
+				2751D1541D5CE92500E28849 /* GitHubIssue.h */,
+				2751D1551D5CE92500E28849 /* GitHubIssue.m */,
+				2751D1571D5CEA1800E28849 /* IssueTableViewCell.xib */,
+				2751D1591D5CF14300E28849 /* IssueTableViewCell.h */,
+				2751D15A1D5CF14300E28849 /* IssueTableViewCell.m */,
 			);
 			path = AMGitHubApplication;
 			sourceTree = "<group>";
@@ -301,12 +352,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2751D13E1D57D49B00E28849 /* testView.xib in Resources */,
 				2774FD7A1D44CBFD00B6A24B /* LaunchScreen.storyboard in Resources */,
 				2774FD771D44CBFD00B6A24B /* Assets.xcassets in Resources */,
 				2774FDA11D49FF6800B6A24B /* searchBarCell.xib in Resources */,
 				2774FD751D44CBFD00B6A24B /* Main.storyboard in Resources */,
 				2774FD9F1D48D7E100B6A24B /* LogInTableViewCell.xib in Resources */,
 				2774FDA91D4A2A8500B6A24B /* repoCell.xib in Resources */,
+				2751D1581D5CEA1800E28849 /* IssueTableViewCell.xib in Resources */,
 				2791D7541D5519BB00FCD464 /* EventCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -319,23 +372,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				2791D75A1D55236800FCD464 /* CreateEvent.m in Sources */,
+				2751D1471D5A9F7000E28849 /* BaseViewController.m in Sources */,
+				2751D1391D5746A800E28849 /* UserProfileViewController.m in Sources */,
 				27A23D881D50C0EF0013259C /* repoCollectionViewCell.m in Sources */,
+				2751D1561D5CE92500E28849 /* GitHubIssue.m in Sources */,
 				2791D76C1D553CFF00FCD464 /* MemberEvent.m in Sources */,
+				2751D14A1D5AA9D400E28849 /* MenuTableViewCell.m in Sources */,
 				2774FD9A1D48D05E00B6A24B /* LogInViewController.m in Sources */,
 				2791D7631D55395D00FCD464 /* IssuesEvent.m in Sources */,
 				2791D7491D52710400FCD464 /* GitHubApiController.m in Sources */,
 				2774FD911D451E8F00B6A24B /* defaultUserMenuViewController.m in Sources */,
 				2774FDA71D4A29EE00B6A24B /* repoListViewController.m in Sources */,
 				2774FD971D48BD7400B6A24B /* WebViewController.m in Sources */,
+				2751D1441D58B47D00E28849 /* ProfileCollectionViewCell.m in Sources */,
 				27A23D761D4EA7E10013259C /* UIImage+ResizingImg.m in Sources */,
 				2791D7571D551EF400FCD464 /* Event.m in Sources */,
 				27A23D7E1D4F66780013259C /* RepoAvatarView.m in Sources */,
+				2751D15B1D5CF14300E28849 /* IssueTableViewCell.m in Sources */,
 				2774FDB51D4A636100B6A24B /* InternetConnectionController.m in Sources */,
 				2774FD9D1D48D78500B6A24B /* LogInTableViewCell.m in Sources */,
 				2791D7601D55387200FCD464 /* IssueCommentEvent.m in Sources */,
 				2791D7661D553B3F00FCD464 /* ForkEvent.m in Sources */,
 				27A23D811D4F91100013259C /* UIColor+GitHubColor.m in Sources */,
 				2774FD721D44CBFD00B6A24B /* AMSideBarViewController.m in Sources */,
+				2751D1501D5BCEE600E28849 /* EditViewController.m in Sources */,
 				2774FDA41D4A10BB00B6A24B /* searchBarCell.m in Sources */,
 				2791D76F1D55DCC100FCD464 /* EventController.m in Sources */,
 				2774FDB21D4A5ADF00B6A24B /* GitHubUser.m in Sources */,
@@ -349,6 +409,8 @@
 				27A23D731D4E72AD0013259C /* AMDataManager.m in Sources */,
 				2774FDAC1D4A4A7700B6A24B /* repoCell.m in Sources */,
 				2791D7691D553C5700FCD464 /* WatchEvent.m in Sources */,
+				2751D1531D5CE3E000E28849 /* IssuesViewController.m in Sources */,
+				2751D14D1D5AC52700E28849 /* usersListViewController.m in Sources */,
 				2791D75D1D5536A700FCD464 /* PushEvent.m in Sources */,
 				2774FD941D46125500B6A24B /* detailsViewController.m in Sources */,
 			);

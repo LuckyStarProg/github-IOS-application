@@ -15,7 +15,7 @@
 
 -(void)performRequestWithReference:(NSString *)reference
                          andMethod:(NSString *)method
-                     andParameters:(id)params
+                     andParameters:(NSDictionary *)params
                         andSuccess:(void (^)(NSData * data))Success
                          orFailure:(void (^)(NSString * message))Error;
 @end
