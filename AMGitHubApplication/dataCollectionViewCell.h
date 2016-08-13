@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface repoCollectionViewCell : UICollectionViewCell
+@interface dataCollectionViewCell : UICollectionViewCell
 @property (strong, nonatomic) IBOutlet UILabel *data;
 
 @end

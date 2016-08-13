@@ -8,7 +8,7 @@
 
 #import "RepositoryViewController.h"
 #import "UIImage+ResizingImg.h"
-#import "repoCollectionViewCell.h"
+#import "dataCollectionViewCell.h"
 #import "UIColor+GitHubColor.h"
 #import "GitHubApiController.h"
 #import "UserProfileViewController.h"
@@ -96,7 +96,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    repoCollectionViewCell * cell=(repoCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:[NSString stringWithFormat:@"Cell%ld",indexPath.row] forIndexPath:indexPath];
+    dataCollectionViewCell * cell=(dataCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:[NSString stringWithFormat:@"Cell%ld",indexPath.row] forIndexPath:indexPath];
     UIView * rightSeparatorView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 1.0, cell.bounds.size.height)];
     rightSeparatorView.backgroundColor=[UIColor SeparatorColor];
     UIView * bottomSeparatorView=[[UIView alloc] initWithFrame:CGRectMake(0, cell.bounds.size.height-1, cell.bounds.size.width, 1.0)];

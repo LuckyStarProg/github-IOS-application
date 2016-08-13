@@ -261,6 +261,17 @@
      }];
 }
 
+-(void)commentsOnIssue:(GitHubIssue *)issue withPer_Page:(NSUInteger)per_page andPage:(NSUInteger)page Success:(void (^)(NSMutableArray<GitHubIssue *> *))Sucess orFailure:(void (^)(NSString *))Fail
+{
+    [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:[NSString stringWithFormat:@"/repos/%@/%@/issues/%@/comments",issue.user.login,issue.repo.name,issue.issueNumber]] andMethod:@"GET" andParameters:@{@"access_token":[AuthorizedUser sharedUser].accessToken, @"per_page":[NSString stringWithFormat:@"%ld",per_page], @"page":[NSString stringWithFormat:@"%ld",page]} andSuccess:^(NSData *data)
+    {
+        
+    } orFailure:^(NSString *message)
+    {
+        
+    }];
+}
+
 -(void)issuesWithState:(NSString *)state andPer_Page:(NSUInteger)per_page andPage:(NSUInteger)page Success:(void (^)(NSMutableArray<GitHubIssue *> *))Sucess orFailure:(void (^)(NSString *))Fail
 {
     [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:@"/issues"] andMethod:@"GET" andParameters:@{@"access_token":[AuthorizedUser sharedUser].accessToken, @"state":state, @"per_page":[NSString stringWithFormat:@"%ld",per_page], @"page":[NSString stringWithFormat:@"%ld",page]} andSuccess:^(NSData *data)

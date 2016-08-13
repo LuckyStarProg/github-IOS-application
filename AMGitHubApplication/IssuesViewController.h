@@ -11,6 +11,8 @@
 #import "GitHubIssue.h"
 #import "UIColor+GitHubColor.h"
 #import "AMSideBarViewController.h"
+#import "IssueViewController.h"
+
 
 @interface IssuesViewController : BaseViewController
 

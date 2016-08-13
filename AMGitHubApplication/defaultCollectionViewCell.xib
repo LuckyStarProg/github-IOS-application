@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="defaultCell" id="BG2-uV-3U3" customClass="defaultCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="270" height="47"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="270" height="47"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person-silhouette_318-72869" translatesAutoresizingMaskIntoConstraints="NO" id="E01-9T-5Hf">
+                        <rect key="frame" x="8" y="8" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="3Ho-tG-41w"/>
+                            <constraint firstAttribute="height" constant="30" id="z1Y-4p-mna"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L1X-Kh-gPX">
+                        <rect key="frame" x="54" y="8" width="85" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="6Ng-io-KXd"/>
+                            <constraint firstAttribute="width" constant="85" id="fVU-H4-ZuY"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Assignee" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Igj-os-Y1Z">
+                        <rect key="frame" x="156" y="8" width="97" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="97" id="6kn-DL-hYX"/>
+                            <constraint firstAttribute="height" constant="30" id="CxJ-Nh-KOV"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Igj-os-Y1Z" secondAttribute="trailing" constant="17" id="Jc6-Yz-0fE"/>
+                <constraint firstItem="L1X-Kh-gPX" firstAttribute="leading" secondItem="E01-9T-5Hf" secondAttribute="trailing" constant="16" id="pIy-ZC-mJY"/>
+                <constraint firstItem="E01-9T-5Hf" firstAttribute="top" secondItem="BG2-uV-3U3" secondAttribute="top" constant="8" id="q4m-9U-QaP"/>
+                <constraint firstItem="E01-9T-5Hf" firstAttribute="leading" secondItem="BG2-uV-3U3" secondAttribute="leading" constant="8" id="qPb-J8-zmx"/>
+                <constraint firstItem="Igj-os-Y1Z" firstAttribute="top" secondItem="BG2-uV-3U3" secondAttribute="top" constant="8" id="rty-Fk-MAe"/>
+                <constraint firstItem="L1X-Kh-gPX" firstAttribute="top" secondItem="BG2-uV-3U3" secondAttribute="top" constant="8" id="woI-p1-qCm"/>
+            </constraints>
+            <size key="customSize" width="270" height="47"/>
+            <connections>
+                <outlet property="avatarView" destination="E01-9T-5Hf" id="FeQ-it-81o"/>
+                <outlet property="descriptionLabel" destination="L1X-Kh-gPX" id="Nmk-av-c9Z"/>
+                <outlet property="nameLabel" destination="Igj-os-Y1Z" id="qo2-JW-fjE"/>
+            </connections>
+            <point key="canvasLocation" x="461" y="552.5"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="person-silhouette_318-72869" width="128" height="128"/>
+    </resources>
+</document>

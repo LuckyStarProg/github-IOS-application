@@ -6,8 +6,8 @@
 //  Copyright © 2016 Амин. All rights reserved.
 //
 
-#import "repoCollectionViewCell.h"
+#import "dataCollectionViewCell.h"
 
-@implementation repoCollectionViewCell
+@implementation dataCollectionViewCell
 
 @end

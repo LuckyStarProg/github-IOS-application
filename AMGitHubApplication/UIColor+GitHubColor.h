@@ -12,4 +12,5 @@
 +(UIColor *)GitHubColor;
 +(UIColor *)SeparatorColor;
 +(UIColor *)SelectedCellColor;
++(UIColor *)scrollCollor;
 @end

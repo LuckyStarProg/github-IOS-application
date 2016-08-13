@@ -17,6 +17,14 @@
 
 @implementation IssuesViewController
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+    IssueViewController * issueDisc=[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"issuesViewController"];
+    issueDisc.issue=self.issues[indexPath.row];
+    [self.navigationController pushViewController:issueDisc animated:YES];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.issues.count;

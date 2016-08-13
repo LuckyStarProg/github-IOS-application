@@ -12,6 +12,7 @@
 
 +(GitHubIssue *)issueFromDictionary:(NSDictionary *)dictionary
 {
+    NSLog(@"%@",dictionary);
     GitHubIssue * issue=[[GitHubIssue alloc] init];
     NSString * validatingStr=dictionary[@"title"];
     issue.title=[validatingStr isEqualToString:@"<null>"]?@"N/A":validatingStr;
@@ -24,6 +25,12 @@
     validatingStr=dictionary[@"created_at"];
     issue.createDate=[validatingStr isEqualToString:@"<null>"]?@"N/A":[validatingStr substringToIndex:10];
     
+    issue.comments=[NSString stringWithFormat:@"%@",dictionary[@"comments"]];
+    
+    validatingStr=dictionary[@"body"];
+    issue.body=[validatingStr isEqualToString:@"<null>"]?@"N/A":validatingStr;
+    
+    //issue.assigneeUser=[GitHubUser userFromDictionary:dictionary[@"assignee"]];
     issue.user=[GitHubUser userFromDictionary:dictionary[@"user"]];
     return issue;
 }

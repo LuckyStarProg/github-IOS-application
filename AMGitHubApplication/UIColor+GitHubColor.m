@@ -21,4 +21,8 @@
 {
     return [UIColor colorWithRed:55.0/255.0 green:55.0/255.0 blue:55.0/255.0 alpha:1.0];
 }
++(UIColor *)scrollCollor
+{
+    return [UIColor colorWithRed:225.0/255.0 green:225.0/255.0 blue:225.0/255.0 alpha:1.0];
+}
 @end

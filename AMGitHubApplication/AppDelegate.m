@@ -36,7 +36,6 @@
     UIStoryboard * storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     application.statusBarStyle=UIStatusBarStyleLightContent;
-    
     //defaultUserMenuViewController * menu=[storyboard instantiateViewControllerWithIdentifier:@"menu"];
     //NewsViewController * news=[[NewsViewController alloc] initWithUpdateNotification:@"addResivesNews"];//[storyboard instantiateViewControllerWithIdentifier:@"news"];
     //UINavigationController * navigationVC=[[UINavigationController alloc] initWithRootViewController:news];
