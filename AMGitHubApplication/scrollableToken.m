@@ -10,7 +10,7 @@
 
 @interface scrollableToken()
 @property (nonatomic)NSRegularExpression * regex;
-
+@property (nonatomic)NSUInteger scrollCount;
 @end
 
 @implementation scrollableToken
@@ -27,6 +27,8 @@
 {
 
     NSArray *matches=[self.regex matchesInString:self.inputValue options:0 range:NSMakeRange(0, self.inputValue.length)];
+    
+    NSLog(@"%@",self.inputValue);
     return matches.count>0;
 }
 
@@ -51,6 +53,6 @@
 
 -(NSString *)description
 {
-    return @"scroll";
+    return [NSString stringWithFormat:@"scroll%ld",self.scrollCount];
 }
 @end

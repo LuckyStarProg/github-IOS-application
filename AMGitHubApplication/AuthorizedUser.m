@@ -153,4 +153,17 @@ static AuthorizedUser * authorizedUserInstance;
     [[GitHubApiController sharedController] updateUserWithComplation:nil];
 }
 
+-(void)logOut
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSError * deleteError=nil;
+    [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:@"AuthorizedUser.dat"] error:&deleteError];
+    if(deleteError)
+    {
+        NSLog(@"%@",deleteError.localizedDescription);
+    }
+    
+}
+
 @end

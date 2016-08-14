@@ -15,7 +15,7 @@
     GitHubUser * result=[[GitHubUser alloc] init];
     
     NSLog(@"%@",dictionary);
-    result.ID=(NSUInteger)dictionary[@"id"];
+    result.ID=[NSString stringWithFormat:@"%@",dictionary[@"id"]];
     result.name=[NSString stringWithFormat:@"%@",dictionary[@"name"]];
     result.apiRef=[NSString stringWithFormat:@"%@",dictionary[@"url"]];
     result.avatarRef=[NSString stringWithFormat:@"%@",dictionary[@"avatar_url"]];

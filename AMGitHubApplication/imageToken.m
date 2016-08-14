@@ -9,6 +9,7 @@
 #import "imageToken.h"
 @interface imageToken()
 @property (nonatomic)NSRegularExpression * regex;
+@property (nonatomic)NSUInteger imageCount;
 @end
 
 @implementation imageToken
@@ -44,6 +45,6 @@
 
 -(NSString *)description
 {
-    return @"imageRef";
+    return [NSString stringWithFormat:@"imageRef%ld",self.imageCount++];
 }
 @end

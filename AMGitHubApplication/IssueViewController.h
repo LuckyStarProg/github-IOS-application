@@ -12,11 +12,25 @@
 #import "dataCollectionViewCell.h"
 #import "UIColor+GitHubColor.h"
 #import "AMGitHubCommentParser.h"
+#import "defaultCollectionViewCell.h"
+#import "AMDataManager.h"
+#import "bodyCollectionViewCell.h"
+#import "GitHubIssueComment.h"
+//#import "commentCollectionViewCell.h"
+#import "UICollectionViewCell+subviewsHeight.h"
+#import "MyCollectionReusableView.h"
 
 @interface IssueViewController : UIViewController
-@property (nonatomic)GitHubIssue * issue;
+-(instancetype)initWithUpdateNotification:(NSString *)notification;
 
+@property (nonatomic)GitHubIssue * issue;
+@property (nonatomic)NSMutableArray<GitHubIssueComment *> * comments;
+@property (nonatomic)NSUInteger commentsCount;
+@property (nonatomic)BOOL isAll;
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (nonatomic)NSString * notification;
+@property (nonatomic)UITableView * tableView;
+-(void)addComments:(NSArray<GitHubIssueComment *> *)comments;
 //@property (strong, nonatomic) IBOutlet UILabel *nameLabel;
 //@property (strong, nonatomic) IBOutlet UIImageView *avatarView;
 //@property (strong, nonatomic) IBOutlet UILabel *descriptioLabel;

@@ -21,4 +21,5 @@
 -(void)saveUser;
 +(void)setUser:(GitHubUser *)user;
 -(void)update;
+-(void)logOut;
 @end

@@ -12,7 +12,7 @@
 #import "UIColor+GitHubColor.h"
 #import "AMSideBarViewController.h"
 #import "IssueViewController.h"
-
+#import "GitHubApiController.h"
 
 @interface IssuesViewController : BaseViewController
 

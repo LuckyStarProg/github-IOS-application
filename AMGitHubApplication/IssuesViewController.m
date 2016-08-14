@@ -7,6 +7,7 @@
 //
 
 #import "IssuesViewController.h"
+#import "IssueTableViewController.h"
 
 @interface IssuesViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic)NSMutableArray<GitHubIssue *> * issues;
@@ -20,9 +21,12 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
-    IssueViewController * issueDisc=[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"issuesViewController"];
-    issueDisc.issue=self.issues[indexPath.row];
-    [self.navigationController pushViewController:issueDisc animated:YES];
+    IssueTableViewController * table=[[IssueTableViewController alloc] init];
+    table.issue=self.issues[indexPath.row];
+//    IssueViewController * issueDisc=[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"issuesViewController"];
+//    issueDisc.notification=@"addIssueComments";
+//    issueDisc.issue=self.issues[indexPath.row];
+    [self.navigationController pushViewController:table animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -58,10 +62,12 @@
 -(void)setIsAll:(BOOL)isAll
 {
     _isAll=isAll;
-    if(!self.issues.count)
+    if(!self.issues.count && _isAll==YES)
     {
-        [self.tableView removeFromSuperview];
-        [self.view addSubview:self.noResultView];
+        [self.refresh endRefreshing];
+        self.tableView.backgroundColor=[UIColor SeparatorColor];
+        [self.loadContentView removeFromSuperview];
+        self.tableView.tableHeaderView=self.noResultView;
     }
 }
 -(void)addIssues:(NSArray<GitHubIssue *> *)issues
@@ -72,8 +78,17 @@
         [array addObject:[NSIndexPath indexPathForRow:i inSection:0]];
     }
     [self.issues addObjectsFromArray:issues];
-    [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
-    [self.loadContentView removeFromSuperview];
+    if(self.isRefresh)
+    {
+        [self.tableView reloadData];
+        self.isRefresh=NO;
+        [self.refresh endRefreshing];
+    }
+    else
+    {
+        [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
+        [self.loadContentView removeFromSuperview];
+    }
 }
 
 -(NSUInteger)issuesCount
@@ -109,11 +124,21 @@
         self.tabBarSegment.width=[UIScreen mainScreen].bounds.size.height-35;
     }];
 }
+
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     self.navigationController.toolbarHidden=YES;
 }
+
+-(void)refreshDidTap
+{
+    [self.issues removeAllObjects];
+    self.isAll=NO;
+    self.isRefresh=YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -131,6 +156,9 @@
     self.issues=[NSMutableArray array];
     self.navigationController.toolbar.clipsToBounds=YES;
     self.navigationController.toolbar.autoresizesSubviews=YES;
+    
+    self.refresh.tintColor=[UIColor GitHubColor];
+    [self.refresh addTarget:self action:@selector(refreshDidTap) forControlEvents:UIControlEventValueChanged];
     
     self.segmentControl=[[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Open",@"Closed", nil]];
     //self.segmentControl.frame=CGRectMake(0, 8, self.view.bounds.size.width-30, self.navigationController.toolbar.bounds.size.height-16);

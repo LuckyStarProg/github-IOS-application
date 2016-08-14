@@ -7,10 +7,71 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="testView">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="584-sh-OJu">
+                    <rect key="frame" x="37" y="162" width="526" height="18"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="18" id="TeD-F6-Q7W"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <size key="shadowOffset" width="0.0" height="0.0"/>
+                </label>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="49I-1w-YWu">
+                    <rect key="frame" x="260" y="44" width="80" height="80"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="7EF-jd-suQ"/>
+                        <constraint firstAttribute="width" constant="80" id="Dvn-4h-xZM"/>
+                        <constraint firstAttribute="height" constant="80" id="EO5-sH-ffH"/>
+                        <constraint firstAttribute="height" constant="80" id="znX-Vg-1rw"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="znX-Vg-1rw"/>
+                            <exclude reference="Dvn-4h-xZM"/>
+                        </mask>
+                    </variation>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zbx-ix-Z2q">
+                    <rect key="frame" x="37" y="132" width="526" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="22" id="6a4-bK-UTe"/>
+                        <constraint firstAttribute="height" constant="22" id="nw7-pm-bnH"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="nw7-pm-bnH"/>
+                        </mask>
+                    </variation>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.1803921568627451" green="0.1803921568627451" blue="0.1803921568627451" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="Zbx-ix-Z2q" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="37" id="837-0H-qmb"/>
+                <constraint firstAttribute="trailing" secondItem="584-sh-OJu" secondAttribute="trailing" constant="37" id="9hN-Cf-wDl"/>
+                <constraint firstAttribute="trailing" secondItem="Zbx-ix-Z2q" secondAttribute="trailing" constant="37" id="I8R-ti-l4K"/>
+                <constraint firstItem="49I-1w-YWu" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="44" id="WAE-3E-P7r"/>
+                <constraint firstItem="584-sh-OJu" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="37" id="fk6-jY-TUs"/>
+                <constraint firstItem="49I-1w-YWu" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="h2o-V9-RYE"/>
+                <constraint firstItem="Zbx-ix-Z2q" firstAttribute="top" secondItem="49I-1w-YWu" secondAttribute="bottom" constant="8" id="h5u-jg-RXi"/>
+                <constraint firstItem="584-sh-OJu" firstAttribute="top" secondItem="Zbx-ix-Z2q" secondAttribute="bottom" constant="8" id="hwe-ZT-5PN"/>
+            </constraints>
+            <connections>
+                <outlet property="avatarView" destination="49I-1w-YWu" id="p04-bj-ReS"/>
+                <outlet property="desrLabel" destination="584-sh-OJu" id="pOq-Wk-y9e"/>
+                <outlet property="nameLabel" destination="Zbx-ix-Z2q" id="2gf-V3-SfG"/>
+            </connections>
+            <point key="canvasLocation" x="606" y="398"/>
         </view>
     </objects>
+    <resources>
+        <image name="avatar" width="128" height="128"/>
+    </resources>
 </document>

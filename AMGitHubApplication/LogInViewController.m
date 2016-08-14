@@ -24,12 +24,40 @@
 {
     NSString *path = [request.URL absoluteString];
     NSLog(@"%@",path);
+    AMDataManager * manager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
     if([path containsString:@"https://www.zzz.com.ua/"])
     {
         [[GitHubApiController sharedController] loginUserWithCode:path andSuccess:^
         {
-            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-            [self.webView removeFromSuperview];
+            dispatch_async(dispatch_get_main_queue(), ^
+            {
+                [self.webView removeFromSuperview];
+                [self.view addSubview:self.avatarView];
+                [self.view addSubview:self.indicatior];
+            });
+            [manager loadDataWithURLString:[AuthorizedUser sharedUser].apiRef andSuccess:^(NSString * path)
+            {
+                dispatch_async(dispatch_get_main_queue(), ^
+                               {
+                                   self.avatarView.image=[UIImage imageWithContentsOfFile:path];
+                                   [[NSNotificationCenter defaultCenter] postNotificationName:@"Authorized user loaded" object:nil];
+                                   
+                               });
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^
+                               {
+                                   defaultUserMenuViewController * menu=[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"menu"];
+                                   NewsViewController * news=[[NewsViewController alloc] initWithUpdateNotification:@"addResivesNews"];
+                                   UINavigationController * navigationVC=[[UINavigationController alloc] initWithRootViewController:news];
+                                   
+                                   AMSideBarViewController * sider=[AMSideBarViewController sideBarWithFrontVC:navigationVC andBackVC:menu];
+                                   [self presentViewController:sider animated:YES completion:nil];
+                                   [self.avatarView removeFromSuperview];
+                                   [self.indicatior removeFromSuperview];
+                               });
+            } orFailure:^(NSString * message)
+            {
+                NSLog(@"%@",message);
+            }];
         } orFailure:^
         {
             NSLog(@"Error access!!!");
@@ -38,53 +66,6 @@
     }
     return YES;
 }
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-//{
-//    return 2;
-//}
-//
-//// Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
-//// Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
-//
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    static NSString * identifaer=@"Reusable sell default";
-//    LogInTableViewCell * cell;
-//    cell=(LogInTableViewCell *)[tableView dequeueReusableCellWithIdentifier:identifaer];
-//    if(cell==nil)
-//    {
-//        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"LogInTableViewCell"owner:self options:nil];
-//        cell = [nib objectAtIndex:0];
-//    }
-//    NSLog(@"%@",cell.contentView);
-//    NSLog(@"%@",[cell.contentView class]);
-//    switch (indexPath.row)
-//    {
-//        case 0:
-//            cell.textField.placeholder=@"Email";
-//            self.loginField=cell.textField;
-//            return cell;
-//        case 1:
-//            cell.textField.placeholder=@"Password";
-//            self.passwordField=cell.textField;
-//            return cell;
-//        default:
-//            return nil;
-//    }
-//    
-//}
-//
-//-(void)viewWillDisappear:(BOOL)animated
-//{
-//    [[NSNotificationCenter defaultCenter] removeObserver:self];
-//    [super viewWillDisappear:animated];
-//}
-//-(void)viewWillAppear:(BOOL)animated
-//{
-//    [super viewWillAppear:animated];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged) name:UITextFieldTextDidChangeNotification object:nil];
-
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -101,13 +82,28 @@
     self.navigationController.navigationBar.translucent=NO;
     self.navigationController.navigationBar.barTintColor=[UIColor GitHubColor];
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
-    self.webView=[[UIWebView alloc] initWithFrame:self.view.bounds];
-    self.webView.delegate=self;
-    
-        [self showLoadingPage];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogout) name:@"logout" object:nil];
+//    [[GitHubApiController sharedController] deleAuthUserWithCpmplation:^
+//    {
+//        dispatch_async(dispatch_get_main_queue(), ^
+//        {
+//            self.webView=[[UIWebView alloc] initWithFrame:self.view.bounds];
+//            self.webView.delegate=self;
+//            [self.view addSubview:self.webView];
+//            [self refresh];
+//        });
+//    }];
+    [self showLoadingPage];
     [self validate];
     
 }
+
+-(void)userDidLogout
+{
+    [self.view addSubview:self.webView];
+    [self refresh];
+}
+
 - (void)refresh
 {
     self.webView.alpha=1.0;
@@ -166,6 +162,12 @@
     [self.view addSubview:self.indicatior];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+}
+
 -(void)validate
 {
     [self.indicatior startAnimating];
@@ -209,6 +211,8 @@
               {
                   [self.indicatior removeFromSuperview];
                   [self.avatarView removeFromSuperview];
+                  self.webView=[[UIWebView alloc] initWithFrame:self.view.bounds];
+                  self.webView.delegate=self;
                   [self.view addSubview:self.webView];
                   [self refresh];
               });

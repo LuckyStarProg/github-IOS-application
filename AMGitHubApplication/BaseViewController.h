@@ -13,9 +13,10 @@
 @property (nonatomic)UISearchBar * searchBar;
 @property (nonatomic)UIView * loadContentView;
 @property (nonatomic)UIView * noResultView;
-
+@property (nonatomic)UIRefreshControl * refresh;
 @property NSLayoutConstraint *trailing;
 @property NSLayoutConstraint *leading;
 @property NSLayoutConstraint *bottom;
 @property NSLayoutConstraint *top;
+@property (nonatomic)BOOL isRefresh;
 @end

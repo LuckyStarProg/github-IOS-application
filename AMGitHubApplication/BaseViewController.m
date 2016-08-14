@@ -89,6 +89,8 @@
     [self.noResultView addSubview:imageView];
     [self.noResultView addSubview:info];
     
+    self.refresh=[[UIRefreshControl alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2-15, 0, 40, 40)];
+    [self.tableView addSubview:self.refresh];
     [self setConstraints];
     // Do any additional setup after loading the view.
 }

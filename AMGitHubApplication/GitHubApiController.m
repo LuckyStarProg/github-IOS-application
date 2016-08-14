@@ -43,7 +43,7 @@
 
 -(NSString *)verificationURL
 { 
-    return [NSString stringWithFormat:@"https://github.com/login/oauth/authorize?client_id=%@&scope=repo%%20user",CLIENT_ID];
+    return [NSString stringWithFormat:@"https://github.com/login/oauth/authorize?client_id=%@&scope=repo%%20user",CLIENT_ID];//
 }
 
 -(void)userFromLogin:(NSString *)login andComplation:(void (^)(GitHubUser *))complation
@@ -86,6 +86,24 @@
         return [GitHubUser userFromDictionary:dict];
     }
     return nil;
+}
+
+-(void)refreshRepo:(GitHubRepository *)repo andSuccess:(void(^)(GitHubRepository * repo))Success orFailure:(void(^)(NSString *message))Fail
+{
+    [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:[NSString stringWithFormat:@"/repos/%@",repo.fullName]] andMethod:@"GET" andParameters:@{@"access_token":[AuthorizedUser sharedUser].accessToken} andSuccess:^(NSData *data)
+    {
+        NSError * jsonError=nil;
+        NSDictionary * repoDict=[NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+        if(jsonError)
+        {
+            Fail(jsonError.localizedDescription);
+            return;
+        }
+        Success([GitHubRepository repositoryFromDictionary:repoDict]);
+    } orFailure:^(NSString *message)
+    {
+        Fail(message);
+    }];
 }
 
 -(NSString *)tokenFromCode:(NSString *)code
@@ -211,6 +229,7 @@
           }];
      }];
 }
+
 -(void)followersForUser:(GitHubUser *)user andPerPage:(NSUInteger)per_page andPage:(NSUInteger)page andComplation:(void (^)(NSMutableArray<GitHubUser *> *))completion
 {
     [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:[NSString stringWithFormat:@"/users/%@/followers",user.login]] andMethod:@"GET" andParameters:@{@"per_page":[NSString stringWithFormat:@"%ld",per_page],@"page":[NSString stringWithFormat:@"%ld",page]} andSuccess:^(NSData *data)
@@ -261,14 +280,26 @@
      }];
 }
 
--(void)commentsOnIssue:(GitHubIssue *)issue withPer_Page:(NSUInteger)per_page andPage:(NSUInteger)page Success:(void (^)(NSMutableArray<GitHubIssue *> *))Sucess orFailure:(void (^)(NSString *))Fail
+-(void)commentsOnIssue:(GitHubIssue *)issue withPer_Page:(NSUInteger)per_page andPage:(NSUInteger)page Success:(void (^)(NSMutableArray<GitHubIssueComment *> *))Sucess orFailure:(void (^)(NSString *))Fail
 {
-    [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:[NSString stringWithFormat:@"/repos/%@/%@/issues/%@/comments",issue.user.login,issue.repo.name,issue.issueNumber]] andMethod:@"GET" andParameters:@{@"access_token":[AuthorizedUser sharedUser].accessToken, @"per_page":[NSString stringWithFormat:@"%ld",per_page], @"page":[NSString stringWithFormat:@"%ld",page]} andSuccess:^(NSData *data)
+    [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:[NSString stringWithFormat:@"/repos/%@/issues/%@/comments",issue.repo.fullName,[issue.issueNumber substringFromIndex:1]]] andMethod:@"GET" andParameters:@{@"access_token":[AuthorizedUser sharedUser].accessToken, @"per_page":[NSString stringWithFormat:@"%ld",per_page], @"page":[NSString stringWithFormat:@"%ld",page]} andSuccess:^(NSData *data)
     {
-        
+        NSError * commentError=nil;
+        NSArray * commentDicts=[NSJSONSerialization JSONObjectWithData:data options:0 error:&commentError];
+        if(commentError)
+        {
+            Fail(commentError.localizedDescription);
+            return;
+        }
+        NSMutableArray<GitHubIssueComment *> * comments=[NSMutableArray array];
+        for(NSDictionary * dict in commentDicts)
+        {
+            [comments addObject:[GitHubIssueComment commentByDictionary:dict]];
+        }
+        Sucess(comments);
     } orFailure:^(NSString *message)
     {
-        
+        Fail(message);
     }];
 }
 
@@ -293,6 +324,17 @@
     } orFailure:^(NSString *message)
     {
         Fail(message);
+    }];
+}
+
+-(void)deleAuthUserWithCpmplation:(void (^)(void))completion
+{
+    [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:[NSString stringWithFormat:@"/authorizations/%@",[AuthorizedUser sharedUser].ID]] andMethod:@"DELETE" andParameters:@{@"access_token":[AuthorizedUser sharedUser].accessToken, @"client_id":CLIENT_ID, @"client_secret":CLIENT_SECRET} andSuccess:^(NSData *data)
+    {
+        completion();
+    } orFailure:^(NSString *message)
+    {
+        NSLog(@"%@",message);
     }];
 }
 
@@ -334,9 +376,11 @@
          }
          
          NSMutableArray<GitHubIssue *> * issues=[NSMutableArray array];
-         for(NSDictionary * dict in issuesDicts)
+         for(NSUInteger i=0;i<issuesDicts.count;++i)
          {
-             [issues addObject:[GitHubIssue issueFromDictionary:dict]];
+             [issues addObject:[GitHubIssue issueFromDictionary:issuesDicts[i]]];
+             issues[i].repo=repo;
+             
          }
          Sucess(issues);
      } orFailure:^(NSString *message)

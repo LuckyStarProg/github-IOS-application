@@ -33,5 +33,6 @@
 @property (nonatomic)GitHubUser * owner;
 @property (nonatomic, readonly)NSUInteger repoCount;
 @property (nonatomic)BOOL isAll;
+@property (nonatomic)NSString * searchItem;
 -(void)addRepos:(NSArray *)repos;
 @end

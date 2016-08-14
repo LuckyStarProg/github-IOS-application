@@ -19,6 +19,7 @@
 @property (nonatomic)UIImageView * imageView;
 @property (nonatomic)NSArray * methods;
 @property (nonatomic)UIView * footerView;
+@property (nonatomic)UIRefreshControl * refresh;
 @end
 @implementation RepositoryViewController
 
@@ -91,7 +92,7 @@
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 11;
+    return 12;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -145,6 +146,10 @@
             break;
         case 10:
             cell.backgroundColor=[UIColor whiteColor];
+            [cell addSubview:bottomSeparatorView];
+            break;
+        case 11:
+            cell.backgroundColor=[UIColor whiteColor];
             break;
         default:
             cell.backgroundColor=[UIColor SeparatorColor];
@@ -169,6 +174,7 @@
         dispatch_async(dispatch_get_main_queue(), ^
         {
             [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]]];
+            [self.refresh endRefreshing];
         });
     }];
 }
@@ -276,13 +282,8 @@
      {
          user.avatarPath=self.repo.user.avatarPath;
          profile.user=user;
+         [self.refresh endRefreshing];
      }];
-//    UINavigationController * navi=[[UINavigationController alloc] initWithRootViewController:profile];
-//    navi.navigationBar.alpha=1.0;
-//    navi.navigationBar.translucent=NO;
-//    navi.navigationBar.barTintColor=[UIColor GitHubColor];
-//    navi.navigationBar.tintColor=[UIColor whiteColor];
-//    [navi.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     [self.navigationController pushViewController:profile animated:YES];
 }
 
@@ -299,23 +300,57 @@
     [self.navigationController pushViewController:issuesController animated:YES];
 }
 
+-(void)sorceDidTap
+{
+    UIWebView * webView=[[UIWebView alloc] initWithFrame:self.view.bounds];
+    UIViewController * webController=[[UIViewController alloc] init];
+    [webController.view addSubview:webView];
+    NSURLRequest * request=[NSURLRequest requestWithURL:[NSURL URLWithString:self.repo.repoReference] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+    [webView loadRequest:request];
+    
+    [self.navigationController pushViewController:webController animated:YES];
+}
+
+-(void)refrashData
+{
+    [[GitHubApiController sharedController] refreshRepo:self.repo andSuccess:^(GitHubRepository *repo)
+     {
+         self.repo=repo;
+    } orFailure:^(NSString *message)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^
+        {
+            [self showAllertWithMessage:message];
+        });
+    }];
+}
+
+-(void)showAllertWithMessage:(NSString *)message
+{
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                   message:message
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {}];
+    
+    [alert addAction:defaultAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-//    self.collactionView=[[UICollectionView alloc] initWithFrame:self.view.bounds];
-//    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"repoView" owner:self options:nil];
-//    RepoAvatarView * headerView = [nib objectAtIndex:0];
-//    headerView.imageView.image=[[UIImage imageWithContentsOfFile:self.repo.user.avatarPath] toSize:headerView.imageView.bounds.size];
-//    headerView.nameLabel.text=self.repo.name;
-//    headerView.descriptionLabel.text=self.repo.descriptionStr;
-//    
-//    [headerView setBounds:CGRectMake(0.0, 0.0, self.view.bounds.size.width, self.view.bounds.size.height*0.3 + [RepoAvatarView heightForText:headerView.descriptionLabel.text])];
-//    [headerView setFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, self.view.bounds.size.height*0.3  + [RepoAvatarView heightForText:headerView.descriptionLabel.text])];
-//    
-//    self.collactionView=headerView.backgroundColor;
-//    self.tableView.tableFooterView=[UIView new];
     self.collectionView.delegate=self;
     self.collectionView.dataSource=self;
+    
+    
+    self.refresh=[[UIRefreshControl alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2-15, 0, 40, 40)];
+    //self.refresh.attributedTitle=[[NSAttributedString alloc] initWithString:@"Pull to refresh"];
+    self.refresh.tintColor=[UIColor whiteColor];
+    [self.refresh addTarget:self action:@selector(refrashData) forControlEvents:UIControlEventValueChanged];
+    [self.collectionView addSubview:self.refresh];
+    
     
     UIView * upperView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
     upperView.backgroundColor=[UIColor GitHubColor];
@@ -331,7 +366,7 @@
     
     self.imageView=[[UIImageView alloc] initWithFrame:CGRectMake(self.noResultView.bounds.size.width/2-75, self.noResultView.bounds.size.height/2-75, 150, 150)];
     
-    self.methods=[NSArray arrayWithObjects:@"starDidPress",@"watchDidPress",@"emptyMethod",@"emptyMethod",@"emptyMethod",@"emptyMethod",@"emptyMethod",@"emptyMethod",@"ownerDidTap",@"emptyMethod",@"issuesDidTap", nil];
+    self.methods=[NSArray arrayWithObjects:@"starDidPress",@"watchDidPress",@"emptyMethod",@"emptyMethod",@"emptyMethod",@"emptyMethod",@"emptyMethod",@"emptyMethod",@"ownerDidTap",@"emptyMethod",@"issuesDidTap",@"sorceDidTap", nil];
     
     //[self.noResultView addSubview:self.imageView];
     //self.noResultView.backgroundColor=[UIColor blackColor];

@@ -14,7 +14,7 @@
 +(GitHubRepository *)repositoryFromDictionary:(NSDictionary *)dictionary
 {
     GitHubRepository * result=[[GitHubRepository alloc] init];
-    
+    NSLog(@"%@",dictionary);
     result.ID=(NSUInteger)dictionary[@"id"];
     result.name=[NSString stringWithFormat:@"%@",dictionary[@"name"]];
     result.fullName=[NSString stringWithFormat:@"%@",dictionary[@"full_name"]];
@@ -22,6 +22,7 @@
     NSString * description=[NSString stringWithFormat:@"%@",dictionary[@"description"]];
     result.descriptionStr=[description isEqualToString:@"<null>"]?@"":description;
     
+    result.repoReference=[NSString stringWithFormat:@"%@",dictionary[@"clone_url"]];
     result.user=[GitHubUser userFromDictionary:dictionary[@"owner"]];
     result.stars=[NSString stringWithFormat:@"%@",dictionary[@"stargazers_count"]];
     result.forks=[NSString stringWithFormat:@"%@",dictionary[@"forks_count"]];

@@ -14,6 +14,7 @@
 @property (nonatomic)NSUInteger ID;
 @property (nonatomic)NSString * name;
 @property (nonatomic)NSString * fullName;
+@property (nonatomic)NSString * repoReference;
 @property (nonatomic)NSString * descriptionStr;
 @property (nonatomic)NSString * stars;
 @property (nonatomic)NSString * forks;//forks_count

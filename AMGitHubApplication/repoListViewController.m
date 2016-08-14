@@ -8,7 +8,7 @@
 
 #import "repoListViewController.h"
 
-@interface repoListViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface repoListViewController ()<UITableViewDataSource, UITableViewDelegate,UISearchBarDelegate>
 //@property (nonatomic)UITableView * tableView;
 @property (nonatomic)AMDataManager * dataManager;
 @property (nonatomic)UIView * shadowView;
@@ -19,6 +19,8 @@
 @property (nonatomic)BOOL direction;
 @property (nonatomic)CGPoint lastContentOffset;
 @property (nonatomic)NSString * notification;
+@property (nonatomic)NSMutableArray * searchedRepos;
+@property (nonatomic, weak)NSMutableArray<GitHubRepository *> * showedRepos;
 @end
 
 @implementation repoListViewController
@@ -32,6 +34,7 @@
     GitHubRepository * repo=self.repos[indexPath.row];
     repo.user.avatarPath=self.repos[indexPath.row].user.avatarPath;
     RepositoryViewController * repoViewController=(RepositoryViewController *)[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"repoInfo"];
+    
     repoViewController.repo=repo;
     [self.navigationController pushViewController:repoViewController animated:YES];
 }
@@ -43,17 +46,45 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.repos.count;
+    return self.showedRepos.count;
 }
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [self.searchedRepos removeAllObjects];
+    if(searchText.length==0)
+    {
+        [searchBar resignFirstResponder];
+        [searchBar resignFirstResponder];
+        self.showedRepos=self.repos;
+        [self.tableView reloadData];
+        return;
+    }
+    for(NSUInteger i=0;i<self.repos.count;++i)
+    {
+        if([self.repos[i].name containsString:searchText] || [self.repos[i].descriptionStr containsString:searchText])
+        {
+            [self.searchedRepos addObject:self.repos[i]];
+        }
+    }
+    self.showedRepos=self.searchedRepos;
+    [self.tableView reloadData];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString * identifaer=@"Reusable sell default";
     repoCell * cell;
     GitHubRepository * repo;
-    repo=self.repos[indexPath.row];
+    repo=self.showedRepos[indexPath.row];
     
-    if(!self.isAll && indexPath.row==self.repos.count-5)
+    if(!self.isAll && indexPath.row==self.repos.count-5 && self.repos==self.showedRepos)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
     }
@@ -69,13 +100,6 @@
     cell.repoDescription.text=repo.descriptionStr;
     cell.repoStarsLabel.text=repo.stars;
     cell.tag=indexPath.row;
-//        if(!self.item)
-//        {
-//            cell.userAvatar.image=[[UIImage imageWithContentsOfFile:[AuthorizedUser sharedUser].avatarPath] toSize:cell.userAvatar.frame.size];
-//            [cell setNeedsLayout];
-//            repo.user.avatarPath=[AuthorizedUser sharedUser].avatarPath;
-//            return cell;
-//        }
         if(repo.user.avatarPath)
         {
             cell.userAvatar.image=[[UIImage imageWithContentsOfFile:repo.user.avatarPath] toSize:cell.userAvatar.frame.size];
@@ -106,85 +130,18 @@
 -(void)setIsAll:(BOOL)isAll
 {
     _isAll=isAll;
-    if(!self.repos.count)
+    if(!self.repos.count && _isAll==YES)
     {
-        [self.tableView removeFromSuperview];
-//        UIView * noResultView=[[UIView alloc] initWithFrame:self.view.bounds];
-//        noResultView.backgroundColor=[UIColor SeparatorColor];
-//        UILabel * info=[[UILabel alloc] initWithFrame:CGRectMake(noResultView.bounds.size.width/2-100, noResultView.bounds.size.height/2+30, 200.0, 80.0)];
-//        info.text=@"The search hasn't give any results";
-//        info.textAlignment=NSTextAlignmentCenter;
-//        info.numberOfLines=2;
-//        
-//        UIImageView * imageView=[[UIImageView alloc] initWithFrame:CGRectMake(noResultView.bounds.size.width/2-105, noResultView.bounds.size.height/2-160, 210.0, 180.0)];
-//        imageView.image=[UIImage imageNamed:@"github-cat"];
-//        
-//        [noResultView addSubview:imageView];
-//        [noResultView addSubview:info];
-        
-        [self.view addSubview:self.noResultView];
+        [self.refresh endRefreshing];
+        self.tableView.backgroundColor=[UIColor SeparatorColor];
+        [self.loadContentView removeFromSuperview];
+        self.tableView.tableHeaderView=self.noResultView;
     }
 }
 
-//-(void)search
-//{
-//    [[GitHubApiController sharedController]searchReposByToken:self.item andPerPage:15 andPage:self.repos.count/15+1 andSuccess:^(NSData *data)
-//    {
-//        NSError * error=nil;
-//        NSDictionary * dict=[NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-//        if(error)
-//        {
-//            [self showAllertWithMessage:error.description];
-//            return;
-//        }
-//        if(dict)
-//        {
-//            NSArray * repoDicts=dict[@"items"];
-//            if(!repoDicts.count)
-//            {
-//
-//            }
-//            NSMutableArray<NSIndexPath *> * array=[NSMutableArray array];
-//            for(NSDictionary * repo in repoDicts)
-//                {
-//                    [array addObject:[NSIndexPath indexPathForRow:self.repos.count inSection:0]];
-//                    [self.repos addObject:[GitHubRepository repositoryFromDictionary:repo]];
-//                }
-//            [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
-//            [self stopLoading];
-//        }
-//    } orFailure:^(NSString *message)
-//     {
-//         dispatch_async(dispatch_get_main_queue(), ^
-//        {
-//            [self showAllertWithMessage:message];
-//            [self stopLoading];
-//        });
-//     }];
-//}
 -(void)startLoading
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
-    //self.item?[self search]:[self loadOwndContent];
-//    UIView * searchView=[[UIView alloc] initWithFrame:CGRectMake(self.shadowView.bounds.size.width/2-65.0, self.shadowView.bounds.size.height/3, 130.0, 80.0)];
-//    searchView.backgroundColor=[UIColor SeparatorColor];
-//    searchView.layer.cornerRadius=8.0;
-//    
-//    UILabel * searchLabel=[[UILabel alloc] initWithFrame:CGRectMake(0.0, 50.0, 130.0, 30.0)];
-//    searchLabel.text=self.item?@"Searching...":@"Loading...";
-//    searchLabel.adjustsFontSizeToFitWidth=YES;
-//    searchLabel.textAlignment=NSTextAlignmentCenter;
-//    searchLabel.textColor=[UIColor GitHubColor];
-//    
-//    UIActivityIndicatorView * activityInd=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(40.0, 10.0, 50.0, 50.0)];
-//    activityInd.activityIndicatorViewStyle=UIActivityIndicatorViewStyleWhiteLarge;
-//    activityInd.color=[UIColor GitHubColor];
-//    activityInd.hidesWhenStopped=YES;
-//    
-//    [searchView addSubview:searchLabel];
-//    [searchView addSubview:activityInd];
-//    
-//    [self.shadowView addSubview:searchView];
     NSLog(@"%@",self.view.subviews);
     [self.view addSubview:self.loadContentView];
     NSLog(@"%@",self.view.subviews);
@@ -202,55 +159,10 @@
     if(!self.repos.count)
     {
         [self.tableView removeFromSuperview];
-//        UIView * noResultView=[[UIView alloc] initWithFrame:self.view.bounds];
-//        noResultView.backgroundColor=[UIColor SeparatorColor];
-//        UILabel * info=[[UILabel alloc] initWithFrame:CGRectMake(noResultView.bounds.size.width/2-100, noResultView.bounds.size.height/2+30, 200.0, 80.0)];
-//        info.text=@"The search hasn't give any results";
-//        info.textAlignment=NSTextAlignmentCenter;
-//        info.numberOfLines=2;
-//        
-//        UIImageView * imageView=[[UIImageView alloc] initWithFrame:CGRectMake(noResultView.bounds.size.width/2-105, noResultView.bounds.size.height/2-160, 210.0, 180.0)];
-//        imageView.image=[UIImage imageNamed:@"github-cat"];
-//        
-//        [noResultView addSubview:imageView];
-//        [noResultView addSubview:info];
-        
         [self.view addSubview:self.noResultView];
     }
+    self.showedRepos=self.searchedRepos;
 }
-
-//-(void)loadOwndContent
-//{
-//    [[GitHubApiController sharedController] owndReposByUser:self.owner andPer_page:15 andPage:self.repos.count/15+1 andSuccess:^(NSData *data)
-//    {
-//        NSError * error=nil;
-//        NSArray * repoArray=[NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-//        if(error)
-//        {
-//            [self showAllertWithMessage:error.description];
-//            return;
-//        }
-//        if(repoArray)
-//        {
-//            NSMutableArray<NSIndexPath *> * array=[NSMutableArray array];
-//            for(NSDictionary * repo in repoArray)
-//            {
-//                [array addObject:[NSIndexPath indexPathForRow:self.repos.count inSection:0]];
-//                [self.repos addObject:[GitHubRepository repositoryFromDictionary:repo]];
-//            }
-//            [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
-//            [self stopLoading];
-//        }
-//
-//    } orFailure:^(NSString *message)
-//    {
-//        dispatch_async(dispatch_get_main_queue(), ^
-//                       {
-//                           [self showAllertWithMessage:message];
-//                           [self stopLoading];
-//                       });
-//    }];
-//}
 
 -(void)addRepos:(NSArray *)repos
 {
@@ -260,7 +172,16 @@
         [array addObject:[NSIndexPath indexPathForRow:i inSection:0]];
     }
     [self.repos addObjectsFromArray:repos];
-    [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
+    if(self.isRefresh)
+    {
+        [self.tableView reloadData];
+        self.isRefresh=NO;
+        [self.refresh endRefreshing];
+    }
+    else
+    {
+        [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
+    }
     [self stopLoading];
 }
 
@@ -285,6 +206,13 @@
     return self;
 }
 
+-(void)refreshDidTap
+{
+    [self.repos removeAllObjects];
+    self.isAll=NO;
+    self.isRefresh=YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -297,66 +225,19 @@
         menuItem.tintColor=[UIColor whiteColor];
         self.navigationItem.leftBarButtonItem=menuItem;
     }
-    
+    self.searchBar.delegate=self;
     self.repos=[NSMutableArray array];
-    
+    self.showedRepos=self.repos;
+    self.searchedRepos=[NSMutableArray array];
+    [self.refresh addTarget:self action:@selector(refreshDidTap) forControlEvents:UIControlEventValueChanged];
+    self.refresh.tintColor=[UIColor GitHubColor];
+
     self.tableView.delegate=self;
     self.tableView.dataSource=self;
-//    [self.view addSubview:self.tableView];
     self.dataManager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
     
     self.shadowView=[[UIView alloc] initWithFrame:self.view.bounds];
     self.shadowView.backgroundColor=[UIColor colorWithWhite:0.0 alpha:0.5];
-//    self.view.clipsToBounds=YES;
-//    self.view.autoresizesSubviews=YES;
-//    self.view.opaque=YES;
-//    self.view.clearsContextBeforeDrawing=YES;
-//    NSLog(@"%@",self.view);
-//    //self.view.autoresizingMask=//UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
-//    
-//    NSLayoutConstraint *trailing =[NSLayoutConstraint
-//                                   constraintWithItem:self.tableView
-//                                   attribute:NSLayoutAttributeTrailing
-//                                   relatedBy:NSLayoutRelationEqual
-//                                   toItem:self.view
-//                                   attribute:NSLayoutAttributeTrailing
-//                                   multiplier:1.0f
-//                                   constant:0.f];
-//    
-//    NSLayoutConstraint *leading = [NSLayoutConstraint
-//                                   constraintWithItem:self.tableView
-//                                   attribute:NSLayoutAttributeLeading
-//                                   relatedBy:NSLayoutRelationEqual
-//                                   toItem:self.view
-//                                   attribute:NSLayoutAttributeLeading
-//                                   multiplier:1.0f
-//                                   constant:0.f];
-//    
-//    NSLayoutConstraint *bottom =[NSLayoutConstraint
-//                                 constraintWithItem:self.tableView
-//                                 attribute:NSLayoutAttributeBottom
-//                                 relatedBy:NSLayoutRelationEqual
-//                                 toItem:self.view
-//                                 attribute:NSLayoutAttributeBottom
-//                                 multiplier:1.0f
-//                                 constant:0.f];
-//    
-//    NSLayoutConstraint *top =[NSLayoutConstraint
-//                                 constraintWithItem:self.tableView
-//                                 attribute:NSLayoutAttributeTop
-//                                 relatedBy:NSLayoutRelationEqual
-//                                 toItem:self.view
-//                                 attribute:NSLayoutAttributeTop
-//                                 multiplier:1.0f
-//                                 constant:0.f];
-//    
-//    self.tableView.translatesAutoresizingMaskIntoConstraints=NO;
-//    [self.view addConstraint:trailing];
-//    [self.view addConstraint:leading];
-//    [self.view addConstraint:bottom];
-//    [self.view addConstraint:top];
-//    
-    
     [self startLoading];
 
 }

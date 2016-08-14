@@ -14,7 +14,7 @@
 @property (nonatomic)NSString * apiRef;
 @property (nonatomic)NSString * avatarPath;
 @property (nonatomic)NSString * avatarRef;
-@property (nonatomic)NSUInteger ID;
+@property (nonatomic)NSString * ID;
 @property (nonatomic)NSString * reposRef;
 @property (nonatomic)NSString * login;
 @property (nonatomic)NSArray<GitHubUser *> * followers;

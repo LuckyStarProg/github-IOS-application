@@ -44,8 +44,17 @@
         [array addObject:[NSIndexPath indexPathForRow:i inSection:0]];
     }
     [self.events addObjectsFromArray:events];
-    [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
-    [self.loadContentView removeFromSuperview];
+    if(self.isRefresh)
+    {
+        [self.tableView reloadData];
+        self.isRefresh=NO;
+        [self.refresh endRefreshing];
+    }
+    else
+    {
+            [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
+            [self.loadContentView removeFromSuperview];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -81,10 +90,12 @@
 -(void)setIsAll:(BOOL)isAll
 {
     _isAll=isAll;
-    if(!self.events.count)
+    if(!self.events.count && _isAll==YES)
     {
-        [self.tableView removeFromSuperview];
-        [self.view addSubview:self.noResultView];
+        [self.refresh endRefreshing];
+        self.tableView.backgroundColor=[UIColor SeparatorColor];
+        [self.loadContentView removeFromSuperview];
+        self.tableView.tableHeaderView=self.noResultView;
     }
 }
 -(UIImageView *)iconView
@@ -123,6 +134,15 @@
     //[activityInd startAnimating];
     [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
 }
+
+-(void)refreshDidTap
+{
+    [self.events removeAllObjects];
+    self.isAll=NO;
+    self.isRefresh=YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -138,57 +158,11 @@
         self.navigationItem.leftBarButtonItem=menuItem;
     }
     
-//    self.navigationController.navigationBar.alpha=1.0;
-//    self.navigationController.navigationBar.translucent=NO;
-//    self.navigationController.navigationBar.barTintColor=[UIColor GitHubColor];
-//    self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
-//    
-//    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    [self.refresh addTarget:self action:@selector(refreshDidTap) forControlEvents:UIControlEventValueChanged];
+    self.refresh.tintColor=[UIColor GitHubColor];
     
     self.shadowView=[[UIView alloc] initWithFrame:self.view.bounds];
     self.shadowView.backgroundColor=[UIColor colorWithWhite:0.0 alpha:0.5];
-    
-//    NSLayoutConstraint *trailing =[NSLayoutConstraint
-//                                   constraintWithItem:self.tableView
-//                                   attribute:NSLayoutAttributeTrailing
-//                                   relatedBy:NSLayoutRelationEqual
-//                                   toItem:self.view
-//                                   attribute:NSLayoutAttributeTrailing
-//                                   multiplier:1.0f
-//                                   constant:0.f];
-//    
-//    NSLayoutConstraint *leading = [NSLayoutConstraint
-//                                   constraintWithItem:self.tableView
-//                                   attribute:NSLayoutAttributeLeading
-//                                   relatedBy:NSLayoutRelationEqual
-//                                   toItem:self.view
-//                                   attribute:NSLayoutAttributeLeading
-//                                   multiplier:1.0f
-//                                   constant:0.f];
-//    
-//    NSLayoutConstraint *bottom =[NSLayoutConstraint
-//                                 constraintWithItem:self.tableView
-//                                 attribute:NSLayoutAttributeBottom
-//                                 relatedBy:NSLayoutRelationEqual
-//                                 toItem:self.view
-//                                 attribute:NSLayoutAttributeBottom
-//                                 multiplier:1.0f
-//                                 constant:0.f];
-//    
-//    NSLayoutConstraint *top =[NSLayoutConstraint
-//                              constraintWithItem:self.tableView
-//                              attribute:NSLayoutAttributeTop
-//                              relatedBy:NSLayoutRelationEqual
-//                              toItem:self.view
-//                              attribute:NSLayoutAttributeTop
-//                              multiplier:1.0f
-//                              constant:0.f];
-//    
-//    self.tableView.translatesAutoresizingMaskIntoConstraints=NO;
-//    [self.view addConstraint:trailing];
-//    [self.view addConstraint:leading];
-//    [self.view addConstraint:bottom];
-//    [self.view addConstraint:top];
     
     self.events=[NSMutableArray array];
 }

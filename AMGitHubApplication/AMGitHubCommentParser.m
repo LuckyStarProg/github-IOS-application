@@ -25,14 +25,16 @@
 
 -(NSDictionary *)parseString:(NSString *)string
 {
-    __block NSString * startString=string;
+    __block NSString * startString=[NSString stringWithFormat:@"%@",string];
     NSUInteger startindex=0;
     self.results=[NSMutableDictionary dictionary];
+    NSUInteger textCount=0;
+    NSLog(@"%@",string);
     for(NSUInteger i=0;i<startString.length;++i)
     {
         for(NSUInteger j=0;j<self.tokens.count;++j)
         {
-            self.tokens[j].inputValue=[startString substringToIndex:i];
+            self.tokens[j].inputValue=[startString substringToIndex:i+1];
             if(self.tokens[j].isMatch)
             {
                 NSRange secondRange=self.tokens[j].matchRange;
@@ -44,21 +46,22 @@
                 NSString * first=[startString substringWithRange:firstRange];
                 if([first stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]].length!=0)
                 {
-                    [self.results setObject:first forKey:@"text"];
+                    [self.results setObject:first forKey:[NSString stringWithFormat:@"text%ld",textCount++]];
                 }
                 [self.results setObject:self.tokens[j].value forKey:[NSString stringWithFormat:@"%@",self.tokens[j]]];
-                    startString=[startString stringByReplacingOccurrencesOfString:first withString:@""];
-                    startString=[startString stringByReplacingOccurrencesOfString:second withString:@""];
+                    startString=[startString stringByReplacingCharactersInRange:firstRange withString:@""];
+                secondRange.location-=firstRange.length;
+                    startString=[startString stringByReplacingCharactersInRange:secondRange withString:@""];
                 i-=firstRange.length;
                 i-=secondRange.length-1;
                 NSLog(@"%@",second);
             }
         }
         
-        if(i+1==startString.length)
-        {
-            [self.results setObject:startString forKey:@"text"];
-        }
+    }
+    if(startString.length)
+    {
+        [self.results setObject:startString forKey:[NSString stringWithFormat:@"text%ld",textCount++]];
     }
         NSLog(@"%@",self.results);
 //        for(NSUInteger i=0;i<self.results.count;++i)
