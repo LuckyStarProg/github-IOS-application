@@ -25,9 +25,7 @@
     IssueTableViewController * table=[[IssueTableViewController alloc] init];
     table.issue=self.showedIssues[indexPath.row];
     table.issue.repo=self.repo;
-//    IssueViewController * issueDisc=[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"issuesViewController"];
-//    issueDisc.notification=@"addIssueComments";
-//    issueDisc.issue=self.issues[indexPath.row];
+
     [self.navigationController pushViewController:table animated:YES];
 }
 
@@ -141,6 +139,7 @@
 {
     self.isRefresh=YES;
     self.state=self.segmentControl.selectedSegmentIndex==0?@"open":@"closed";
+    [self.view addSubview:self.loadContentView];
     [self.issues removeAllObjects];
     [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
 }
@@ -203,7 +202,7 @@
     [self.refresh addTarget:self action:@selector(refreshDidTap) forControlEvents:UIControlEventValueChanged];
     
     self.segmentControl=[[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Open",@"Closed", nil]];
-    //self.segmentControl.frame=CGRectMake(0, 8, self.view.bounds.size.width-30, self.navigationController.toolbar.bounds.size.height-16);
+
     self.segmentControl.tintColor=[UIColor GitHubColor];
     [self.segmentControl addTarget:self action:@selector(segmentDidTap) forControlEvents:UIControlEventValueChanged];
     [self.segmentControl setSelectedSegmentIndex:0];
@@ -220,11 +219,6 @@
 {
     AMSideBarViewController * sider=(AMSideBarViewController *)self.navigationController.parentViewController;
     [sider side];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

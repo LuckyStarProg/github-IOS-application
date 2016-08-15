@@ -22,7 +22,7 @@
                     </view>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1909" y="243"/>
+            <point key="canvasLocation" x="2033" y="-541"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="YaL-SK-SO8">
@@ -1989,7 +1989,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MmN-Lg-igR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1189" y="243"/>
+            <point key="canvasLocation" x="1313" y="-541"/>
         </scene>
         <!--Default View Controller-->
         <scene sceneID="KUG-Aw-ols">
