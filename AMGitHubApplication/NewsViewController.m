@@ -58,6 +58,9 @@
         [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
     }
     [self.loadContentView removeFromSuperview];
+    [self.noResultView removeFromSuperview];
+    [self.tableView.tableHeaderView removeFromSuperview];
+    self.tableView.tableHeaderView=nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

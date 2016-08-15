@@ -181,6 +181,9 @@
         [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
     }
     [self stopLoading];
+    [self.noResultView removeFromSuperview];
+    [self.tableView.tableHeaderView removeFromSuperview];
+    self.tableView.tableHeaderView=nil;
 }
 
 -(void)dealloc

@@ -81,6 +81,7 @@
      {
          dispatch_async(dispatch_get_main_queue(), ^
                         {
+                            repoList.isAll=YES;
                             [AlertController showAlertOnVC:repoList withMessage:message];
                         });
      }];
@@ -122,6 +123,7 @@
      {
          dispatch_async(dispatch_get_main_queue(), ^
                         {
+                            repoList.isAll=YES;
                             [AlertController showAlertOnVC:repoList withMessage:message];
                         });
      }];
@@ -141,6 +143,7 @@
     {
         dispatch_async(dispatch_get_main_queue(), ^
                        {
+                        eventsViewController.isAll=YES;
                         [AlertController showAlertOnVC:eventsViewController withMessage:message];
                        });
     }];
@@ -160,6 +163,7 @@
     {
         dispatch_async(dispatch_get_main_queue(), ^
                        {
+                           eventsViewController.isAll=YES;
                            [AlertController showAlertOnVC:eventsViewController withMessage:message];
                        });
     }];
@@ -179,6 +183,7 @@
      {
          dispatch_async(dispatch_get_main_queue(), ^
                         {
+                            issuesController.isAll=YES;
                             [AlertController showAlertOnVC:issuesController withMessage:message];
                         });
      }];
@@ -198,6 +203,7 @@
      {
          dispatch_async(dispatch_get_main_queue(), ^
                         {
+                            issuesController.isAll=YES;
                             [AlertController showAlertOnVC:issuesController withMessage:message];
                         });
      }];
@@ -205,13 +211,13 @@
 
 -(void)addStarredRepos:(NSNotification *)not
 {
-    repoListViewController * repoListController=[not object];
-    [[GitHubApiController sharedController] starredReposWithPer_Page:40 andPage:repoListController.repoCount/40+1 andSuccess:^(NSMutableArray<GitHubRepository *> * repos)
+    repoListViewController * repoList=[not object];
+    [[GitHubApiController sharedController] starredReposWithPer_Page:40 andPage:repoList.repoCount/40+1 andSuccess:^(NSMutableArray<GitHubRepository *> * repos)
      {
-         [repoListController addRepos:repos];
+         [repoList addRepos:repos];
          if(repos.count<40)
          {
-             repoListController.isAll=YES;
+             repoList.isAll=YES;
          }
          
          
@@ -219,7 +225,8 @@
      {
          dispatch_async(dispatch_get_main_queue(), ^
                         {
-                            [AlertController showAlertOnVC:repoListController withMessage:message];
+                            repoList.isAll=YES;
+                            [AlertController showAlertOnVC:repoList withMessage:message];
                         });
      }];
 }
@@ -238,6 +245,7 @@
      {
          dispatch_async(dispatch_get_main_queue(), ^
                         {
+                            issueViewController.isAll=YES;
                             [AlertController showAlertOnVC:issueViewController withMessage:message];
                         });
      }];
@@ -257,6 +265,7 @@
     {
         dispatch_async(dispatch_get_main_queue(), ^
                        {
+                           usersList.isAllUsers=YES;
                            [AlertController showAlertOnVC:usersList withMessage:message];
                        });
     }];
@@ -277,9 +286,10 @@
     {
         dispatch_async(dispatch_get_main_queue(), ^
                        {
+                           usersList.isAllUsers=YES;
                            [AlertController showAlertOnVC:usersList withMessage:message];
                        });
-    }]; //followingForUser:usersList.parentUser andPerPage:20 andPage:usersList.usersCount/20+1 andComplation:^(NSMutableArray<GitHubUser *> * users)
+    }];
 }
 
 @end

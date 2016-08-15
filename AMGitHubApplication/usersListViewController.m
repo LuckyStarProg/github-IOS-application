@@ -184,8 +184,12 @@
     else
     {
         [self.tableView insertRowsAtIndexPaths:indexPathes withRowAnimation:UITableViewRowAnimationFade];
-        [self.loadContentView removeFromSuperview];
+        
     }
+    [self.noResultView removeFromSuperview];
+    [self.loadContentView removeFromSuperview];
+    [self.tableView.tableHeaderView removeFromSuperview];
+    self.tableView.tableHeaderView=nil;
 }
 
 -(instancetype)initWithUpdateNotification:(NSString *)notification
