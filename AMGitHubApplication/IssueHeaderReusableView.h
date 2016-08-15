@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface testView : UIView
+@interface IssueHeaderReusableView : UIView
 @property (strong, nonatomic) IBOutlet UIImageView *avatarView;
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *desrLabel;

@@ -10,6 +10,7 @@
 #import "GitHubUser.h"
 #import "GitHubApiController.h"
 #import "AMDataManager.h"
+#import "AlertController.h"
 
 @interface AuthorizedUser : GitHubUser
 +(AuthorizedUser *)sharedUser;

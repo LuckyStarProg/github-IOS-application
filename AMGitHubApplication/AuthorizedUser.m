@@ -7,6 +7,7 @@
 //
 
 #import "AuthorizedUser.h"
+
 @implementation AuthorizedUser
 static AuthorizedUser * authorizedUserInstance;
 
@@ -25,13 +26,6 @@ static AuthorizedUser * authorizedUserInstance;
             [AuthorizedUser readUser];
         }
         
-//        if(!authorizedUserInstance)
-//        {
-//            localToken=[[GitHubApiController sharedController] tokenURLFromCode:code].absoluteString;
-//            [self writeTokenToFile];
-//        }
-    
-        
             NSString* token=[[GitHubApiController sharedController] tokenFromCode:code];
             authorizedUserInstance=[[AuthorizedUser alloc] init];
             [AuthorizedUser setUser:[[GitHubApiController sharedController] userFromToken:token]];
@@ -39,7 +33,6 @@ static AuthorizedUser * authorizedUserInstance;
             {
                 authorizedUserInstance.accessToken=token;
                 [[AuthorizedUser sharedUser]save];
-                //[AuthorizedUser saveUser];
             }
         
         dispatch_async(dispatch_get_main_queue(), ^
@@ -115,7 +108,6 @@ static AuthorizedUser * authorizedUserInstance;
         NSLog(@"%@",message);
     }];
 
-    //[self.accessToken writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }
 
 +(void)readUser
@@ -150,18 +142,19 @@ static AuthorizedUser * authorizedUserInstance;
 
 -(void)update
 {
-    [[GitHubApiController sharedController] updateUserWithComplation:nil];
+    [[GitHubApiController sharedController] updateUserWithFailure:nil];
 }
 
 -(void)logOut
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSError * deleteError=nil;
-    [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:@"AuthorizedUser.dat"] error:&deleteError];
-    if(deleteError)
+        NSError * Error=nil;
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *path = [documentsDirectory stringByAppendingPathComponent:@"AuthorizedUser.dat"];
+        [[NSFileManager defaultManager] removeItemAtPath:path error:&Error];
+    if(Error)
     {
-        NSLog(@"%@",deleteError.localizedDescription);
+        NSLog(@"%@",Error.localizedDescription);
     }
     
 }

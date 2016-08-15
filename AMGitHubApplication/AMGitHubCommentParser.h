@@ -11,6 +11,7 @@
 #import "defaultTextToken.h"
 #import "scrollableToken.h"
 #import "imageToken.h"
+#import "AMDataManager.h"
 
 @interface AMGitHubCommentParser : NSObject
 

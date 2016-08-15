@@ -9,6 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "RepositoryViewController.h"
 #import "GitHubApiController.h"
+#import "AuthorizedUser.h"
+#import "dataCollectionViewCell.h"
+#import "UIColor+GitHubColor.h"
+#import "AuthorizedUser.h"
+#import "NewsViewController.h"
+#import "repoListViewController.h"
+#import "AMSideBarViewController.h"
+#import "usersListViewController.h"
+#import "EditViewController.h"
+
 @interface UserProfileViewController : UIViewController
 
 @property (nonatomic) IBOutlet UICollectionView *collectionView;

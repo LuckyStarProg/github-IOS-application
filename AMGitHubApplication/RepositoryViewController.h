@@ -9,10 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "GitHubRepository.h"
 #import "RepoAvatarView.h"
+#import "UIImage+ResizingImg.h"
+#import "dataCollectionViewCell.h"
+#import "UIColor+GitHubColor.h"
+#import "GitHubApiController.h"
+#import "UserProfileViewController.h"
+#import "IssuesViewController.h"
+#import "AlertController.h"
 
 @interface RepositoryViewController : UIViewController
 
 @property (nonatomic)GitHubRepository * repo;
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
-//@property (strong, nonatomic) IBOutletCollection(UICollectionViewCell) NSArray *collectionCell;
 @end

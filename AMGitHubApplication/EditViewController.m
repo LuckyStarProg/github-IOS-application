@@ -23,7 +23,8 @@
     }
     return self;
 }
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self.tableView removeFromSuperview];
     UIBarButtonItem * doneItem=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneDudTap)];
@@ -32,13 +33,12 @@
     self.textView=[[UITextView alloc] initWithFrame:self.view.bounds];
     self.textView.text=[[AuthorizedUser sharedUser] valueForKey:self.key];
     [self.view addSubview:self.textView];
-    // Do any additional setup after loading the view.
+
 }
 
 -(void)doneDudTap
 {
     [[AuthorizedUser sharedUser] setValue:[self.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]] forKey:self.key];
-    NSLog(@"%@",[[AuthorizedUser sharedUser] valueForKey:self.key]);
     [[AuthorizedUser sharedUser] update];
     [self dismissViewControllerAnimated:YES completion:nil];
 }

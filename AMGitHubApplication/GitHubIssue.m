@@ -30,7 +30,6 @@
     validatingStr=dictionary[@"body"];
     issue.body=[validatingStr isEqualToString:@"<null>"]?@"N/A":validatingStr;
     
-    //issue.assigneeUser=[GitHubUser userFromDictionary:dictionary[@"assignee"]];
     issue.user=[GitHubUser userFromDictionary:dictionary[@"user"]];
     return issue;
 }

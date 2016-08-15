@@ -17,12 +17,12 @@
 @property (nonatomic)NSString * repoReference;
 @property (nonatomic)NSString * descriptionStr;
 @property (nonatomic)NSString * stars;
-@property (nonatomic)NSString * forks;//forks_count
-@property (nonatomic)NSString * watchers;//watchers
-@property (nonatomic)NSString * issues;//open_issues_count
-@property (nonatomic)BOOL isPrivate;//private
-@property (nonatomic)NSString * date;//updated_at
-@property (nonatomic)NSString * language;//language
+@property (nonatomic)NSString * forks;
+@property (nonatomic)NSString * watchers;
+@property (nonatomic)NSString * issues;
+@property (nonatomic)BOOL isPrivate;
+@property (nonatomic)NSString * date;
+@property (nonatomic)NSString * language;
 @property (nonatomic)GitHubUser * user;
 
 +(GitHubRepository *)repositoryFromDictionary:(NSDictionary *)dictionary;

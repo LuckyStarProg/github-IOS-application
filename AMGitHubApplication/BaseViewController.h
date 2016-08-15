@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIColor+GitHubColor.h"
 
 @interface BaseViewController : UIViewController
 @property (nonatomic)UITableView * tableView;
@@ -14,9 +15,6 @@
 @property (nonatomic)UIView * loadContentView;
 @property (nonatomic)UIView * noResultView;
 @property (nonatomic)UIRefreshControl * refresh;
-@property NSLayoutConstraint *trailing;
-@property NSLayoutConstraint *leading;
-@property NSLayoutConstraint *bottom;
-@property NSLayoutConstraint *top;
+
 @property (nonatomic)BOOL isRefresh;
 @end

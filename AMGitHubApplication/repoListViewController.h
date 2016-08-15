@@ -18,12 +18,6 @@
 #import "GitHubApiController.h"
 #import "AuthorizedUser.h"
 #import "BaseViewController.h"
-//
-//typedef NS_ENUM(NSInteger, repoListViewControllerState)
-//{
-//    repoListViewControllerSearch=1,
-//    repoListViewControllerOwnd
-//};
 
 @interface repoListViewController : BaseViewController
 

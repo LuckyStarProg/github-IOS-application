@@ -109,7 +109,6 @@
 -(NSString *)tokenFromCode:(NSString *)code
 {
     NSString * page=[NSString stringWithContentsOfURL:[self tokenURLFromCode:code] encoding:NSUTF8StringEncoding error:nil];
-    //validation
     page=[page substringToIndex:[page rangeOfString:@"&"].location];
     page=[page substringFromIndex:[page rangeOfString:@"="].location+1];
     return page;
@@ -117,7 +116,6 @@
 
 -(void)searchReposByToken:(NSString *)token andPerPage:(NSUInteger)perPage andPage:(NSUInteger)page andSuccess:(void(^)(NSData *data))Success orFailure:(void(^)(NSString *message))Fail
 {
-    NSLog(@"%@",token);
     [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:@"/search/repositories"] andMethod:@"GET" andParameters:@{@"q":token, @"per_page":[NSString stringWithFormat:@"%ld",perPage], @"page":[NSString stringWithFormat:@"%ld",page]} andSuccess:Success orFailure:Fail];
 }
 
@@ -126,7 +124,7 @@
     [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:[user.login isEqualToString:[AuthorizedUser sharedUser].login]?@"/user/repos":[NSString stringWithFormat:@"/users/%@/repos",user.login]] andMethod:@"GET" andParameters:@{@"per_page":[NSString stringWithFormat:@"%ld",perPage],@"page":[NSString stringWithFormat:@"%ld",page],@"access_token":[AuthorizedUser sharedUser].accessToken} andSuccess:Success orFailure:Fail];
 }
 
--(void)listWatchesForRepo:(GitHubRepository *)repo withComplation:(void(^)(NSArray * stars))complation
+-(void)listWatchesForRepo:(GitHubRepository *)repo andSuccess:(void(^)(NSArray *))Success orFailure:(void(^)(NSString *message))Fail
 {
     [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:[NSString stringWithFormat:@"/repos/%@/subscribers",repo.fullName]] andMethod:@"GET" andParameters:@{@"page":@"1", @"per_page":[NSString stringWithFormat:@"%ld",(NSUInteger)MAXFLOAT]} andSuccess:^(NSData *data)
     {
@@ -134,16 +132,16 @@
         NSArray * stars=[NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
         if(jsonError)
         {
-            NSLog(@"%@",jsonError.localizedDescription);
+            Fail(jsonError.localizedDescription);
             return;
         }
-        complation(stars);
+        Success(stars);
     } orFailure:^(NSString *message)
     {
-        NSLog(@"%@",message);
+        Fail(message);
     }];
 }
--(void)newsWithPer_page:(NSUInteger)per_page andPage:(NSUInteger)page andComplation:(void (^)(NSArray<Event *> *))completion
+-(void)newsWithPer_page:(NSUInteger)per_page andPage:(NSUInteger)page andSuccess:(void(^)(NSArray<Event *> * data))Success orFailure:(void(^)(NSString *message))Fail
 {
     [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:[NSString stringWithFormat:@"/users/%@/received_events",[AuthorizedUser sharedUser].login]] andMethod:@"GET" andParameters:@{@"per_page":[NSString stringWithFormat:@"%ld",per_page], @"page":[NSString stringWithFormat:@"%ld",page], @"access_token":[AuthorizedUser sharedUser].accessToken} andSuccess:^(NSData *data)
     {
@@ -152,7 +150,7 @@
         NSMutableArray<Event *> * news=[NSMutableArray array];
         if(error)
         {
-            NSLog(@"%@",error.localizedDescription);
+            Fail(error.localizedDescription);
             return;
         }
 
@@ -161,35 +159,16 @@
         {
             [news addObject:[controller eventFromDictionary:eventDictionary[i]]];
         }
-        completion(news);
+        Success(news);
     } orFailure:^(NSString *message)
     {
-        NSLog(@"%@",message);
+        Fail(message);
     }];
     
 }
 
 -(void)repo:(GitHubRepository *)repo isStarred:(void(^)(BOOL isStarred))isStarred;
 {
-//    NSMutableURLRequest * request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:[self.apiRef stringByAppendingPathComponent:[NSString stringWithFormat:@"/user/starred/%@?access_token=%@",repo.fullName,[AuthorizedUser sharedUser].accessToken]]]
-//                                                          cachePolicy:NSURLRequestUseProtocolCachePolicy
-//                                                      timeoutInterval:10];
-//    request.HTTPMethod=@"GET";
-//    [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
-//    {
-//        if([response isKindOfClass:[NSHTTPURLResponse class]])
-//        {
-//            NSHTTPURLResponse * httpResponse=(NSHTTPURLResponse *)response;
-//            if(httpResponse.statusCode==204)
-//            {
-//                isStarred(YES);
-//            }
-//            else
-//            {
-//                isStarred(NO);
-//            }
-//        }
-//    }];
     [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:[NSString stringWithFormat:@"/user/starred/%@",repo.fullName]] andMethod:@"GET" andParameters:@{@"access_token":[AuthorizedUser sharedUser].accessToken} andSuccess:^(NSData *data)
     {
         isStarred(YES);
@@ -207,7 +186,34 @@
     [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:[NSString stringWithFormat:@"/user/starred/%@",repo.fullName]] andMethod:@"DELETE" andParameters:@{@"access_token":[AuthorizedUser sharedUser].accessToken} andSuccess:Success orFailure:Fail];
 }
 
--(void)watchRepo:(GitHubRepository *)repo watchComplation:(void (^)(void))watch unWatchComplation:(void (^)(void))unwatch
+-(void)starRepo:(GitHubRepository *)repo starComplation:(void (^)(void))star unStarComplation:(void (^)(void))unstar andFailure:(void(^)(NSString *message))Fail
+{
+    [self repo:repo isStarred:^(BOOL isStarred)
+     {
+         if(!isStarred)
+         {
+             [self starRepo:repo andSuccess:^(NSData *data)
+             {
+                 star();
+             } orFailure:^(NSString *message)
+             {
+                 Fail(message);
+             }];
+         }
+         else
+         {
+             [self unStarRepo:repo andSuccess:^(NSData *data)
+              {
+                  unstar();
+              } orFailure:^(NSString *message)
+              {
+                  Fail(message);
+              }];
+         }
+     }];
+}
+
+-(void)watchRepo:(GitHubRepository *)repo watchComplation:(void (^)(void))watch unWatchComplation:(void (^)(void))unwatch andFailure:(void(^)(NSString *message))Fail
 {
     [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:[NSString stringWithFormat:@"/user/subscriptions/%@",repo.fullName]] andMethod:@"GET" andParameters:@{@"access_token":[AuthorizedUser sharedUser].accessToken} andSuccess:^(NSData *data)
      {
@@ -216,7 +222,7 @@
               unwatch();
           } orFailure:^(NSString *message)
           {
-              NSLog(@"%@",message);
+              Fail(message);
           }];
      } orFailure:^(NSString *message)
      {
@@ -225,12 +231,30 @@
               watch();
           } orFailure:^(NSString *message)
           {
-              NSLog(@"%@",message);
+              Fail(message);
           }];
      }];
 }
 
--(void)followersForUser:(GitHubUser *)user andPerPage:(NSUInteger)per_page andPage:(NSUInteger)page andComplation:(void (^)(NSMutableArray<GitHubUser *> *))completion
+-(void)sendCommentToIssue:(GitHubIssue *)issue withBody:(NSString *)body andSuccess:(void(^)(GitHubIssueComment *data))Success orFailure:(void(^)(NSString *message))Fail
+{
+    [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:[NSString stringWithFormat:@"/repos/%@/issues/%@/comments",issue.repo.fullName,[issue.issueNumber substringFromIndex:1]]] andMethod:@"POST" andParameters:@{@"access_token":[AuthorizedUser sharedUser].accessToken, @"body":body} andSuccess:^(NSData *data)
+    {
+        NSError * jsonError=nil;
+        NSDictionary * commentDict=[NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+        if(jsonError)
+        {
+            Fail(jsonError.localizedDescription);
+            return;
+        }
+        Success([GitHubIssueComment commentByDictionary:commentDict]);
+    } orFailure:^(NSString *message)
+    {
+        Fail(message);
+    }];
+}
+
+-(void)followersForUser:(GitHubUser *)user andPerPage:(NSUInteger)per_page andPage:(NSUInteger)page andSuccess:(void(^)(NSMutableArray<GitHubUser *> *data))Success orFailure:(void(^)(NSString *message))Fail
 {
     [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:[NSString stringWithFormat:@"/users/%@/followers",user.login]] andMethod:@"GET" andParameters:@{@"per_page":[NSString stringWithFormat:@"%ld",per_page],@"page":[NSString stringWithFormat:@"%ld",page]} andSuccess:^(NSData *data)
     {
@@ -239,7 +263,7 @@
         NSMutableArray<GitHubUser *> * followers=[NSMutableArray array];
         if(error)
         {
-            NSLog(@"%@",error.localizedDescription);
+            Fail(error.localizedDescription);
             return;
         }
         
@@ -248,14 +272,14 @@
             [followers addObject:[GitHubUser userFromDictionary:usersDictionary[i]]];
         }
         
-        completion(followers);
+        Success(followers);
     } orFailure:^(NSString *message)
     {
-        NSLog(@"%@",message);
+        Fail(message);
     }];
 }
 
--(void)followingForUser:(GitHubUser *)user andPerPage:(NSUInteger)per_page andPage:(NSUInteger)page andComplation:(void (^)(NSMutableArray<GitHubUser *> *))completion
+-(void)followingForUser:(GitHubUser *)user andPerPage:(NSUInteger)per_page andPage:(NSUInteger)page andSuccess:(void(^)(NSMutableArray<GitHubUser *> *data))Success orFailure:(void(^)(NSString *message))Fail
 {
     [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:[NSString stringWithFormat:@"/users/%@/following",user.login]] andMethod:@"GET" andParameters:nil andSuccess:^(NSData *data)
      {
@@ -264,7 +288,7 @@
          NSMutableArray<GitHubUser *> * followers=[NSMutableArray array];
          if(error)
          {
-             NSLog(@"%@",error.localizedDescription);
+             Fail(error.localizedDescription);
              return;
          }
          
@@ -273,10 +297,10 @@
              [followers addObject:[GitHubUser userFromDictionary:usersDictionary[i]]];
          }
          
-         completion(followers);
+         Success(followers);
      } orFailure:^(NSString *message)
      {
-         NSLog(@"%@",message);
+         Fail(message);
      }];
 }
 
@@ -327,14 +351,14 @@
     }];
 }
 
--(void)deleAuthUserWithCpmplation:(void (^)(void))completion
+-(void)deletAuthUserWithSuccess:(void(^)(void))Success orFailure:(void(^)(NSString *message))Fail
 {
     [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:[NSString stringWithFormat:@"/authorizations/%@",[AuthorizedUser sharedUser].ID]] andMethod:@"DELETE" andParameters:@{@"access_token":[AuthorizedUser sharedUser].accessToken, @"client_id":CLIENT_ID, @"client_secret":CLIENT_SECRET} andSuccess:^(NSData *data)
     {
-        completion();
+        Success();
     } orFailure:^(NSString *message)
     {
-        NSLog(@"%@",message);
+        Fail(message);
     }];
 }
 
@@ -344,7 +368,6 @@
     {
         NSError * Error=nil;
         NSArray * reposDicts=[NSJSONSerialization JSONObjectWithData:data options:0 error:&Error];
-        NSLog(@"%@",reposDicts);
         if(Error)
         {
             Fail(Error.localizedDescription);
@@ -389,20 +412,18 @@
      }];
 }
 
--(void)updateUserWithComplation:(void (^)(void))complation
+-(void)updateUserWithFailure:(void (^)(NSString *))Fail
 {
     [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:[NSString stringWithFormat:@"/user?access_token=%@",[AuthorizedUser sharedUser].accessToken]] andMethod:@"PATCH" andParameters:@{@"name":[AuthorizedUser sharedUser].name, @"email":[AuthorizedUser sharedUser].email, @"blog":[AuthorizedUser sharedUser].blog, @"company":[AuthorizedUser sharedUser].company, @"location":[AuthorizedUser sharedUser].location, @"bio":[AuthorizedUser sharedUser].bio} andSuccess:^(NSData *data)
     {
-        NSError * jsonError=nil;
-        NSDictionary * dict=[NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
-        NSLog(@"%@",dict);
+
     } orFailure:^(NSString *message)
     {
-        NSLog(@"%@",message);
+        Fail?Fail(message):NSLog(@"%@",message);
     }];
 }
 
--(void)eventsForUser:(GitHubUser *)user withPer_page:(NSUInteger)per_page andPage:(NSUInteger)page andComplation:(void (^)(NSArray<Event *> *))completion
+-(void)eventsForUser:(GitHubUser *)user withPer_page:(NSUInteger)per_page andPage:(NSUInteger)page Success:(void (^)(NSMutableArray<Event *> *))Success orFailure:(void (^)(NSString *))Fail
 {
     [super performRequestWithReference:[self.apiRef stringByAppendingPathComponent:[NSString stringWithFormat:@"/users/%@/events",user.login]] andMethod:@"GET" andParameters:@{@"per_page":[NSString stringWithFormat:@"%ld",per_page], @"page":[NSString stringWithFormat:@"%ld",page],@"access_token":[AuthorizedUser sharedUser].accessToken} andSuccess:^(NSData *data)
      {
@@ -411,7 +432,7 @@
          NSMutableArray<Event *> * news=[NSMutableArray array];
          if(error)
          {
-             NSLog(@"%@",error.localizedDescription);
+             Fail(error.localizedDescription);
              return;
          }
          
@@ -420,10 +441,10 @@
          {
              [news addObject:[controller eventFromDictionary:eventDictionary[i]]];
          }
-         completion(news);
+         Success(news);
      } orFailure:^(NSString *message)
      {
-         NSLog(@"%@",message);
+         Fail(message);
      }];
 }
 

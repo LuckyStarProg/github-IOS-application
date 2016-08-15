@@ -20,9 +20,9 @@
 #import "AuthorizedUser.h"
 #import "MenuTableViewCell.h"
 #import "IssuesViewController.h"
-#import "IssueViewController.h"
 #import "IssueTableViewController.h"
-
+#import "usersListViewController.h"
+#import "AlertController.h"
 @implementation GitHubContentManager
 
 +(GitHubContentManager *)sharedManager
@@ -46,24 +46,13 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addReposIssues:) name:@"RepoIssues" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addStarredRepos:) name:@"addStarredRepos" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addIssueComments:) name:@"addIssueComments" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addFollowing:) name:@"Following" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addFollowers:) name:@"Followers" object:nil];
 }
 
 -(void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
--(void)showAllertWithMessage:(NSString *)message onViewController:(UIViewController *)controller
-{
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                   message:message
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {}];
-    
-    [alert addAction:defaultAction];
-    [controller presentViewController:alert animated:YES completion:nil];
 }
 
 -(void)addOwnRepos:(NSNotification *)not
@@ -75,7 +64,7 @@
          NSArray * repoArray=[NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
          if(error)
          {
-             [self showAllertWithMessage:error.description onViewController:repoList];
+             [AlertController showAlertOnVC:repoList withMessage:error.description];
              return;
          }
          if(repoArray)
@@ -92,7 +81,7 @@
      {
          dispatch_async(dispatch_get_main_queue(), ^
                         {
-                            [self showAllertWithMessage:message onViewController:repoList];
+                            [AlertController showAlertOnVC:repoList withMessage:message];
                         });
      }];
 }
@@ -112,7 +101,7 @@
          NSDictionary * dict=[NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
          if(error)
          {
-             [self showAllertWithMessage:error.description onViewController:repoList];
+             [AlertController showAlertOnVC:repoList withMessage:error.description];
              return;
          }
          
@@ -133,7 +122,7 @@
      {
          dispatch_async(dispatch_get_main_queue(), ^
                         {
-                            [self showAllertWithMessage:message onViewController:repoList];
+                            [AlertController showAlertOnVC:repoList withMessage:message];
                         });
      }];
 }
@@ -141,68 +130,86 @@
 -(void)addOwnEvens:(NSNotification *)not
 {
     NewsViewController * eventsViewController=[not object];
-    [[GitHubApiController sharedController] eventsForUser:eventsViewController.owner withPer_page:15 andPage:eventsViewController.eventsCount/15+1 andComplation:^(NSArray<Event *> * events)
-     {
-         [eventsViewController addEvents:events];
-         if(events.count<15)
-         {
-             eventsViewController.isAll=YES;
-         }
-     }];
+    [[GitHubApiController sharedController] eventsForUser:eventsViewController.owner withPer_page:40 andPage:eventsViewController.eventsCount/40+1 Success:^(NSMutableArray<Event *> *events)
+    {
+        [eventsViewController addEvents:events];
+        if(events.count<40)
+        {
+            eventsViewController.isAll=YES;
+        }
+    } orFailure:^(NSString * message)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^
+                       {
+                        [AlertController showAlertOnVC:eventsViewController withMessage:message];
+                       });
+    }];
 }
 
 -(void)addResivesNews:(NSNotification *)not
 {
     NewsViewController * eventsViewController=[not object];
-    [[GitHubApiController sharedController] newsWithPer_page:15 andPage:eventsViewController.eventsCount/15+1 andComplation:^(NSArray<Event *> * events)
-     {
-         [eventsViewController addEvents:events];
-         if(events.count<15)
-         {
-             eventsViewController.isAll=YES;
-         }
-     }];
+    [[GitHubApiController sharedController] newsWithPer_page:40 andPage:eventsViewController.eventsCount/40+1 andSuccess:^(NSArray<Event *> *events)
+    {
+        [eventsViewController addEvents:events];
+        if(events.count<40)
+        {
+            eventsViewController.isAll=YES;
+        }
+    } orFailure:^(NSString *message)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^
+                       {
+                           [AlertController showAlertOnVC:eventsViewController withMessage:message];
+                       });
+    }];
 }
 
 -(void)addOwndIssues:(NSNotification *)not
 {
     IssuesViewController * issuesController=[not object];
-    [[GitHubApiController sharedController] issuesWithState:issuesController.state andPer_Page:20 andPage:issuesController.issuesCount/20+1 Success:^(NSMutableArray<GitHubIssue *> * issues)
+    [[GitHubApiController sharedController] issuesWithState:issuesController.state andPer_Page:40 andPage:issuesController.issuesCount/40+1 Success:^(NSMutableArray<GitHubIssue *> * issues)
      {
          [issuesController addIssues:issues];
-         if(issues.count<20)
+         if(issues.count<40)
          {
              issuesController.isAll=YES;
          }
      } orFailure:^(NSString * message)
      {
-         NSLog(@"%@",message);
+         dispatch_async(dispatch_get_main_queue(), ^
+                        {
+                            [AlertController showAlertOnVC:issuesController withMessage:message];
+                        });
      }];
 }
 
 -(void)addReposIssues:(NSNotification *)not
 {
     IssuesViewController * issuesController=[not object];
-    [[GitHubApiController sharedController] issuesForRepo:issuesController.repo withState:issuesController.state andPer_Page:20 andPage:issuesController.issuesCount/20+1 Success:^(NSMutableArray<GitHubIssue *> * issues)
+    [[GitHubApiController sharedController] issuesForRepo:issuesController.repo withState:issuesController.state andPer_Page:40 andPage:issuesController.issuesCount/40+1 Success:^(NSMutableArray<GitHubIssue *> * issues)
      {
          [issuesController addIssues:issues];
-         if(issues.count<20)
+         if(issues.count<40)
          {
              issuesController.isAll=YES;
          }
      } orFailure:^(NSString * message)
      {
-         NSLog(@"%@",message);
+         dispatch_async(dispatch_get_main_queue(), ^
+                        {
+                            [AlertController showAlertOnVC:issuesController withMessage:message];
+                        });
      }];
 }
 
 -(void)addStarredRepos:(NSNotification *)not
 {
     repoListViewController * repoListController=[not object];
-    [[GitHubApiController sharedController] starredReposWithPer_Page:15 andPage:repoListController.repoCount/15+1 andSuccess:^(NSMutableArray<GitHubRepository *> * repos)
+    [[GitHubApiController sharedController] starredReposWithPer_Page:40 andPage:repoListController.repoCount/40+1 andSuccess:^(NSMutableArray<GitHubRepository *> * repos)
      {
          [repoListController addRepos:repos];
-         if(repos.count<15)
+         if(repos.count<40)
          {
              repoListController.isAll=YES;
          }
@@ -212,7 +219,7 @@
      {
          dispatch_async(dispatch_get_main_queue(), ^
                         {
-                            [self showAllertWithMessage:message onViewController:repoListController];
+                            [AlertController showAlertOnVC:repoListController withMessage:message];
                         });
      }];
 }
@@ -223,14 +230,56 @@
     [[GitHubApiController sharedController] commentsOnIssue:issueViewController.issue withPer_Page:10 andPage:issueViewController.commentsCount/10+1 Success:^(NSMutableArray<GitHubIssueComment *> * comments)
      {
          [issueViewController addComments:comments];
-         if(comments.count<15)
+         if(comments.count<10)
          {
              issueViewController.isAll=YES;
          }
      } orFailure:^(NSString * message)
      {
-         NSLog(@"%@",message);
+         dispatch_async(dispatch_get_main_queue(), ^
+                        {
+                            [AlertController showAlertOnVC:issueViewController withMessage:message];
+                        });
      }];
+}
+
+-(void)addFollowers:(NSNotification *)not
+{
+    usersListViewController * usersList=[not object];
+    [[GitHubApiController sharedController] followersForUser:usersList.parentUser andPerPage:40 andPage:usersList.usersCount/40+1 andSuccess:^(NSMutableArray<GitHubUser *> *users)
+    {
+        [usersList addUsers:users];
+        if(users.count<40)
+        {
+            usersList.isAllUsers=YES;
+        }
+    } orFailure:^(NSString *message)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^
+                       {
+                           [AlertController showAlertOnVC:usersList withMessage:message];
+                       });
+    }];
+
+}
+
+-(void)addFollowing:(NSNotification *)not
+{
+    usersListViewController * usersList=[not object];
+    [[GitHubApiController sharedController] followingForUser:usersList.parentUser andPerPage:40 andPage:usersList.usersCount/40+1 andSuccess:^(NSMutableArray<GitHubUser *> *users)
+    {
+        [usersList addUsers:users];
+        if(users.count<20)
+        {
+            usersList.isAllUsers=YES;
+        }
+    } orFailure:^(NSString *message)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^
+                       {
+                           [AlertController showAlertOnVC:usersList withMessage:message];
+                       });
+    }]; //followingForUser:usersList.parentUser andPerPage:20 andPage:usersList.usersCount/20+1 andComplation:^(NSMutableArray<GitHubUser *> * users)
 }
 
 @end

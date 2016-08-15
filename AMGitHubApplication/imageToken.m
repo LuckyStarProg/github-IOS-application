@@ -22,7 +22,6 @@
     NSString * str=[self.patternValue substringFromIndex:valueRange.location+valueRange.length];
     NSRange valueRange2=[str rangeOfString:@"\""];
     self.value=[str substringToIndex:valueRange2.location];
-    //self.value=[self.inputValue substringWithRange:NSMakeRange(range.location+3, range.length-3)];
     return range;
 }
 

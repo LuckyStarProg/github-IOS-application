@@ -9,13 +9,6 @@
 #import "RepoAvatarView.h"
 
 @implementation RepoAvatarView
-
-//-(void)awakeFromNib
-//{
-//    [super awakeFromNib];
-//    self.imageView.layer.cornerRadius=37;
-//}
-
 -(UIImageView *)imageView
 {
     _imageView.layer.cornerRadius=40;

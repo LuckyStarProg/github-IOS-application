@@ -7,145 +7,274 @@
 //
 
 #import "IssueTableViewController.h"
-#import "testView.h"
-#import "UIColor+GitHubColor.h"
-#import "AMGitHubCommentParser.h"
-#import "bodyCollectionViewCell.h"
-#import "AMDataManager.h"
-#import "IssuTableViewCell.h"
 
+//Warning: Кол-во костылей выше нормы! Будьте осторожны !
 @interface IssueTableViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic)UIView * footerView;
-@property (nonatomic)testView * header;
-@property (nonatomic)NSMutableArray<UIView *>* bodyView;
-@property (nonatomic)NSMutableArray<NSMutableArray<UIView *>*> * subViews;
-@property (nonatomic)NSMutableArray<NSDictionary *>* tokens;
+@property (nonatomic)IssueHeaderReusableView * header;
+@property (nonatomic)UIView * bodyView;
+@property (nonatomic)NSMutableArray<UIView*> * subViews;
+@property (nonatomic)NSDictionary * tokens;
 @end
 
 @implementation IssueTableViewController
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.comments.count+1;
+    return self.comments.count+3;
 }
 
-// Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
-// Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
+- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath
+{
+    if([cell isKindOfClass:[IssuTableViewCell class]])
+    {
+        for(UIView * view in self.subViews)
+        {
+            [view removeFromSuperview];
+        }
+    }
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    if(indexPath.row-2<self.comments.count)
+    {
+        UserProfileViewController * profile=[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"profile"];
+        [[GitHubApiController sharedController] userFromLogin:self.comments[indexPath.row-2].user.login andComplation:^(GitHubUser * user)
+         {
+             user.avatarPath=self.comments[indexPath.row-2].user.avatarPath;
+             profile.user=user;
+         }];
+        [self.navigationController pushViewController:profile animated:YES];
+    }
+    
+    if(indexPath.row==self.comments.count+2)
+    {
+        AddCommentViewController * addCommentViewController=[[AddCommentViewController alloc] init];
+        [self presentViewController:[[UINavigationController alloc] initWithRootViewController:addCommentViewController] animated:YES completion:nil];
+    }
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration;
+{
+    if(toInterfaceOrientation==UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation==UIInterfaceOrientationLandscapeRight)
+    {
+        self.footerView.bounds=CGRectMake(0, self.tableView.bounds.size.width/2, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
+    }
+    else
+    {
+        self.footerView.frame=CGRectMake(0, self.tableView.bounds.size.height/2, self.tableView.bounds.size.width, [UIScreen mainScreen].bounds.size.height*2);
+    }
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString * identifier=@"reuse";
-    IssuTableViewCell * cell;//=[tableView dequeueReusableCellWithIdentifier:identifier];
-    if(!cell)
+    static NSString * identifier=@"reuseFirst";
+    static NSString * commentIdentifier=@"commentIdentifier";
+    static NSString * editIdentifier=@"edit";
+    static NSString * separatorIdentifier=@"separator";
+    
+    if(indexPath.row==0)
     {
-        cell=[[IssuTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-    }
-    //cell.subviewsnil;
-    [self.subViews[indexPath.row] removeAllObjects];
-    if(indexPath.row-1>=0)
-    {
-        [self setCommentlayoutForIndex:indexPath.row-1];
-    }
-    [self setBody:self.tokens[indexPath.row] and:self.bodyView[indexPath.row] and:self.subViews[indexPath.row]];
-        NSUInteger i=self.subViews[indexPath.row].count;
-        NSLog(@"%@",cell.subviews);
+        IssuTableViewCell * cell=[tableView dequeueReusableCellWithIdentifier:identifier];
+        if(!cell)
+        {
+            cell=[[IssuTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        }
+        [self.subViews removeAllObjects];
+        [self setBody:self.tokens and:self.bodyView and:self.subViews];
+        NSUInteger i=self.subViews.count;
+
             for(NSInteger k=0;k<i;++k)
             {
-                [cell addSubview:self.bodyView[indexPath.row].subviews.firstObject];
-                cell.isAddContent=YES;
-                NSLog(@"%ld",self.bodyView[indexPath.row].subviews.count);
+                [cell addSubview:self.bodyView.subviews.firstObject];
             }
-         NSLog(@"%@",cell.subviews);
         cell.backgroundColor=[UIColor whiteColor];
-    
-    return cell;
+            return cell;
+    }
+    else if(indexPath.row==1)
+    {
+        UITableViewCell * cell=[tableView dequeueReusableCellWithIdentifier:separatorIdentifier];
+        if(!cell)
+        {
+            cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:separatorIdentifier];
+        }
+        cell.textLabel.text=@"Comments:";
+        cell.textLabel.font=[UIFont systemFontOfSize:12];
+        cell.backgroundColor=[UIColor SeparatorColor];
+        return cell;
+    }
+    else if(self.comments.count+2>indexPath.row)
+    {
+        CommentTableViewCell * customCell=[tableView dequeueReusableCellWithIdentifier:commentIdentifier];
+        if(!customCell)
+        {
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"CommentTableViewCell" owner:self options:nil];
+            customCell=[nib objectAtIndex:0];
+        }
+        customCell.nameLabel.text=self.comments[indexPath.row-2].user.login;
+        customCell.dateLabel.text=self.comments[indexPath.row-2].createdDate;
+        if(!self.comments[indexPath.row-2].user.avatarPath)
+        {
+            AMDataManager * manager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
+            [manager loadDataWithURLString:self.comments[indexPath.row-2].user.avatarRef andSuccess:^(NSString * path)
+            {
+                self.comments[indexPath.row-2].user.avatarPath=path;
+                dispatch_async(dispatch_get_main_queue(), ^
+                {
+                    customCell.avatarView.image=[UIImage imageWithContentsOfFile:path];
+                    [customCell setNeedsLayout];
+                });
+                
+            } orFailure:^(NSString * message)
+            {
+                NSLog(@"%@",message);
+            }];
+        }
+        else
+        {
+            customCell.avatarView.image=[UIImage imageWithContentsOfFile:self.comments[indexPath.row-2].user.avatarPath];
+        }
+        customCell.textView.text=self.comments[indexPath.row-2].body;
+        customCell.textView.contentInset = UIEdgeInsetsMake(0,0,0,0);
+        
+        return customCell;
+    }
+    else
+    {
+        UITableViewCell * cell=[tableView dequeueReusableCellWithIdentifier:editIdentifier];
+        if(!cell)
+        {
+            cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:editIdentifier];
+        }
+        cell.imageView.image=[UIImage imageNamed:@"brand"];
+        cell.textLabel.text=@"Add comment";
+        cell.textLabel.font=[UIFont systemFontOfSize:12];
+        return cell;
+    }
 }
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    self.footerView.frame=CGRectMake(self.footerView.frame.origin.x, -self.tableView.contentOffset.y, self.footerView.frame.size.width, self.footerView.frame.size.height);
-}
-
--(void)setCommentlayoutForIndex:(NSUInteger)index
-{
-    UIImageView * image=[[UIImageView alloc] initWithFrame:CGRectMake(8, 8, 30, 30)];
-    image.clipsToBounds=YES;
-    image.autoresizesSubviews=YES;
-    image.opaque=YES;
-    image.clearsContextBeforeDrawing=YES;
-    image.layer.cornerRadius=15.0;
-    
-    UILabel * nameLabel=[[UILabel alloc] initWithFrame:CGRectMake(38, 8, self.view.bounds.size.width-38, 15.0)];
-    nameLabel.text=self.comments[index].user.login;
-    nameLabel.font=[UIFont systemFontOfSize:14.0];
-    
-    UILabel * dateLabel=[[UILabel alloc] initWithFrame:CGRectMake(38, 23, self.view.bounds.size.width-38, 15.0)];
-    dateLabel.text=self.comments[index].createdDate;
-    dateLabel.font=[UIFont systemFontOfSize:14.0];
-    
-    [self.bodyView[index+1] addSubview:image];
-    [self.bodyView[index+1] addSubview:nameLabel];
-    [self.bodyView[index+1] addSubview:dateLabel];
-    
-    [self.subViews[index+1] addObject:nameLabel];
-    [self.subViews[index+1] addObject:dateLabel];
-}
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-        CGFloat height=0;
-        for(NSUInteger i=0;i<self.subViews[indexPath.row].count;++i)
+    CGFloat height=0;
+    if(indexPath.row==0)
+    {
+        for(NSUInteger i=0;i<self.subViews.count;++i)
         {
-            height+=self.subViews[indexPath.row][i].bounds.size.height+8;
+            height+=self.subViews[i].bounds.size.height+8;
         }
+    }
+    else if(indexPath.row==1)
+    {
+        height=30;
+    }
+    else if(self.comments.count+2>indexPath.row)
+    {
+        if(self.comments.count>0)
+        {
+            height=[CommentTableViewCell heightForText:self.comments[indexPath.row-2].body]+50;
+        }
+    }
+    else
+    {
+        height=30;
+    }
         return height;
 }
 
-- (void)viewDidLoad {
+-(void)refreshDidSwipe
+{
+    [self.comments removeAllObjects];
+    self.isAll=NO;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"addIssueComments" object:self];
+}
+
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.tableView.delegate=self;
     self.tableView.dataSource=self;
     self.isAll=NO;
     UIView * upperView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
     upperView.backgroundColor=[UIColor GitHubColor];
-    self.tokens=[NSMutableArray array];
+    [self.searchBar removeFromSuperview];
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"CommentTableViewCell" bundle:nil] forCellReuseIdentifier:@"commentIdentifier"];
     
     self.tableView.backgroundView=upperView;
     self.comments=[NSMutableArray array];
-    self.footerView=[[UIView alloc] initWithFrame:CGRectMake(0, self.tableView.bounds.size.height/3.3, self.tableView.bounds.size.width, [UIScreen mainScreen].bounds.size.height*2)];
+    self.footerView=[[UIView alloc] initWithFrame:CGRectMake(0, self.tableView.bounds.size.height/3, self.tableView.bounds.size.width, [UIScreen mainScreen].bounds.size.height*2)];
     self.footerView.backgroundColor=[UIColor SeparatorColor];
     [upperView addSubview:self.footerView];
     
-    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"testView"owner:self options:nil];
+    [self.refresh addTarget:self action:@selector(refreshDidSwipe) forControlEvents:UIControlEventValueChanged];
+    self.refresh.tintColor=[UIColor whiteColor];
+    
+    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"IssueHeaderReusableView"owner:self options:nil];
     self.header=[nib objectAtIndex:0];
     self.header.bounds=CGRectMake(0, 0, self.view.bounds.size.width, 280);
     self.header.frame=CGRectMake(0, 0, self.view.bounds.size.width, 280);
     self.tableView.tableHeaderView=self.header;
+    self.tableView.tableFooterView=[UIView new];
     
-    self.bodyView=[NSMutableArray array];
-    [self.bodyView addObject:[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, CGFLOAT_MAX)]];
+    self.header.nameLabel.text=self.issue.title;
+    self.header.desrLabel.text=self.issue.createDate;
+    AMDataManager * manager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
+    [manager loadDataWithURLString:self.issue.user.avatarRef andSuccess:^(NSString * path)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^
+        {
+            self.header.avatarView.image=[UIImage imageWithContentsOfFile:path];
+        });
+    } orFailure:^(NSString *message)
+    {
+        NSLog(@"%@",message);
+    }];;
+    
+    self.bodyView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, CGFLOAT_MAX)];
     self.subViews=[NSMutableArray array];
-    [self.subViews addObject:[NSMutableArray array]];
     [self parseDataForBody:self.issue.body];
-    //[self setBody:self.issue.body and:self.bodyView[0] and:self.subViews[0]];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"addIssueComments" object:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(AddAuthUserComment:) name:@"EndAddComment" object:nil];
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)AddAuthUserComment:(NSNotification *)not
+{
+    NSString * comment=[not object];
+    [[GitHubApiController sharedController]sendCommentToIssue:self.issue withBody:comment andSuccess:^(GitHubIssueComment *comment)
+    {
+        comment.user.avatarPath=[AuthorizedUser sharedUser].avatarPath;
+        dispatch_async(dispatch_get_main_queue(), ^
+                       {
+                           [self.comments addObject:comment];
+                           [self.tableView reloadData];
+                       });
+    } orFailure:^(NSString *message)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^
+                       {
+                           [AlertController showAlertOnVC:self withMessage:message];
+                       });
+    }];
 }
 
 -(void)addComments:(NSArray<GitHubIssueComment *> *)comments
 {
     NSMutableArray * indexPaths=[NSMutableArray array];
-    NSUInteger k=0;
     for(NSUInteger i=self.comments.count;i<self.comments.count+comments.count;++i)
     {
         [indexPaths addObject:[NSIndexPath indexPathForRow:i+1 inSection:0]];
-        [self.bodyView addObject:[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, CGFLOAT_MAX)]];
-        [self.subViews addObject:[NSMutableArray array]];
-        [self parseDataForBody:comments[k].body];
-        ++k;
-        //[self setBody:comments[i-self.comments.count].body and:self.bodyView.lastObject and:self.subViews.lastObject];
     }
     [self.comments addObjectsFromArray:comments];
     [self.tableView reloadData];
-    //[self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+    [self.refresh endRefreshing];
 }
 
 -(NSUInteger)commentsCount
@@ -156,26 +285,19 @@
 -(void)parseDataForBody:(NSString *)body
 {
     AMGitHubCommentParser * parser=[[AMGitHubCommentParser alloc] initWithTokens:[NSArray arrayWithObjects:[[imageToken alloc] init],[[scrollableToken alloc] init], nil]];
-    [self.tokens addObject:[parser parseString:body]];
+    self.tokens=[parser parseString:body];
 }
 
 -(void)setBody:(NSDictionary *)tokens and:(UIView *)view and:(NSMutableArray<UIView *> *)bodyViews
 {
-    __block NSUInteger maxCount=0;
-    __block NSArray<NSString *> * array;
-    __block NSString * maxStr;
-    __block CGFloat width;
-    //AMGitHubCommentParser * parser=[[AMGitHubCommentParser alloc] initWithTokens:[NSArray arrayWithObjects:[[imageToken alloc] init],[[scrollableToken alloc] init], nil]];
-    //[self.collectionView registerClass:[self.cellView class] forCellWithReuseIdentifier:@"bodyCell"];
-    //NSDictionary * tokens= [parser parseString:body];
+    NSUInteger maxCount=0;
+    NSArray<NSString *> * array;
+    NSString * maxStr;
+    CGFloat width;
     NSArray * allkeys=tokens.allKeys;
     NSArray * allValues=tokens.allValues;
     CGFloat bodyHeight=0;
-//    for(NSUInteger i=0;i<bodyViews.count;++i)
-//    {
-//        bodyHeight+=bodyViews[i].bounds.size.height+8;
-//    }
-    NSLog(@"%@",view.subviews);
+    
     for(NSUInteger i=0;i<tokens.count;++i)
     {
         if([allkeys[i] containsString:@"scroll"])
@@ -189,21 +311,22 @@
                     maxStr=str;
                 }
             }
-            NSLog(@"%@",maxStr);
+
             width=[bodyCollectionViewCell widthByString:maxStr]+20;
             UITextView * tempText=[[UITextView alloc] initWithFrame:CGRectMake(0, 0, width, CGFLOAT_MAX)];
             [tempText setFont:[UIFont systemFontOfSize:12.0]];
             tempText.text=allValues[i];
             
             CGFloat height=tempText.contentSize.height;
-            UIScrollView * scrollView=[[UIScrollView alloc] initWithFrame:CGRectMake(8,bodyHeight+view.subviews.lastObject.frame.origin.y+view.subviews.lastObject.bounds.size.height+8, self.view.bounds.size.width-8, height)];
-            NSLog(@"%f",tempText.contentSize.height);
+            UIScrollView * scrollView=[[UIScrollView alloc] initWithFrame:CGRectMake(8,bodyHeight+view.subviews.lastObject.frame.origin.y+view.subviews.lastObject.bounds.size.height+8, self.view.bounds.size.width-16, height)];
+
             UITextView * textView=[[UITextView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-            NSLog(@"Widtch:%f   Height:%f",textView.bounds.size.width, textView.bounds.size.height);
+            textView.editable=NO;
+            textView.dataDetectorTypes=UIDataDetectorTypeLink|UIDataDetectorTypeAddress|UIDataDetectorTypePhoneNumber;
+            
             textView.text=allValues[i];
             [textView setFont:[UIFont systemFontOfSize:12.0]];
             textView.backgroundColor=[UIColor colorWithWhite:0 alpha:0.0];
-            NSLog(@"%f",textView.contentSize.height);
             scrollView.contentSize=CGSizeMake(width, height);
             scrollView.backgroundColor=[UIColor scrollCollor];
             scrollView.layer.cornerRadius=5.0;
@@ -213,7 +336,7 @@
         }
         else if([allkeys[i] containsString:@"imageRef"])
         {
-            UIImageView * imageView=[[UIImageView alloc] initWithFrame:CGRectMake(8, bodyHeight+view.subviews.lastObject.frame.origin.y+view.subviews.lastObject.bounds.size.height+8, self.view.bounds.size.width, 300)];
+            UIImageView * imageView=[[UIImageView alloc] initWithFrame:CGRectMake(8, bodyHeight+view.subviews.lastObject.frame.origin.y+view.subviews.lastObject.bounds.size.height+8, self.view.bounds.size.width-16, 300)];
             AMDataManager * manager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
             [manager loadDataWithURLString:allValues[i] andSuccess:^(NSString * path)
              {
@@ -242,8 +365,11 @@
                      }
                  }
                  imageView.bounds=CGRectMake(0, 0, width, height);
-                 NSLog(@"%f   %f",imageView.bounds.size.height,imageView.bounds.size.width);
-                 imageView.image=[UIImage imageWithContentsOfFile:path];
+
+                 dispatch_async(dispatch_get_main_queue(), ^
+                 {
+                        imageView.image=[UIImage imageWithContentsOfFile:path];
+                 });
              } orFailure:^(NSString * message)
              {
                  NSLog(@"%@",message);
@@ -253,10 +379,8 @@
         }
         else
         {
-            UILabel * label=[[UILabel alloc] initWithFrame:CGRectMake(8, bodyHeight+view.subviews.lastObject.frame.origin.y+view.subviews.lastObject.bounds.size.height+8, self.view.bounds.size.width+8, [bodyCollectionViewCell heightByString:allValues[i]])];
-            NSLog(@"%@",label);
-            NSLog(@"%f",view.subviews.lastObject.frame.origin.y);
-            NSLog(@"%f",view.subviews.lastObject.bounds.size.height);
+            UILabel * label=[[UILabel alloc] initWithFrame:CGRectMake(8, bodyHeight+view.subviews.lastObject.frame.origin.y+view.subviews.lastObject.bounds.size.height+8, self.view.bounds.size.width-16, [bodyCollectionViewCell heightByString:allValues[i]])];
+
             label.text=allValues[i];
             label.backgroundColor=[UIColor whiteColor];
             label.textColor=[UIColor blackColor];
@@ -268,13 +392,8 @@
         }
         self.isAll=YES;
     }
-    NSLog(@"%@",view.subviews);
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 
 @end

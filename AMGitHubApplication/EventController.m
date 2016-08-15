@@ -23,7 +23,12 @@
                      [[IssuesEvent alloc] init],
                      [[ForkEvent alloc] init],
                      [[WatchEvent alloc] init],
-                     [[MemberEvent alloc] init], nil];
+                     [[MemberEvent alloc] init],
+                     [[PullRequestEvent alloc] init],
+                     [[DeleteEvent alloc] init],
+                     [[CommitCommentEvent alloc] init],
+                     [[PullRequestReviewCommentEvent alloc] init],
+                     [[ReleaseEvent alloc] init],nil];
     }
     return self;
 }
@@ -35,10 +40,10 @@
         NSString * str=dictionary[@"type"];
         if([event.type isEqualToString:str])
         {
-            NSLog(@"%@",dictionary);
             return [event eventFromDictionary:dictionary];
         }
     }
-    return [[Event alloc] init];
+    Event * event=[[Event alloc] init];
+    return [event eventFromDictionary:dictionary];
 }
 @end

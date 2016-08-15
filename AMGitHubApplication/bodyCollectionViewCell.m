@@ -13,7 +13,6 @@
 -(void)awakeFromNib
 {
     [super awakeFromNib];
-    self.scrolView.delegate=self;
 }
 
 - (void)scrollViewDidScroll:(id)scrollView

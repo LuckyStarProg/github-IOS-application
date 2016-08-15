@@ -14,7 +14,7 @@
 +(GitHubRepository *)repositoryFromDictionary:(NSDictionary *)dictionary
 {
     GitHubRepository * result=[[GitHubRepository alloc] init];
-    NSLog(@"%@",dictionary);
+
     result.ID=(NSUInteger)dictionary[@"id"];
     result.name=[NSString stringWithFormat:@"%@",dictionary[@"name"]];
     result.fullName=[NSString stringWithFormat:@"%@",dictionary[@"full_name"]];

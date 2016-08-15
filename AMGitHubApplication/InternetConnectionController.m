@@ -40,7 +40,6 @@
     NSString * errorStr=nil;
     NSInteger status=httpResponse.statusCode;
     
-    NSLog(@"%@",response);
     if(status>=200 && status<300)
     {
         //success
@@ -70,7 +69,6 @@
     for(int i=0;i<keys.count;++i)
     {
         [result addObject:[NSString stringWithFormat:@"%@=%@",[keys[i] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]],[values[i] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]];
-        NSLog(@"%@",values[i]);
     }
     
     return [result componentsJoinedByString:@"&"];
@@ -87,9 +85,11 @@
                                             cachePolicy:NSURLRequestUseProtocolCachePolicy
                                         timeoutInterval:10];
     request.HTTPMethod=method;
-    //[request setValue:@"repo" forHTTPHeaderField:@"X-OAuth-Scopes"];
-    //[request setValue:@"repo" forHTTPHeaderField:@"X-Accepted-OAuth-Scopes"];
+    [request setValue:@"repo, user" forHTTPHeaderField:@"X-OAuth-Scopes"];
+    [request setValue:@"repo, user" forHTTPHeaderField:@"X-Accepted-OAuth-Scopes"];
     
+    
+// Механизм базовой авторизации!
 //    NSString *authenticationString = @"LuckyStarProg:Allah2911";
 //    NSData *authenticationData = [authenticationString dataUsingEncoding:NSASCIIStringEncoding];
 //    NSString *authenticationValue = [authenticationData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
@@ -103,8 +103,14 @@
 //    request.HTTPBody=data;
 //    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
 //    [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)data.length] forHTTPHeaderField:@"Content-Length"];
+    
     if(params)
     {
+        NSString * token=[params objectForKey:@"access_token"];
+        if(token)
+        {
+            [request setValue:[NSString stringWithFormat:@"token %@",token] forHTTPHeaderField:@"Authorization"];
+        }
         if([method  isEqualToString:@"POST"] || [method  isEqualToString:@"PATCH"])
         {
             NSError * serialisationError=nil;
@@ -121,7 +127,6 @@
                 return;
             }
             
-            NSLog(@"%ld",data.length);
             request.HTTPBody=data;
             [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
             [request setValue:[NSString stringWithFormat:@"%ld",data.length] forHTTPHeaderField:@"Content-Length"];
@@ -132,16 +137,10 @@
             NSString * encodedStr=[self encodeString:params];
             NSString * ar=[NSString stringWithFormat:@"%@?%@",reference,encodedStr];
             NSURL * url=[NSURL URLWithString:ar];
-            NSLog(@"%@",url);
             request.URL=url;
         }
     }
-//    NSData * data=[@"LuckyStarProg:Allah2911" dataUsingEncoding:NSUTF8StringEncoding];
-//    request.HTTPBody=data;
-//    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-//    [request setValue:[NSString stringWithFormat:@"%ld",data.length] forHTTPHeaderField:@"Content-length"];
-//    [request setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-    NSLog(@"%@",request);
+
     [[[NSURLSession sharedSession] dataTaskWithRequest:request
                                     completionHandler:^
      (NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
@@ -157,9 +156,6 @@
             Error(@"Data is nil!");
             return;
         }
-//        NSError * Error=nil;
-//        NSDictionary * dict=[NSJSONSerialization JSONObjectWithData:data options:0 error:&Error];
-//        NSLog(@"%@",dict);
         
         dispatch_async(dispatch_get_main_queue(), ^
         {

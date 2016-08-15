@@ -9,6 +9,16 @@
 #import "BaseViewController.h"
 #import "GitHubIssue.h"
 #import "GitHubIssueComment.h"
+#import "AuthorizedUser.h"
+#import "IssueHeaderReusableView.h"
+#import "UIColor+GitHubColor.h"
+#import "AMGitHubCommentParser.h"
+#import "bodyCollectionViewCell.h"
+#import "AMDataManager.h"
+#import "IssuTableViewCell.h"
+#import "CommentTableViewCell.h"
+#import "AddCommentViewController.h"
+#import "UserProfileViewController.h"
 
 @interface IssueTableViewController : BaseViewController
 
@@ -17,7 +27,7 @@
 @property (nonatomic)NSUInteger commentsCount;
 @property (nonatomic)BOOL isAll;
 @property (nonatomic)NSString * notification;
-//@property (nonatomic)UITableView * tableView;
+
 -(void)addComments:(NSArray<GitHubIssueComment *> *)comments;
 
 @end

@@ -7,18 +7,29 @@
 //
 
 #import "usersListViewController.h"
-#import "AMDataManager.h"
-#import "UIColor+GitHubColor.h"
 
-@interface usersListViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface usersListViewController ()<UITableViewDataSource, UITableViewDelegate,UISearchBarDelegate>
 @property (nonatomic)UIView * shadowView;
 @property (nonatomic)AMDataManager * dataManager;
 @property (nonatomic)NSString * notification;
 @property (nonatomic)NSMutableArray<GitHubUser *> * users;
+@property (nonatomic)NSMutableArray<GitHubUser *> * searchedUseers;
+@property (nonatomic,weak)NSMutableArray<GitHubUser *> * showedUsers;
 @end
 
 @implementation usersListViewController
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    UserProfileViewController * profile=[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"profile"];
+    [[GitHubApiController sharedController] userFromLogin:self.users[indexPath.row].login andComplation:^(GitHubUser * user)
+     {
+         user.avatarPath=self.users[indexPath.row].avatarPath;
+         profile.user=user;
+     }];
+    [self.navigationController pushViewController:profile animated:YES];
+}
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 40;
@@ -28,9 +39,9 @@
 {
     UITableViewCell * cell=[tableView dequeueReusableCellWithIdentifier:@"reusebleCell"];
     
-    if(!self.isAllUsers && indexPath.row==self.users.count-3)
+    if(!self.isAllUsers && indexPath.row==self.users.count-3 && self.users==self.showedUsers)
     {
-        [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
     }
     
     if(!cell)
@@ -42,8 +53,8 @@
         cell.imageView.clearsContextBeforeDrawing=YES;
     }
     cell.imageView.image=[UIImage imageNamed:@"avatar"];
-    cell.textLabel.text=self.users[indexPath.row].login;
-    if(self.users[indexPath.row].avatarPath)
+    cell.textLabel.text=self.showedUsers[indexPath.row].login;
+    if(self.showedUsers[indexPath.row].avatarPath)
     {
         cell.imageView.image=[UIImage imageWithContentsOfFile:self.users[indexPath.row].avatarPath];
         cell.imageView.layer.cornerRadius=cell.frame.size.height/2;
@@ -70,72 +81,90 @@
 
 -(void)startLoading
 {
-//    UIView * searchView=[[UIView alloc] initWithFrame:CGRectMake(self.shadowView.bounds.size.width/2-65.0, self.shadowView.bounds.size.height/3, 130.0, 80.0)];
-//    searchView.backgroundColor=[UIColor SeparatorColor];
-//    searchView.layer.cornerRadius=8.0;
-//    
-//    UILabel * searchLabel=[[UILabel alloc] initWithFrame:CGRectMake(0.0, 50.0, 130.0, 30.0)];
-//    searchLabel.text=@"Loading...";
-//    searchLabel.adjustsFontSizeToFitWidth=YES;
-//    searchLabel.textAlignment=NSTextAlignmentCenter;
-//    searchLabel.textColor=[UIColor GitHubColor];
-//    
-//    UIActivityIndicatorView * activityInd=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(40.0, 10.0, 50.0, 50.0)];
-//    activityInd.activityIndicatorViewStyle=UIActivityIndicatorViewStyleWhiteLarge;
-//    activityInd.color=[UIColor GitHubColor];
-//    activityInd.hidesWhenStopped=YES;
-//    
-//    [searchView addSubview:searchLabel];
-//    [searchView addSubview:activityInd];
-//    
-//    [self.shadowView addSubview:searchView];
+    self.isRefresh=YES;
     [self.view addSubview:self.loadContentView];
-    [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.users.count;
+    return self.showedUsers.count;
 }
 
 -(void)setIsAllUsers:(BOOL)isAllUsers
 {
     _isAllUsers=isAllUsers;
-    if(!self.users.count)
+    if(!self.users.count && _isAllUsers==YES)
     {
-        [self.tableView removeFromSuperview];
-        [self.view addSubview:self.noResultView];
+        [self.refresh endRefreshing];
+        self.tableView.backgroundColor=[UIColor SeparatorColor];
+        [self.loadContentView removeFromSuperview];
+        self.tableView.tableHeaderView=self.noResultView;
     }
 }
+
+-(void)refreshDidSwipe
+{
+    [self.users removeAllObjects];
+    self.isAllUsers=NO;
+    self.isRefresh=YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    if(self.navigationController.viewControllers.count<2)
-//    {
-//        UIBarButtonItem * menuItem=[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(menuDidTap)];
-//        menuItem.tintColor=[UIColor whiteColor];
-//        self.navigationItem.leftBarButtonItem=menuItem;
-//    }
-    self.users=[NSMutableArray array];
     
+    [self.refresh addTarget:self action:@selector(refreshDidSwipe) forControlEvents:UIControlEventValueChanged];
+    
+    self.searchBar.delegate=self;
+    self.users=[NSMutableArray array];
+    self.showedUsers=self.users;
+    self.searchedUseers=[NSMutableArray array];
     self.tableView.delegate=self;
     self.tableView.dataSource=self;
     self.dataManager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
     
     self.shadowView=[[UIView alloc] initWithFrame:self.view.bounds];
     self.shadowView.backgroundColor=[UIColor colorWithWhite:0.0 alpha:0.5];
-    
-    [self startLoading];
+    [self performSelector:@selector(refreshDidSwipe) withObject:nil afterDelay:0];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(NSUInteger)usersCount
 {
     return self.users.count;
 }
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [self.searchedUseers removeAllObjects];
+    if(searchText.length==0)
+    {
+        [self performSelector:@selector(searchBarSearchButtonClicked:) withObject:searchBar afterDelay:0];
+        self.showedUsers=self.users;
+        [self.tableView reloadData];
+        return;
+    }
+    for(NSUInteger i=0;i<self.users.count;++i)
+    {
+        if([self.users[i].login rangeOfString:searchText options:NSCaseInsensitiveSearch].location!=NSNotFound)
+        {
+            [self.searchedUseers addObject:self.users[i]];
+        }
+    }
+    self.showedUsers=self.searchedUseers;
+    [self.tableView reloadData];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+}
+
 -(void)addUsers:(NSMutableArray *)users
 {
     NSMutableArray * indexPathes=[NSMutableArray array];
@@ -144,8 +173,19 @@
         [indexPathes addObject:[NSIndexPath indexPathForRow:i inSection:0]];
     }
     [self.users addObjectsFromArray:users];
-    [self.tableView insertRowsAtIndexPaths:indexPathes withRowAnimation:UITableViewRowAnimationFade];
-    [self.loadContentView removeFromSuperview];
+    self.showedUsers=self.users;
+    [self performSelector:@selector(searchBarSearchButtonClicked:) withObject:self.searchBar afterDelay:0];
+    if(self.isRefresh)
+    {
+        [self.tableView reloadData];
+        self.isRefresh=NO;
+        [self.refresh endRefreshing];
+    }
+    else
+    {
+        [self.tableView insertRowsAtIndexPaths:indexPathes withRowAnimation:UITableViewRowAnimationFade];
+        [self.loadContentView removeFromSuperview];
+    }
 }
 
 -(instancetype)initWithUpdateNotification:(NSString *)notification

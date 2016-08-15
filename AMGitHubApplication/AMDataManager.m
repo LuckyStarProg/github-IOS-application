@@ -24,42 +24,11 @@
         self.mod=mod;
         NSArray *myPathList = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
         self.storagePath=[myPathList firstObject];
-        
-//        if(![[NSFileManager defaultManager] fileExistsAtPath:self.storagePath])
-//        {
-//            NSError * error;
-//            [[NSFileManager defaultManager] createDirectoryAtPath:self.storagePath withIntermediateDirectories:NO attributes:nil error:&error];
-//            if(error)
-//            {
-//                NSLog(@"%@",error.localizedDescription);
-//                return nil;
-//            }
-//        }
+
     }
     return self;
 }
 
-//-(BOOL)loadImageFromCacheWithCompletion:(void (^)(NSData *))reloadData
-//{
-//    NSData * data=[[AMCache sharedCache] objectForKey:self.reference.lastPathComponent];
-//    if(data)
-//    {
-//        reloadData?reloadData(data):NSLog(@"Reload block is nil!");
-//        return YES;
-//    }
-//    return NO;
-//}
-//
-//-(BOOL)loadImageFromStorageWithCompletion:(void (^)(NSString *))reloadData
-//{
-//    NSString * pathToData=[self.storagePath stringByAppendingPathComponent:self.reference.lastPathComponent];
-//    if([[NSFileManager defaultManager] fileExistsAtPath:pathToData])
-//    {
-//        reloadData?reloadData(pathToData):NSLog(@"Reload block is nil!");
-//        return YES;
-//    }
-//    return NO;
-//}
 
 -(void)loadImageFromServerWithCompletion:(void (^)(NSString *))reloadData andFailure:(void (^)(NSString *))Error
 {

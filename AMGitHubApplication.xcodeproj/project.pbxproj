@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2751D1391D5746A800E28849 /* UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1381D5746A800E28849 /* UserProfileViewController.m */; };
-		2751D13E1D57D49B00E28849 /* testView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2751D13D1D57D49B00E28849 /* testView.xib */; };
+		2751D13E1D57D49B00E28849 /* IssueHeaderReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2751D13D1D57D49B00E28849 /* IssueHeaderReusableView.xib */; };
 		2751D1471D5A9F7000E28849 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1461D5A9F7000E28849 /* BaseViewController.m */; };
 		2751D14A1D5AA9D400E28849 /* MenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1491D5AA9D400E28849 /* MenuTableViewCell.m */; };
 		2751D14D1D5AC52700E28849 /* usersListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D14C1D5AC52700E28849 /* usersListViewController.m */; };
@@ -17,9 +17,6 @@
 		2751D1561D5CE92500E28849 /* GitHubIssue.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1551D5CE92500E28849 /* GitHubIssue.m */; };
 		2751D1581D5CEA1800E28849 /* IssueTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2751D1571D5CEA1800E28849 /* IssueTableViewCell.xib */; };
 		2751D15B1D5CF14300E28849 /* IssueTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D15A1D5CF14300E28849 /* IssueTableViewCell.m */; };
-		2751D15E1D5DE98700E28849 /* IssueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D15D1D5DE98700E28849 /* IssueViewController.m */; };
-		2751D1601D5E0EB700E28849 /* defaultCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2751D15F1D5E0EB700E28849 /* defaultCollectionViewCell.xib */; };
-		2751D1621D5E106900E28849 /* bodyCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2751D1611D5E106900E28849 /* bodyCollectionViewCell.xib */; };
 		2751D1671D5E142200E28849 /* defaultCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1661D5E142200E28849 /* defaultCollectionViewCell.m */; };
 		2751D16A1D5E618D00E28849 /* bodyCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1691D5E618D00E28849 /* bodyCollectionViewCell.m */; };
 		2751D16D1D5EB77E00E28849 /* AMGitHubCommentParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D16C1D5EB77E00E28849 /* AMGitHubCommentParser.m */; };
@@ -28,14 +25,19 @@
 		2751D1761D5EB8B900E28849 /* scrollableToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1751D5EB8B900E28849 /* scrollableToken.m */; };
 		2751D1791D5EB8CB00E28849 /* imageToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1781D5EB8CB00E28849 /* imageToken.m */; };
 		2751D17C1D5FC9FF00E28849 /* GitHubIssueComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D17B1D5FC9FF00E28849 /* GitHubIssueComment.m */; };
-		2751D17F1D5FD60800E28849 /* commentCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D17E1D5FD60800E28849 /* commentCollectionViewCell.m */; };
-		2751D1821D5FEB4500E28849 /* UICollectionViewCell+subviewsHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1811D5FEB4500E28849 /* UICollectionViewCell+subviewsHeight.m */; };
-		2751D1841D608D2600E28849 /* tableCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2751D1831D608D2600E28849 /* tableCollectionReusableView.xib */; };
-		2751D1871D608D8F00E28849 /* MyCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1861D608D8F00E28849 /* MyCollectionReusableView.m */; };
 		2751D18A1D6093AB00E28849 /* IssueTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1891D6093AB00E28849 /* IssueTableViewController.m */; };
-		2751D18D1D60951000E28849 /* testView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D18C1D60951000E28849 /* testView.m */; };
+		2751D18D1D60951000E28849 /* IssueHeaderReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D18C1D60951000E28849 /* IssueHeaderReusableView.m */; };
 		2751D1901D60AACD00E28849 /* IssuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D18F1D60AACD00E28849 /* IssuTableViewCell.m */; };
 		2751D1931D60DD3700E28849 /* GitHubContentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1921D60DD3700E28849 /* GitHubContentManager.m */; };
+		2751D1961D612A9C00E28849 /* DeleteEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1951D612A9C00E28849 /* DeleteEvent.m */; };
+		2751D1991D612C8A00E28849 /* PullRequestEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1981D612C8A00E28849 /* PullRequestEvent.m */; };
+		2751D19C1D613D1200E28849 /* CommitCommentEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D19B1D613D1200E28849 /* CommitCommentEvent.m */; };
+		2751D19F1D613F7700E28849 /* PullRequestReviewCommentEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D19E1D613F7700E28849 /* PullRequestReviewCommentEvent.m */; };
+		2751D1A21D6145A500E28849 /* ReleaseEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1A11D6145A500E28849 /* ReleaseEvent.m */; };
+		2751D1B51D614EDD00E28849 /* CommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2751D1B41D614EDD00E28849 /* CommentTableViewCell.xib */; };
+		2751D1B81D614FF200E28849 /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1B71D614FF200E28849 /* CommentTableViewCell.m */; };
+		2751D1BB1D61BA8C00E28849 /* AddCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1BA1D61BA8C00E28849 /* AddCommentViewController.m */; };
+		2751D1BE1D61FAB900E28849 /* AlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2751D1BD1D61FAB900E28849 /* AlertController.m */; };
 		2774FD6C1D44CBFD00B6A24B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD6B1D44CBFD00B6A24B /* main.m */; };
 		2774FD6F1D44CBFD00B6A24B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD6E1D44CBFD00B6A24B /* AppDelegate.m */; };
 		2774FD721D44CBFD00B6A24B /* AMSideBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD711D44CBFD00B6A24B /* AMSideBarViewController.m */; };
@@ -43,12 +45,7 @@
 		2774FD771D44CBFD00B6A24B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2774FD761D44CBFD00B6A24B /* Assets.xcassets */; };
 		2774FD7A1D44CBFD00B6A24B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2774FD781D44CBFD00B6A24B /* LaunchScreen.storyboard */; };
 		2774FD911D451E8F00B6A24B /* defaultUserMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD901D451E8F00B6A24B /* defaultUserMenuViewController.m */; };
-		2774FD941D46125500B6A24B /* detailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD931D46125500B6A24B /* detailsViewController.m */; };
-		2774FD971D48BD7400B6A24B /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD961D48BD7400B6A24B /* WebViewController.m */; };
 		2774FD9A1D48D05E00B6A24B /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD991D48D05E00B6A24B /* LogInViewController.m */; };
-		2774FD9D1D48D78500B6A24B /* LogInTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FD9C1D48D78500B6A24B /* LogInTableViewCell.m */; };
-		2774FD9F1D48D7E100B6A24B /* LogInTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2774FD9E1D48D7E100B6A24B /* LogInTableViewCell.xib */; };
-		2774FDA11D49FF6800B6A24B /* searchBarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2774FDA01D49FF6800B6A24B /* searchBarCell.xib */; };
 		2774FDA41D4A10BB00B6A24B /* searchBarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FDA31D4A10BB00B6A24B /* searchBarCell.m */; };
 		2774FDA71D4A29EE00B6A24B /* repoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2774FDA61D4A29EE00B6A24B /* repoListViewController.m */; };
 		2774FDA91D4A2A8500B6A24B /* repoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2774FDA81D4A2A8500B6A24B /* repoCell.xib */; };
@@ -81,7 +78,7 @@
 /* Begin PBXFileReference section */
 		2751D1371D5746A800E28849 /* UserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProfileViewController.h; sourceTree = "<group>"; };
 		2751D1381D5746A800E28849 /* UserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserProfileViewController.m; sourceTree = "<group>"; };
-		2751D13D1D57D49B00E28849 /* testView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = testView.xib; sourceTree = "<group>"; };
+		2751D13D1D57D49B00E28849 /* IssueHeaderReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IssueHeaderReusableView.xib; sourceTree = "<group>"; };
 		2751D1451D5A9F7000E28849 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		2751D1461D5A9F7000E28849 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		2751D1481D5AA9D400E28849 /* MenuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewCell.h; sourceTree = "<group>"; };
@@ -97,10 +94,6 @@
 		2751D1571D5CEA1800E28849 /* IssueTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IssueTableViewCell.xib; sourceTree = "<group>"; };
 		2751D1591D5CF14300E28849 /* IssueTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IssueTableViewCell.h; sourceTree = "<group>"; };
 		2751D15A1D5CF14300E28849 /* IssueTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IssueTableViewCell.m; sourceTree = "<group>"; };
-		2751D15C1D5DE98700E28849 /* IssueViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IssueViewController.h; sourceTree = "<group>"; };
-		2751D15D1D5DE98700E28849 /* IssueViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IssueViewController.m; sourceTree = "<group>"; };
-		2751D15F1D5E0EB700E28849 /* defaultCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = defaultCollectionViewCell.xib; sourceTree = "<group>"; };
-		2751D1611D5E106900E28849 /* bodyCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = bodyCollectionViewCell.xib; sourceTree = "<group>"; };
 		2751D1651D5E142200E28849 /* defaultCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = defaultCollectionViewCell.h; sourceTree = "<group>"; };
 		2751D1661D5E142200E28849 /* defaultCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = defaultCollectionViewCell.m; sourceTree = "<group>"; };
 		2751D1681D5E618D00E28849 /* bodyCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bodyCollectionViewCell.h; sourceTree = "<group>"; };
@@ -117,21 +110,31 @@
 		2751D1781D5EB8CB00E28849 /* imageToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = imageToken.m; sourceTree = "<group>"; };
 		2751D17A1D5FC9FF00E28849 /* GitHubIssueComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GitHubIssueComment.h; sourceTree = "<group>"; };
 		2751D17B1D5FC9FF00E28849 /* GitHubIssueComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GitHubIssueComment.m; sourceTree = "<group>"; };
-		2751D17D1D5FD60800E28849 /* commentCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = commentCollectionViewCell.h; sourceTree = "<group>"; };
-		2751D17E1D5FD60800E28849 /* commentCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = commentCollectionViewCell.m; sourceTree = "<group>"; };
-		2751D1801D5FEB4500E28849 /* UICollectionViewCell+subviewsHeight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UICollectionViewCell+subviewsHeight.h"; sourceTree = "<group>"; };
-		2751D1811D5FEB4500E28849 /* UICollectionViewCell+subviewsHeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UICollectionViewCell+subviewsHeight.m"; sourceTree = "<group>"; };
-		2751D1831D608D2600E28849 /* tableCollectionReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = tableCollectionReusableView.xib; sourceTree = "<group>"; };
-		2751D1851D608D8F00E28849 /* MyCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionReusableView.h; sourceTree = "<group>"; };
-		2751D1861D608D8F00E28849 /* MyCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionReusableView.m; sourceTree = "<group>"; };
 		2751D1881D6093AB00E28849 /* IssueTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IssueTableViewController.h; sourceTree = "<group>"; };
 		2751D1891D6093AB00E28849 /* IssueTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IssueTableViewController.m; sourceTree = "<group>"; };
-		2751D18B1D60951000E28849 /* testView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testView.h; sourceTree = "<group>"; };
-		2751D18C1D60951000E28849 /* testView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testView.m; sourceTree = "<group>"; };
+		2751D18B1D60951000E28849 /* IssueHeaderReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IssueHeaderReusableView.h; sourceTree = "<group>"; };
+		2751D18C1D60951000E28849 /* IssueHeaderReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IssueHeaderReusableView.m; sourceTree = "<group>"; };
 		2751D18E1D60AACD00E28849 /* IssuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IssuTableViewCell.h; sourceTree = "<group>"; };
 		2751D18F1D60AACD00E28849 /* IssuTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IssuTableViewCell.m; sourceTree = "<group>"; };
 		2751D1911D60DD3700E28849 /* GitHubContentManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GitHubContentManager.h; sourceTree = "<group>"; };
 		2751D1921D60DD3700E28849 /* GitHubContentManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GitHubContentManager.m; sourceTree = "<group>"; };
+		2751D1941D612A9C00E28849 /* DeleteEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteEvent.h; sourceTree = "<group>"; };
+		2751D1951D612A9C00E28849 /* DeleteEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteEvent.m; sourceTree = "<group>"; };
+		2751D1971D612C8A00E28849 /* PullRequestEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullRequestEvent.h; sourceTree = "<group>"; };
+		2751D1981D612C8A00E28849 /* PullRequestEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullRequestEvent.m; sourceTree = "<group>"; };
+		2751D19A1D613D1200E28849 /* CommitCommentEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommitCommentEvent.h; sourceTree = "<group>"; };
+		2751D19B1D613D1200E28849 /* CommitCommentEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitCommentEvent.m; sourceTree = "<group>"; };
+		2751D19D1D613F7700E28849 /* PullRequestReviewCommentEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullRequestReviewCommentEvent.h; sourceTree = "<group>"; };
+		2751D19E1D613F7700E28849 /* PullRequestReviewCommentEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullRequestReviewCommentEvent.m; sourceTree = "<group>"; };
+		2751D1A01D6145A500E28849 /* ReleaseEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReleaseEvent.h; sourceTree = "<group>"; };
+		2751D1A11D6145A500E28849 /* ReleaseEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReleaseEvent.m; sourceTree = "<group>"; };
+		2751D1B41D614EDD00E28849 /* CommentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentTableViewCell.xib; sourceTree = "<group>"; };
+		2751D1B61D614FF200E28849 /* CommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentTableViewCell.h; sourceTree = "<group>"; };
+		2751D1B71D614FF200E28849 /* CommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentTableViewCell.m; sourceTree = "<group>"; };
+		2751D1B91D61BA8C00E28849 /* AddCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCommentViewController.h; sourceTree = "<group>"; };
+		2751D1BA1D61BA8C00E28849 /* AddCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCommentViewController.m; sourceTree = "<group>"; };
+		2751D1BC1D61FAB900E28849 /* AlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertController.h; sourceTree = "<group>"; };
+		2751D1BD1D61FAB900E28849 /* AlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertController.m; sourceTree = "<group>"; };
 		2774FD671D44CBFD00B6A24B /* AMGitHubApplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AMGitHubApplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2774FD6B1D44CBFD00B6A24B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2774FD6D1D44CBFD00B6A24B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -144,16 +147,8 @@
 		2774FD7B1D44CBFD00B6A24B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2774FD8F1D451E8F00B6A24B /* defaultUserMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = defaultUserMenuViewController.h; sourceTree = "<group>"; };
 		2774FD901D451E8F00B6A24B /* defaultUserMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = defaultUserMenuViewController.m; sourceTree = "<group>"; };
-		2774FD921D46125500B6A24B /* detailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = detailsViewController.h; sourceTree = "<group>"; };
-		2774FD931D46125500B6A24B /* detailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = detailsViewController.m; sourceTree = "<group>"; };
-		2774FD951D48BD7400B6A24B /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
-		2774FD961D48BD7400B6A24B /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		2774FD981D48D05E00B6A24B /* LogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInViewController.h; sourceTree = "<group>"; };
 		2774FD991D48D05E00B6A24B /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInViewController.m; sourceTree = "<group>"; };
-		2774FD9B1D48D78500B6A24B /* LogInTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInTableViewCell.h; sourceTree = "<group>"; };
-		2774FD9C1D48D78500B6A24B /* LogInTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInTableViewCell.m; sourceTree = "<group>"; };
-		2774FD9E1D48D7E100B6A24B /* LogInTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogInTableViewCell.xib; sourceTree = "<group>"; };
-		2774FDA01D49FF6800B6A24B /* searchBarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = searchBarCell.xib; sourceTree = "<group>"; };
 		2774FDA21D4A10BB00B6A24B /* searchBarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = searchBarCell.h; sourceTree = "<group>"; };
 		2774FDA31D4A10BB00B6A24B /* searchBarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = searchBarCell.m; sourceTree = "<group>"; };
 		2774FDA51D4A29EE00B6A24B /* repoListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = repoListViewController.h; sourceTree = "<group>"; };
@@ -220,6 +215,220 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2751D1A31D6148E500E28849 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				2751D1BF1D621DE900E28849 /* Event Inheritors */,
+				2791D7551D551EF400FCD464 /* Event.h */,
+				2791D7561D551EF400FCD464 /* Event.m */,
+			);
+			name = Events;
+			sourceTree = "<group>";
+		};
+		2751D1A41D61492B00E28849 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				2751D14E1D5BCEE600E28849 /* EditViewController.h */,
+				2751D14F1D5BCEE600E28849 /* EditViewController.m */,
+				2774FD701D44CBFD00B6A24B /* AMSideBarViewController.h */,
+				2774FD711D44CBFD00B6A24B /* AMSideBarViewController.m */,
+				2751D1451D5A9F7000E28849 /* BaseViewController.h */,
+				2751D1461D5A9F7000E28849 /* BaseViewController.m */,
+				2751D1A51D6149E100E28849 /* BaseViewControllerInheritors */,
+				2774FD8F1D451E8F00B6A24B /* defaultUserMenuViewController.h */,
+				2774FD901D451E8F00B6A24B /* defaultUserMenuViewController.m */,
+				2751D1881D6093AB00E28849 /* IssueTableViewController.h */,
+				2751D1891D6093AB00E28849 /* IssueTableViewController.m */,
+				2774FD981D48D05E00B6A24B /* LogInViewController.h */,
+				2774FD991D48D05E00B6A24B /* LogInViewController.m */,
+				27A23D771D4F5E300013259C /* RepositoryViewController.h */,
+				27A23D781D4F5E300013259C /* RepositoryViewController.m */,
+				2751D1371D5746A800E28849 /* UserProfileViewController.h */,
+				2751D1381D5746A800E28849 /* UserProfileViewController.m */,
+				2751D1B91D61BA8C00E28849 /* AddCommentViewController.h */,
+				2751D1BA1D61BA8C00E28849 /* AddCommentViewController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		2751D1A51D6149E100E28849 /* BaseViewControllerInheritors */ = {
+			isa = PBXGroup;
+			children = (
+				2751D1511D5CE3E000E28849 /* IssuesViewController.h */,
+				2751D1521D5CE3E000E28849 /* IssuesViewController.m */,
+				2791D74D1D53A46C00FCD464 /* NewsViewController.h */,
+				2791D74E1D53A46C00FCD464 /* NewsViewController.m */,
+				2774FDA51D4A29EE00B6A24B /* repoListViewController.h */,
+				2774FDA61D4A29EE00B6A24B /* repoListViewController.m */,
+				2751D14B1D5AC52700E28849 /* usersListViewController.h */,
+				2751D14C1D5AC52700E28849 /* usersListViewController.m */,
+			);
+			name = BaseViewControllerInheritors;
+			sourceTree = "<group>";
+		};
+		2751D1A61D614A2A00E28849 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2751D16B1D5EB77E00E28849 /* AMGitHubCommentParser.h */,
+				2751D16C1D5EB77E00E28849 /* AMGitHubCommentParser.m */,
+				2791D74A1D538D2B00FCD464 /* AuthorizedUser.h */,
+				2791D74B1D538D2B00FCD464 /* AuthorizedUser.m */,
+				2751D1541D5CE92500E28849 /* GitHubIssue.h */,
+				2751D1551D5CE92500E28849 /* GitHubIssue.m */,
+				2751D17A1D5FC9FF00E28849 /* GitHubIssueComment.h */,
+				2751D17B1D5FC9FF00E28849 /* GitHubIssueComment.m */,
+				2774FDAD1D4A5A9900B6A24B /* GitHubRepository.h */,
+				2774FDAE1D4A5A9900B6A24B /* GitHubRepository.m */,
+				2774FDB01D4A5ADF00B6A24B /* GitHubUser.h */,
+				2774FDB11D4A5ADF00B6A24B /* GitHubUser.m */,
+				2751D16E1D5EB85700E28849 /* ParserToken.h */,
+				2751D16F1D5EB85700E28849 /* ParserToken.m */,
+				2751D1A71D614A6E00E28849 /* Parser Token Inheritors */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		2751D1A71D614A6E00E28849 /* Parser Token Inheritors */ = {
+			isa = PBXGroup;
+			children = (
+				2751D1711D5EB87700E28849 /* defaultTextToken.h */,
+				2751D1721D5EB87700E28849 /* defaultTextToken.m */,
+				2751D1771D5EB8CB00E28849 /* imageToken.h */,
+				2751D1781D5EB8CB00E28849 /* imageToken.m */,
+				2751D1741D5EB8B900E28849 /* scrollableToken.h */,
+				2751D1751D5EB8B900E28849 /* scrollableToken.m */,
+			);
+			name = "Parser Token Inheritors";
+			sourceTree = "<group>";
+		};
+		2751D1A81D614AB100E28849 /* ViewsXIB */ = {
+			isa = PBXGroup;
+			children = (
+				2751D1A91D614AF000E28849 /* CellsXIB */,
+				2751D13D1D57D49B00E28849 /* IssueHeaderReusableView.xib */,
+			);
+			name = ViewsXIB;
+			sourceTree = "<group>";
+		};
+		2751D1A91D614AF000E28849 /* CellsXIB */ = {
+			isa = PBXGroup;
+			children = (
+				2791D7531D5519BB00FCD464 /* EventCell.xib */,
+				2751D1571D5CEA1800E28849 /* IssueTableViewCell.xib */,
+				2774FDA81D4A2A8500B6A24B /* repoCell.xib */,
+				2751D1B41D614EDD00E28849 /* CommentTableViewCell.xib */,
+			);
+			name = CellsXIB;
+			sourceTree = "<group>";
+		};
+		2751D1AA1D614B3100E28849 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				2751D1681D5E618D00E28849 /* bodyCollectionViewCell.h */,
+				2751D1691D5E618D00E28849 /* bodyCollectionViewCell.m */,
+				27A23D861D50C0EF0013259C /* dataCollectionViewCell.h */,
+				27A23D871D50C0EF0013259C /* dataCollectionViewCell.m */,
+				2751D1651D5E142200E28849 /* defaultCollectionViewCell.h */,
+				2751D1661D5E142200E28849 /* defaultCollectionViewCell.m */,
+				2791D7501D5517C600FCD464 /* EventCell.h */,
+				2791D7511D5517C600FCD464 /* EventCell.m */,
+				2751D1591D5CF14300E28849 /* IssueTableViewCell.h */,
+				2751D15A1D5CF14300E28849 /* IssueTableViewCell.m */,
+				2751D18E1D60AACD00E28849 /* IssuTableViewCell.h */,
+				2751D18F1D60AACD00E28849 /* IssuTableViewCell.m */,
+				2751D1481D5AA9D400E28849 /* MenuTableViewCell.h */,
+				2751D1491D5AA9D400E28849 /* MenuTableViewCell.m */,
+				2774FDAA1D4A4A7700B6A24B /* repoCell.h */,
+				2774FDAB1D4A4A7700B6A24B /* repoCell.m */,
+				2774FDA21D4A10BB00B6A24B /* searchBarCell.h */,
+				2774FDA31D4A10BB00B6A24B /* searchBarCell.m */,
+				2751D1B61D614FF200E28849 /* CommentTableViewCell.h */,
+				2751D1B71D614FF200E28849 /* CommentTableViewCell.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		2751D1AB1D614BBC00E28849 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				2791D76D1D55DCC100FCD464 /* EventController.h */,
+				2791D76E1D55DCC100FCD464 /* EventController.m */,
+				2751D1BC1D61FAB900E28849 /* AlertController.h */,
+				2751D1BD1D61FAB900E28849 /* AlertController.m */,
+				2751D1AC1D614C1600E28849 /* Managers */,
+				2774FDB31D4A636100B6A24B /* InternetConnectionController.h */,
+				2774FDB41D4A636100B6A24B /* InternetConnectionController.m */,
+				2791D7471D52710400FCD464 /* GitHubApiController.h */,
+				2791D7481D52710400FCD464 /* GitHubApiController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		2751D1AC1D614C1600E28849 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				2751D1911D60DD3700E28849 /* GitHubContentManager.h */,
+				2751D1921D60DD3700E28849 /* GitHubContentManager.m */,
+				27A23D711D4E72AD0013259C /* AMDataManager.h */,
+				27A23D721D4E72AD0013259C /* AMDataManager.m */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
+		2751D1AD1D614C5A00E28849 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				27A23D7C1D4F66780013259C /* RepoAvatarView.h */,
+				27A23D7D1D4F66780013259C /* RepoAvatarView.m */,
+				2751D18B1D60951000E28849 /* IssueHeaderReusableView.h */,
+				2751D18C1D60951000E28849 /* IssueHeaderReusableView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		2751D1AF1D614C8500E28849 /* Extantions */ = {
+			isa = PBXGroup;
+			children = (
+				27A23D741D4EA7E10013259C /* UIImage+ResizingImg.h */,
+				27A23D751D4EA7E10013259C /* UIImage+ResizingImg.m */,
+				27A23D7F1D4F91100013259C /* UIColor+GitHubColor.h */,
+				27A23D801D4F91100013259C /* UIColor+GitHubColor.m */,
+			);
+			name = Extantions;
+			sourceTree = "<group>";
+		};
+		2751D1BF1D621DE900E28849 /* Event Inheritors */ = {
+			isa = PBXGroup;
+			children = (
+				2751D19A1D613D1200E28849 /* CommitCommentEvent.h */,
+				2751D19B1D613D1200E28849 /* CommitCommentEvent.m */,
+				2791D7581D55236800FCD464 /* CreateEvent.h */,
+				2791D7591D55236800FCD464 /* CreateEvent.m */,
+				2751D1941D612A9C00E28849 /* DeleteEvent.h */,
+				2751D1951D612A9C00E28849 /* DeleteEvent.m */,
+				2791D7701D55DDD200FCD464 /* EventsHeader.h */,
+				2791D7641D553B3F00FCD464 /* ForkEvent.h */,
+				2791D7651D553B3F00FCD464 /* ForkEvent.m */,
+				2791D75E1D55387200FCD464 /* IssueCommentEvent.h */,
+				2791D75F1D55387200FCD464 /* IssueCommentEvent.m */,
+				2791D7611D55395D00FCD464 /* IssuesEvent.h */,
+				2791D7621D55395D00FCD464 /* IssuesEvent.m */,
+				2791D76A1D553CFF00FCD464 /* MemberEvent.h */,
+				2791D76B1D553CFF00FCD464 /* MemberEvent.m */,
+				2751D1971D612C8A00E28849 /* PullRequestEvent.h */,
+				2751D1981D612C8A00E28849 /* PullRequestEvent.m */,
+				2751D19D1D613F7700E28849 /* PullRequestReviewCommentEvent.h */,
+				2751D19E1D613F7700E28849 /* PullRequestReviewCommentEvent.m */,
+				2791D75B1D5536A700FCD464 /* PushEvent.h */,
+				2791D75C1D5536A700FCD464 /* PushEvent.m */,
+				2751D1A01D6145A500E28849 /* ReleaseEvent.h */,
+				2751D1A11D6145A500E28849 /* ReleaseEvent.m */,
+				2791D7671D553C5700FCD464 /* WatchEvent.h */,
+				2791D7681D553C5700FCD464 /* WatchEvent.m */,
+			);
+			name = "Event Inheritors";
+			sourceTree = "<group>";
+		};
 		2774FD5E1D44CBFD00B6A24B = {
 			isa = PBXGroup;
 			children = (
@@ -241,131 +450,19 @@
 			children = (
 				2774FD6D1D44CBFD00B6A24B /* AppDelegate.h */,
 				2774FD6E1D44CBFD00B6A24B /* AppDelegate.m */,
-				2774FD701D44CBFD00B6A24B /* AMSideBarViewController.h */,
-				2774FD711D44CBFD00B6A24B /* AMSideBarViewController.m */,
 				2774FD731D44CBFD00B6A24B /* Main.storyboard */,
 				2774FD761D44CBFD00B6A24B /* Assets.xcassets */,
 				2774FD781D44CBFD00B6A24B /* LaunchScreen.storyboard */,
 				2774FD7B1D44CBFD00B6A24B /* Info.plist */,
 				2774FD6A1D44CBFD00B6A24B /* Supporting Files */,
-				2774FD8F1D451E8F00B6A24B /* defaultUserMenuViewController.h */,
-				2774FD901D451E8F00B6A24B /* defaultUserMenuViewController.m */,
-				2774FD921D46125500B6A24B /* detailsViewController.h */,
-				2774FD931D46125500B6A24B /* detailsViewController.m */,
-				2774FD951D48BD7400B6A24B /* WebViewController.h */,
-				2774FD961D48BD7400B6A24B /* WebViewController.m */,
-				2774FD981D48D05E00B6A24B /* LogInViewController.h */,
-				2774FD991D48D05E00B6A24B /* LogInViewController.m */,
-				2774FD9B1D48D78500B6A24B /* LogInTableViewCell.h */,
-				2774FD9C1D48D78500B6A24B /* LogInTableViewCell.m */,
-				2774FD9E1D48D7E100B6A24B /* LogInTableViewCell.xib */,
-				2774FDA01D49FF6800B6A24B /* searchBarCell.xib */,
-				2774FDA21D4A10BB00B6A24B /* searchBarCell.h */,
-				2774FDA31D4A10BB00B6A24B /* searchBarCell.m */,
-				2774FDA51D4A29EE00B6A24B /* repoListViewController.h */,
-				2774FDA61D4A29EE00B6A24B /* repoListViewController.m */,
-				2774FDA81D4A2A8500B6A24B /* repoCell.xib */,
-				2774FDAA1D4A4A7700B6A24B /* repoCell.h */,
-				2774FDAB1D4A4A7700B6A24B /* repoCell.m */,
-				2774FDAD1D4A5A9900B6A24B /* GitHubRepository.h */,
-				2774FDAE1D4A5A9900B6A24B /* GitHubRepository.m */,
-				2774FDB01D4A5ADF00B6A24B /* GitHubUser.h */,
-				2774FDB11D4A5ADF00B6A24B /* GitHubUser.m */,
-				2774FDB31D4A636100B6A24B /* InternetConnectionController.h */,
-				2774FDB41D4A636100B6A24B /* InternetConnectionController.m */,
-				27A23D711D4E72AD0013259C /* AMDataManager.h */,
-				27A23D721D4E72AD0013259C /* AMDataManager.m */,
-				27A23D741D4EA7E10013259C /* UIImage+ResizingImg.h */,
-				27A23D751D4EA7E10013259C /* UIImage+ResizingImg.m */,
-				27A23D771D4F5E300013259C /* RepositoryViewController.h */,
-				27A23D781D4F5E300013259C /* RepositoryViewController.m */,
-				27A23D7C1D4F66780013259C /* RepoAvatarView.h */,
-				27A23D7D1D4F66780013259C /* RepoAvatarView.m */,
-				27A23D7F1D4F91100013259C /* UIColor+GitHubColor.h */,
-				27A23D801D4F91100013259C /* UIColor+GitHubColor.m */,
-				27A23D861D50C0EF0013259C /* dataCollectionViewCell.h */,
-				27A23D871D50C0EF0013259C /* dataCollectionViewCell.m */,
-				2791D7471D52710400FCD464 /* GitHubApiController.h */,
-				2791D7481D52710400FCD464 /* GitHubApiController.m */,
-				2791D74A1D538D2B00FCD464 /* AuthorizedUser.h */,
-				2791D74B1D538D2B00FCD464 /* AuthorizedUser.m */,
-				2791D74D1D53A46C00FCD464 /* NewsViewController.h */,
-				2791D74E1D53A46C00FCD464 /* NewsViewController.m */,
-				2791D7501D5517C600FCD464 /* EventCell.h */,
-				2791D7511D5517C600FCD464 /* EventCell.m */,
-				2791D7531D5519BB00FCD464 /* EventCell.xib */,
-				2791D7551D551EF400FCD464 /* Event.h */,
-				2791D7561D551EF400FCD464 /* Event.m */,
-				2791D7581D55236800FCD464 /* CreateEvent.h */,
-				2791D7591D55236800FCD464 /* CreateEvent.m */,
-				2791D75B1D5536A700FCD464 /* PushEvent.h */,
-				2791D75C1D5536A700FCD464 /* PushEvent.m */,
-				2791D75E1D55387200FCD464 /* IssueCommentEvent.h */,
-				2791D75F1D55387200FCD464 /* IssueCommentEvent.m */,
-				2791D7611D55395D00FCD464 /* IssuesEvent.h */,
-				2791D7621D55395D00FCD464 /* IssuesEvent.m */,
-				2791D7641D553B3F00FCD464 /* ForkEvent.h */,
-				2791D7651D553B3F00FCD464 /* ForkEvent.m */,
-				2791D7671D553C5700FCD464 /* WatchEvent.h */,
-				2791D7681D553C5700FCD464 /* WatchEvent.m */,
-				2791D76A1D553CFF00FCD464 /* MemberEvent.h */,
-				2791D76B1D553CFF00FCD464 /* MemberEvent.m */,
-				2791D76D1D55DCC100FCD464 /* EventController.h */,
-				2791D76E1D55DCC100FCD464 /* EventController.m */,
-				2791D7701D55DDD200FCD464 /* EventsHeader.h */,
-				2751D1371D5746A800E28849 /* UserProfileViewController.h */,
-				2751D1381D5746A800E28849 /* UserProfileViewController.m */,
-				2751D13D1D57D49B00E28849 /* testView.xib */,
-				2751D1451D5A9F7000E28849 /* BaseViewController.h */,
-				2751D1461D5A9F7000E28849 /* BaseViewController.m */,
-				2751D1481D5AA9D400E28849 /* MenuTableViewCell.h */,
-				2751D1491D5AA9D400E28849 /* MenuTableViewCell.m */,
-				2751D14B1D5AC52700E28849 /* usersListViewController.h */,
-				2751D14C1D5AC52700E28849 /* usersListViewController.m */,
-				2751D14E1D5BCEE600E28849 /* EditViewController.h */,
-				2751D14F1D5BCEE600E28849 /* EditViewController.m */,
-				2751D1511D5CE3E000E28849 /* IssuesViewController.h */,
-				2751D1521D5CE3E000E28849 /* IssuesViewController.m */,
-				2751D1541D5CE92500E28849 /* GitHubIssue.h */,
-				2751D1551D5CE92500E28849 /* GitHubIssue.m */,
-				2751D1571D5CEA1800E28849 /* IssueTableViewCell.xib */,
-				2751D1591D5CF14300E28849 /* IssueTableViewCell.h */,
-				2751D15A1D5CF14300E28849 /* IssueTableViewCell.m */,
-				2751D15C1D5DE98700E28849 /* IssueViewController.h */,
-				2751D15D1D5DE98700E28849 /* IssueViewController.m */,
-				2751D15F1D5E0EB700E28849 /* defaultCollectionViewCell.xib */,
-				2751D1611D5E106900E28849 /* bodyCollectionViewCell.xib */,
-				2751D1651D5E142200E28849 /* defaultCollectionViewCell.h */,
-				2751D1661D5E142200E28849 /* defaultCollectionViewCell.m */,
-				2751D1681D5E618D00E28849 /* bodyCollectionViewCell.h */,
-				2751D1691D5E618D00E28849 /* bodyCollectionViewCell.m */,
-				2751D16B1D5EB77E00E28849 /* AMGitHubCommentParser.h */,
-				2751D16C1D5EB77E00E28849 /* AMGitHubCommentParser.m */,
-				2751D16E1D5EB85700E28849 /* ParserToken.h */,
-				2751D16F1D5EB85700E28849 /* ParserToken.m */,
-				2751D1711D5EB87700E28849 /* defaultTextToken.h */,
-				2751D1721D5EB87700E28849 /* defaultTextToken.m */,
-				2751D1741D5EB8B900E28849 /* scrollableToken.h */,
-				2751D1751D5EB8B900E28849 /* scrollableToken.m */,
-				2751D1771D5EB8CB00E28849 /* imageToken.h */,
-				2751D1781D5EB8CB00E28849 /* imageToken.m */,
-				2751D17A1D5FC9FF00E28849 /* GitHubIssueComment.h */,
-				2751D17B1D5FC9FF00E28849 /* GitHubIssueComment.m */,
-				2751D17D1D5FD60800E28849 /* commentCollectionViewCell.h */,
-				2751D17E1D5FD60800E28849 /* commentCollectionViewCell.m */,
-				2751D1801D5FEB4500E28849 /* UICollectionViewCell+subviewsHeight.h */,
-				2751D1811D5FEB4500E28849 /* UICollectionViewCell+subviewsHeight.m */,
-				2751D1831D608D2600E28849 /* tableCollectionReusableView.xib */,
-				2751D1851D608D8F00E28849 /* MyCollectionReusableView.h */,
-				2751D1861D608D8F00E28849 /* MyCollectionReusableView.m */,
-				2751D1881D6093AB00E28849 /* IssueTableViewController.h */,
-				2751D1891D6093AB00E28849 /* IssueTableViewController.m */,
-				2751D18B1D60951000E28849 /* testView.h */,
-				2751D18C1D60951000E28849 /* testView.m */,
-				2751D18E1D60AACD00E28849 /* IssuTableViewCell.h */,
-				2751D18F1D60AACD00E28849 /* IssuTableViewCell.m */,
-				2751D1911D60DD3700E28849 /* GitHubContentManager.h */,
-				2751D1921D60DD3700E28849 /* GitHubContentManager.m */,
+				2751D1AF1D614C8500E28849 /* Extantions */,
+				2751D1AD1D614C5A00E28849 /* Views */,
+				2751D1A61D614A2A00E28849 /* Models */,
+				2751D1A41D61492B00E28849 /* ViewControllers */,
+				2751D1AA1D614B3100E28849 /* Cells */,
+				2751D1A81D614AB100E28849 /* ViewsXIB */,
+				2751D1A31D6148E500E28849 /* Events */,
+				2751D1AB1D614BBC00E28849 /* Controllers */,
 			);
 			path = AMGitHubApplication;
 			sourceTree = "<group>";
@@ -436,17 +533,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2751D13E1D57D49B00E28849 /* testView.xib in Resources */,
+				2751D13E1D57D49B00E28849 /* IssueHeaderReusableView.xib in Resources */,
 				2774FD7A1D44CBFD00B6A24B /* LaunchScreen.storyboard in Resources */,
-				2751D1621D5E106900E28849 /* bodyCollectionViewCell.xib in Resources */,
 				2774FD771D44CBFD00B6A24B /* Assets.xcassets in Resources */,
-				2774FDA11D49FF6800B6A24B /* searchBarCell.xib in Resources */,
+				2751D1B51D614EDD00E28849 /* CommentTableViewCell.xib in Resources */,
 				2774FD751D44CBFD00B6A24B /* Main.storyboard in Resources */,
-				2774FD9F1D48D7E100B6A24B /* LogInTableViewCell.xib in Resources */,
 				2774FDA91D4A2A8500B6A24B /* repoCell.xib in Resources */,
 				2751D1581D5CEA1800E28849 /* IssueTableViewCell.xib in Resources */,
-				2751D1601D5E0EB700E28849 /* defaultCollectionViewCell.xib in Resources */,
-				2751D1841D608D2600E28849 /* tableCollectionReusableView.xib in Resources */,
 				2791D7541D5519BB00FCD464 /* EventCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -461,38 +554,40 @@
 				2751D16D1D5EB77E00E28849 /* AMGitHubCommentParser.m in Sources */,
 				2791D75A1D55236800FCD464 /* CreateEvent.m in Sources */,
 				2751D1471D5A9F7000E28849 /* BaseViewController.m in Sources */,
+				2751D1B81D614FF200E28849 /* CommentTableViewCell.m in Sources */,
 				2751D1391D5746A800E28849 /* UserProfileViewController.m in Sources */,
 				27A23D881D50C0EF0013259C /* dataCollectionViewCell.m in Sources */,
 				2751D1791D5EB8CB00E28849 /* imageToken.m in Sources */,
+				2751D1BE1D61FAB900E28849 /* AlertController.m in Sources */,
 				2751D1561D5CE92500E28849 /* GitHubIssue.m in Sources */,
 				2791D76C1D553CFF00FCD464 /* MemberEvent.m in Sources */,
 				2751D14A1D5AA9D400E28849 /* MenuTableViewCell.m in Sources */,
+				2751D1BB1D61BA8C00E28849 /* AddCommentViewController.m in Sources */,
 				2751D1931D60DD3700E28849 /* GitHubContentManager.m in Sources */,
 				2774FD9A1D48D05E00B6A24B /* LogInViewController.m in Sources */,
 				2791D7631D55395D00FCD464 /* IssuesEvent.m in Sources */,
 				2791D7491D52710400FCD464 /* GitHubApiController.m in Sources */,
 				2751D17C1D5FC9FF00E28849 /* GitHubIssueComment.m in Sources */,
 				2774FD911D451E8F00B6A24B /* defaultUserMenuViewController.m in Sources */,
-				2751D17F1D5FD60800E28849 /* commentCollectionViewCell.m in Sources */,
 				2751D18A1D6093AB00E28849 /* IssueTableViewController.m in Sources */,
 				2774FDA71D4A29EE00B6A24B /* repoListViewController.m in Sources */,
-				2774FD971D48BD7400B6A24B /* WebViewController.m in Sources */,
+				2751D19F1D613F7700E28849 /* PullRequestReviewCommentEvent.m in Sources */,
 				2751D1701D5EB85700E28849 /* ParserToken.m in Sources */,
 				27A23D761D4EA7E10013259C /* UIImage+ResizingImg.m in Sources */,
+				2751D19C1D613D1200E28849 /* CommitCommentEvent.m in Sources */,
 				2751D1761D5EB8B900E28849 /* scrollableToken.m in Sources */,
 				2791D7571D551EF400FCD464 /* Event.m in Sources */,
+				2751D1961D612A9C00E28849 /* DeleteEvent.m in Sources */,
 				27A23D7E1D4F66780013259C /* RepoAvatarView.m in Sources */,
 				2751D15B1D5CF14300E28849 /* IssueTableViewCell.m in Sources */,
-				2751D15E1D5DE98700E28849 /* IssueViewController.m in Sources */,
-				2751D1821D5FEB4500E28849 /* UICollectionViewCell+subviewsHeight.m in Sources */,
 				2774FDB51D4A636100B6A24B /* InternetConnectionController.m in Sources */,
-				2774FD9D1D48D78500B6A24B /* LogInTableViewCell.m in Sources */,
+				2751D1A21D6145A500E28849 /* ReleaseEvent.m in Sources */,
 				2791D7601D55387200FCD464 /* IssueCommentEvent.m in Sources */,
 				2791D7661D553B3F00FCD464 /* ForkEvent.m in Sources */,
 				27A23D811D4F91100013259C /* UIColor+GitHubColor.m in Sources */,
 				2774FD721D44CBFD00B6A24B /* AMSideBarViewController.m in Sources */,
 				2751D1501D5BCEE600E28849 /* EditViewController.m in Sources */,
-				2751D18D1D60951000E28849 /* testView.m in Sources */,
+				2751D18D1D60951000E28849 /* IssueHeaderReusableView.m in Sources */,
 				2774FDA41D4A10BB00B6A24B /* searchBarCell.m in Sources */,
 				2751D1731D5EB87700E28849 /* defaultTextToken.m in Sources */,
 				2791D76F1D55DCC100FCD464 /* EventController.m in Sources */,
@@ -511,10 +606,9 @@
 				2751D1531D5CE3E000E28849 /* IssuesViewController.m in Sources */,
 				2751D14D1D5AC52700E28849 /* usersListViewController.m in Sources */,
 				2791D75D1D5536A700FCD464 /* PushEvent.m in Sources */,
+				2751D1991D612C8A00E28849 /* PullRequestEvent.m in Sources */,
 				2751D1671D5E142200E28849 /* defaultCollectionViewCell.m in Sources */,
 				2751D1901D60AACD00E28849 /* IssuTableViewCell.m in Sources */,
-				2774FD941D46125500B6A24B /* detailsViewController.m in Sources */,
-				2751D1871D608D8F00E28849 /* MyCollectionReusableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

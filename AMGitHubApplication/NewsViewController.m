@@ -8,12 +8,13 @@
 
 #import "NewsViewController.h"
 
-@interface NewsViewController ()<UITableViewDelegate,UITableViewDataSource>
-//@property (nonatomic)UITableView * tableView;
+@interface NewsViewController ()<UITableViewDelegate,UITableViewDataSource, UISearchBarDelegate>
 @property (nonatomic)NewsViewControllerMod mod;
 @property (nonatomic)NSMutableArray<Event *> * events;
 @property (nonatomic)UIView * shadowView;
 @property (nonatomic)NSString * notification;
+@property (nonatomic)NSMutableArray * searchedEvents;
+@property (nonatomic, weak)NSMutableArray<Event *> * showedEvents;
 @end
 
 @implementation NewsViewController
@@ -27,13 +28,13 @@
 {
     NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"EventCell"owner:self options:nil];
     EventCell * cell=[nib objectAtIndex:0];
-    [self.events[indexPath.row] fillCell:cell];
+    [self.showedEvents[indexPath.row] fillCell:cell];
     return [EventCell heightForText:cell.descriptionLabel.text] + 70;//70 - height of other cell elements
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.events.count;
+    return self.showedEvents.count;
 }
 
 -(void)addEvents:(NSArray<Event *> *)events
@@ -44,6 +45,8 @@
         [array addObject:[NSIndexPath indexPathForRow:i inSection:0]];
     }
     [self.events addObjectsFromArray:events];
+    self.showedEvents=self.events;
+    [self performSelector:@selector(searchBarSearchButtonClicked:) withObject:self.searchBar afterDelay:0];
     if(self.isRefresh)
     {
         [self.tableView reloadData];
@@ -52,9 +55,9 @@
     }
     else
     {
-            [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
-            [self.loadContentView removeFromSuperview];
+        [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
     }
+    [self.loadContentView removeFromSuperview];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -62,7 +65,7 @@
     static NSString * identifaer=@"Reusable sell default";
     EventCell * cell;
     
-    if(!self.isAll && indexPath.row==self.events.count-3)
+    if(!self.isAll && indexPath.row==self.events.count-3 && self.events==self.showedEvents)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
     }
@@ -74,8 +77,34 @@
         cell = [nib objectAtIndex:0];
     }
     
-    [self.events[indexPath.row] fillCell:cell];
+    [self.showedEvents[indexPath.row] fillCell:cell];
     return cell;
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [self.searchedEvents removeAllObjects];
+    if(searchText.length==0)
+    {
+        [self performSelector:@selector(searchBarSearchButtonClicked:) withObject:searchBar afterDelay:0];
+        self.showedEvents=self.events;
+        [self.tableView reloadData];
+        return;
+    }
+    for(NSUInteger i=0;i<self.events.count;++i)
+    {
+        if([self.events[i].headerInfo rangeOfString:searchText options:NSCaseInsensitiveSearch].location!=NSNotFound || [self.events[i].descriptionStr rangeOfString:searchText options:NSCaseInsensitiveSearch].location!=NSNotFound )
+        {
+            [self.searchedEvents addObject:self.events[i]];
+        }
+    }
+    self.showedEvents=self.searchedEvents;
+    [self.tableView reloadData];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
 }
 
 -(instancetype)initWithUpdateNotification:(NSString *)notification
@@ -130,6 +159,7 @@
 //    [searchView addSubview:activityInd];
 //    
 //    [self.shadowView addSubview:searchView];
+    self.isRefresh=YES;
     [self.view addSubview:self.loadContentView];
     //[activityInd startAnimating];
     [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
@@ -150,7 +180,7 @@
     //[self.view addSubview:self.tableView];
     self.tableView.delegate=self;
     self.tableView.dataSource=self;
-    
+    self.searchBar.delegate=self;
     if(self.navigationController.viewControllers.count<2)
     {
         UIBarButtonItem * menuItem=[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(menuDidTap)];
@@ -165,6 +195,9 @@
     self.shadowView.backgroundColor=[UIColor colorWithWhite:0.0 alpha:0.5];
     
     self.events=[NSMutableArray array];
+    self.showedEvents=self.events;
+    self.searchedEvents=[NSMutableArray array];
+    
 }
 
 -(NSUInteger)eventsCount

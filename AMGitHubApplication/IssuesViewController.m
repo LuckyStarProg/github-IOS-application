@@ -7,13 +7,14 @@
 //
 
 #import "IssuesViewController.h"
-#import "IssueTableViewController.h"
 
-@interface IssuesViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface IssuesViewController ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
 @property (nonatomic)NSMutableArray<GitHubIssue *> * issues;
 @property (nonatomic)NSString * notification;
 @property (nonatomic)UISegmentedControl * segmentControl;
 @property (nonatomic)UIBarButtonItem * tabBarSegment;
+@property (nonatomic)NSMutableArray<GitHubIssue *> * searchedIssues;
+@property (nonatomic, weak)NSMutableArray<GitHubIssue *> * showedIssues;
 @end
 
 @implementation IssuesViewController
@@ -22,7 +23,8 @@
 {
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
     IssueTableViewController * table=[[IssueTableViewController alloc] init];
-    table.issue=self.issues[indexPath.row];
+    table.issue=self.showedIssues[indexPath.row];
+    table.issue.repo=self.repo;
 //    IssueViewController * issueDisc=[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"issuesViewController"];
 //    issueDisc.notification=@"addIssueComments";
 //    issueDisc.issue=self.issues[indexPath.row];
@@ -31,14 +33,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.issues.count;
+    return self.showedIssues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     IssueTableViewCell * cell=(IssueTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"issueCell"];
     
-    if(indexPath.row==self.issues.count-3)
+    if(!self.isAll && indexPath.row==self.issues.count-3 && self.issues==self.showedIssues)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
     }
@@ -48,10 +50,10 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"IssueTableViewCell"owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
-    cell.issueState.text=self.issues[indexPath.row].state;
-    cell.issueTitle.text=self.issues[indexPath.row].title;
-    cell.issueNumber.text=self.issues[indexPath.row].issueNumber;
-    cell.issueCreateDate.text=self.issues[indexPath.row].createDate;
+    cell.issueState.text=self.showedIssues[indexPath.row].state;
+    cell.issueTitle.text=self.showedIssues[indexPath.row].title;
+    cell.issueNumber.text=self.showedIssues[indexPath.row].issueNumber;
+    cell.issueCreateDate.text=self.showedIssues[indexPath.row].createDate;
     return cell;
 }
 
@@ -59,6 +61,7 @@
 {
     return 55.0;
 }
+
 -(void)setIsAll:(BOOL)isAll
 {
     _isAll=isAll;
@@ -70,6 +73,33 @@
         self.tableView.tableHeaderView=self.noResultView;
     }
 }
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [self.searchedIssues removeAllObjects];
+    if(searchText.length==0)
+    {
+        [self performSelector:@selector(searchBarSearchButtonClicked:) withObject:searchBar afterDelay:0];
+        self.showedIssues=self.issues;
+        [self.tableView reloadData];
+        return;
+    }
+    for(NSUInteger i=0;i<self.issues.count;++i)
+    {
+        if([self.issues[i].title rangeOfString:searchText options:NSCaseInsensitiveSearch].location!=NSNotFound || [self.issues[i].issueNumber rangeOfString:searchText options:NSCaseInsensitiveSearch].location!=NSNotFound || [self.issues[i].body rangeOfString:searchText options:NSCaseInsensitiveSearch].location!=NSNotFound)
+        {
+            [self.searchedIssues addObject:self.issues[i]];
+        }
+    }
+    self.showedIssues=self.searchedIssues;
+    [self.tableView reloadData];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+}
+
 -(void)addIssues:(NSArray<GitHubIssue *> *)issues
 {
     NSMutableArray * array=[NSMutableArray array];
@@ -78,6 +108,8 @@
         [array addObject:[NSIndexPath indexPathForRow:i inSection:0]];
     }
     [self.issues addObjectsFromArray:issues];
+    self.showedIssues=self.issues;
+    [self performSelector:@selector(searchBarSearchButtonClicked:) withObject:self.searchBar afterDelay:0];
     if(self.isRefresh)
     {
         [self.tableView reloadData];
@@ -87,13 +119,13 @@
     else
     {
         [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
-        [self.loadContentView removeFromSuperview];
     }
+    [self.loadContentView removeFromSuperview];
 }
 
 -(NSUInteger)issuesCount
 {
-    return self.issues.count;
+    return self.showedIssues.count;
 }
 
 -(instancetype)initWithUpdateNotification:(NSString *)notification
@@ -107,9 +139,9 @@
 
 -(void)segmentDidTap
 {
+    self.isRefresh=YES;
     self.state=self.segmentControl.selectedSegmentIndex==0?@"open":@"closed";
     [self.issues removeAllObjects];
-    [self.tableView reloadData];
     [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
 }
 
@@ -129,6 +161,13 @@
 {
     [super viewWillDisappear:animated];
     self.navigationController.toolbarHidden=YES;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.toolbarHidden=NO;
+    self.tabBarSegment.width=[UIScreen mainScreen].bounds.size.width-35;
 }
 
 -(void)refreshDidTap
@@ -152,8 +191,11 @@
         menuItem.tintColor=[UIColor whiteColor];
         self.navigationItem.leftBarButtonItem=menuItem;
     }
-    
+    self.searchBar.delegate=self;
     self.issues=[NSMutableArray array];
+    self.showedIssues=self.issues;
+    self.searchedIssues=[NSMutableArray array];
+    
     self.navigationController.toolbar.clipsToBounds=YES;
     self.navigationController.toolbar.autoresizesSubviews=YES;
     
@@ -167,7 +209,7 @@
     [self.segmentControl setSelectedSegmentIndex:0];
     self.segmentControl.autoresizingMask=(UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin);
     self.tabBarSegment=[[UIBarButtonItem alloc] initWithCustomView:self.segmentControl];
-    self.navigationController.toolbarHidden=NO;
+
     self.tabBarSegment.width=self.tableView.frame.size.width-35;
     self.toolbarItems=[NSArray arrayWithObject:self.tabBarSegment];
     [self.segmentControl sendActionsForControlEvents:UIControlEventValueChanged];

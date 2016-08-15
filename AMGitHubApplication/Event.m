@@ -13,6 +13,7 @@
 -(Event *)eventFromDictionary:(NSDictionary *)dict
 {
     Event * event=[[Event alloc] init];
+    event.type=[NSString stringWithFormat:@"%@",dict[@"type"]];
     event.ID=[NSString stringWithFormat:@"%@",dict[@"id"]];
     self.descriptionStr=@"None";
     self.headerInfo=@"Unkown event!";

@@ -7,7 +7,6 @@
 //
 
 #import "AMGitHubCommentParser.h"
-#import "AMDataManager.h"
 
 @interface AMGitHubCommentParser ()
 @property (nonatomic)NSArray<ParserToken *> * tokens;
@@ -29,7 +28,7 @@
     NSUInteger startindex=0;
     self.results=[NSMutableDictionary dictionary];
     NSUInteger textCount=0;
-    NSLog(@"%@",string);
+
     for(NSUInteger i=0;i<startString.length;++i)
     {
         for(NSUInteger j=0;j<self.tokens.count;++j)
@@ -38,7 +37,6 @@
             if(self.tokens[j].isMatch)
             {
                 NSRange secondRange=self.tokens[j].matchRange;
-                NSString * second=[startString substringWithRange:secondRange];
                 
                 NSRange firstRange;
                 firstRange.location=startindex;
@@ -54,7 +52,7 @@
                     startString=[startString stringByReplacingCharactersInRange:secondRange withString:@""];
                 i-=firstRange.length;
                 i-=secondRange.length-1;
-                NSLog(@"%@",second);
+
             }
         }
         
@@ -63,15 +61,7 @@
     {
         [self.results setObject:startString forKey:[NSString stringWithFormat:@"text%ld",textCount++]];
     }
-        NSLog(@"%@",self.results);
-//        for(NSUInteger i=0;i<self.results.count;++i)
-//        {
-//            if([self.results.allValues[i] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]].length==0)
-//            {
-//                [self.results Foro];
-//                --i;
-//            }
-//        }
-        return self.results;
+
+    return self.results;
 }
 @end

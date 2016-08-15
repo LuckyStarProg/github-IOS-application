@@ -7,15 +7,6 @@
 //
 
 #import "UserProfileViewController.h"
-#import "AuthorizedUser.h"
-#import "dataCollectionViewCell.h"
-#import "UIColor+GitHubColor.h"
-#import "AuthorizedUser.h"
-#import "NewsViewController.h"
-#import "repoListViewController.h"
-#import "AMSideBarViewController.h"
-#import "usersListViewController.h"
-#import "EditViewController.h"
 
 @interface UserProfileViewController()<UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate>
 @property (nonatomic)NSArray * methods;
@@ -57,55 +48,7 @@
 {
     return YES;
 }
-//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-//{
-//    return 0;
-//}
-//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-//    return 0;
-//}
-//- (UIEdgeInsets)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-//{
-////    UIEdgeInsets insets;
-////    switch (indexPath.row)
-////    {
-////        case 0:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        case 1:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        case 2:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        case 4:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        case 5:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        case 6:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        case 7:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        case 8:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        case 9:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        case 10:
-////            cell.backgroundColor=[UIColor whiteColor];
-////            break;
-////        default:
-////            cell.backgroundColor=[UIColor grayColor];
-////            break;
-////    }
-//
-//    return UIEdgeInsetsMake(0, 0, 0, 0);
-//}
+
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
     CGSize size;
@@ -208,7 +151,6 @@
 -(void) scrollViewDidScroll:(UIScrollView *)scrollView
 {
     self.footerView.frame=CGRectMake(self.footerView.frame.origin.x, -self.collectionView.contentOffset.y, self.footerView.frame.size.width, self.footerView.frame.size.height);
-    //self.indicator.bounds=CGRectMake(self.collectionView.contentOffset.x,-(self.collectionView.contentOffset.y)-30, 30, 30);
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -220,8 +162,6 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration;
 {
-    //[self.collectionView reloadInputViews];
-    //[self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:indexpath]];
     [UIView animateWithDuration:duration animations:^
      {
          [self.collectionView reloadData];
@@ -233,39 +173,16 @@
 {
     self.usersList=[[usersListViewController alloc] initWithUpdateNotification:@"Followers"];
     self.usersList.title=@"Followers";
-
+    self.usersList.parentUser=self.user;
     [self.navigationController pushViewController:self.usersList animated:YES];
-}
--(void)addFollowers
-{
-    [[GitHubApiController sharedController] followersForUser:self.user andPerPage:20 andPage:self.usersList.usersCount/20+1 andComplation:^(NSMutableArray<GitHubUser *> * users)
-        {
-            if(users.count<20)
-            {
-                self.usersList.isAllUsers=YES;
-            }
-            [self.usersList addUsers:users];
-        }];
 }
 
 -(void)followingDidTap
 {
     self.usersList=[[usersListViewController alloc] initWithUpdateNotification:@"Following"];
     self.usersList.title=@"Following";
-
+    self.usersList.parentUser=self.user;
     [self.navigationController pushViewController:self.usersList animated:YES];
-}
-
--(void)addFollowing
-{
-    [[GitHubApiController sharedController] followingForUser:self.user andPerPage:20 andPage:self.usersList.usersCount/20+1 andComplation:^(NSMutableArray<GitHubUser *> * users)
-     {
-         if(users.count<20)
-         {
-             self.usersList.isAllUsers=YES;
-         }
-         [self.usersList addUsers:users];
-     }];
 }
 
 -(void)emptyMethod
@@ -326,15 +243,6 @@
 -(void)setUser:(GitHubUser *)user
 {
     _user=user;
-//    AMDataManager * manager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
-//    [manager loadDataWithURLString:user.avatarRef andSuccess:^(NSString * path)
-//    {
-//        _user.avatarPath=path;
-//        [[self.collectionView collectionViewLayout] invalidateLayout];
-//    } orFailure:^(NSString * message)
-//    {
-//        NSLog(@"%@",message);
-//    }];
     [self.collectionView reloadData];
 }
 
@@ -359,19 +267,15 @@
     }
     
     self.refresh=[[UIRefreshControl alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2-15, 0, 40, 40)];
-    //self.refresh.attributedTitle=[[NSAttributedString alloc] initWithString:@"Pull to refresh"];
+
     self.refresh.tintColor=[UIColor whiteColor];
     [self.refresh addTarget:self action:@selector(refrashData) forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:self.refresh];
-//    [[GitHubApiController sharedController] userFromLogin:self.user.login andComplation:^(GitHubUser * user)
-//    {
-//        <#code#>
-//    }]
+
     UIView * upperView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-    //[upperView addSubview:self.refresh];
+
     upperView.backgroundColor=[UIColor GitHubColor];
     
-    NSLog(@"%@",self.collectionView.backgroundView);
     self.collectionView.backgroundView=upperView;
     
     self.footerView=[[UIView alloc] initWithFrame:CGRectMake(0, self.collectionView.bounds.size.height/3.3, self.collectionView.bounds.size.width, [UIScreen mainScreen].bounds.size.height*2)];
@@ -387,8 +291,6 @@
         self.methods=[NSArray arrayWithObjects:@"followersDidTap",@"followingDidTap",@"emptyMethod",@"eventsDidTap",@"reposDidTap",@"emptyMethod",@"emptyMethod",@"emptyMethod",@"emptyMethod",@"emptyMethod",@"emptyMethod", nil];
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addFollowers) name:@"Followers" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addFollowing) name:@"Following" object:nil];
 
     self.editController=[[EditViewController alloc] init];
 }
@@ -407,10 +309,6 @@
     }];
 }
 
--(void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
 -(void)menuDidTap
 {
     AMSideBarViewController * sider=(AMSideBarViewController *)self.navigationController.parentViewController;

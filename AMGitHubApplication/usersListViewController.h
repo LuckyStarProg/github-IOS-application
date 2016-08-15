@@ -8,6 +8,10 @@
 
 #import "BaseViewController.h"
 #import "GitHubUser.h"
+#import "AMDataManager.h"
+#import "UIColor+GitHubColor.h"
+#import "UserProfileViewController.h"
+
 @interface usersListViewController : BaseViewController
 
 -(instancetype)init;
@@ -15,4 +19,5 @@
 -(void)addUsers:(NSMutableArray *)users;
 @property (nonatomic, readonly)NSUInteger usersCount;
 @property (nonatomic)BOOL isAllUsers;
+@property (nonatomic)GitHubUser * parentUser;
 @end

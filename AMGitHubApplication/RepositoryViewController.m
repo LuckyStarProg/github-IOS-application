@@ -7,12 +7,6 @@
 //
 
 #import "RepositoryViewController.h"
-#import "UIImage+ResizingImg.h"
-#import "dataCollectionViewCell.h"
-#import "UIColor+GitHubColor.h"
-#import "GitHubApiController.h"
-#import "UserProfileViewController.h"
-#import "IssuesViewController.h"
 
 @interface RepositoryViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic)UIView * noResultView;
@@ -63,6 +57,7 @@
     
     return size;
 }
+
 -(CGSize)collectionView:(UICollectionView *)collectionView
                  layout:(UICollectionViewLayout*)collectionViewLayout
  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -168,20 +163,21 @@
 -(void)setRepo:(GitHubRepository *)repo
 {
     _repo=repo;
-    [[GitHubApiController sharedController] listWatchesForRepo:repo withComplation:^(NSArray *watchers)
+    [[GitHubApiController sharedController] listWatchesForRepo:repo andSuccess:^(NSArray * watchers)
     {
         repo.watchers=[NSString stringWithFormat:@"%ld",watchers.count];
         dispatch_async(dispatch_get_main_queue(), ^
-        {
-            [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]]];
-            [self.refresh endRefreshing];
-        });
+                       {
+                           [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]]];
+                           [self.refresh endRefreshing];
+                       });
+    } orFailure:^(NSString *message)
+    {
+        [AlertController showAlertOnVC:self withMessage:message];
     }];
 }
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration;
 {
-        //[self.collectionView reloadInputViews];
-        //[self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:indexpath]];
     [UIView animateWithDuration:duration animations:^
     {
            [self.collectionView reloadData];
@@ -191,89 +187,73 @@
 -(void)emptyMethod
 {
 }
+
 -(void)starDidPress
 {
-    [[GitHubApiController sharedController] repo:self.repo isStarred:^(BOOL isStarred)
-     {
-         if(!isStarred)
-         {
-             [[GitHubApiController sharedController] starRepo:self.repo andSuccess:^(NSData *data)
-              {
-                  dispatch_async(dispatch_get_main_queue(), ^
-                                 {
-                                     self.imageView.image=[UIImage imageNamed:@"star"];
-                                     [UIView animateWithDuration:0.5 animations:^
-                                      {
-                                          self.imageView.alpha=1.0;
-                                          self.imageView.alpha=0.0;
-                                      }];
-                                     self.repo.stars=[NSString stringWithFormat:@"%ld",self.repo.stars.integerValue+1];
-                                     [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]];
-                                 });
-                  
-                  //for(int i=0;i<100000000;++i);
-                  //[self.noResultView removeFromSuperview];
-              } orFailure:^(NSString *message)
-              {
-                  
-              }];
-         }
-         else
-         {
-             
-             [[GitHubApiController sharedController] unStarRepo:self.repo andSuccess:^(NSData *data)
-              {
-                  dispatch_async(dispatch_get_main_queue(), ^
-                                 {
-                                     self.imageView.image=[UIImage imageNamed:@"unstar"];
-                                     [UIView animateWithDuration:0.5 animations:^
-                                      {
-                                          self.imageView.alpha=1.0;
-                                          self.imageView.alpha=0.0;
-                                      }];
-                                     self.repo.stars=[NSString stringWithFormat:@"%ld",self.repo.stars.integerValue-1];
-                                     [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]];
-                                 });
-                  //for(int i=0;i<100000000;++i);
-                  //[self.noResultView removeFromSuperview];
-              } orFailure:^(NSString *message)
-              {
-                  
-              }];
-         }
-         
-     }];
+    [[GitHubApiController sharedController] starRepo:self.repo starComplation:^
+    {
+        dispatch_async(dispatch_get_main_queue(), ^
+                       {
+                           self.imageView.image=[UIImage imageNamed:@"star"];
+                           [UIView animateWithDuration:0.5 animations:^
+                            {
+                                self.imageView.alpha=1.0;
+                                self.imageView.alpha=0.0;
+                            }];
+                           self.repo.stars=[NSString stringWithFormat:@"%ld",self.repo.stars.integerValue+1];
+                           [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]];
+                       });
+    } unStarComplation:^
+    {
+        dispatch_async(dispatch_get_main_queue(), ^
+                       {
+                           self.imageView.image=[UIImage imageNamed:@"unstar"];
+                           [UIView animateWithDuration:0.5 animations:^
+                            {
+                                self.imageView.alpha=1.0;
+                                self.imageView.alpha=0.0;
+                            }];
+                           self.repo.stars=[NSString stringWithFormat:@"%ld",self.repo.stars.integerValue-1];
+                           [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]];
+                       });
+    } andFailure:^(NSString *message)
+    {
+        [AlertController showAlertOnVC:self withMessage:message];
+    }];
 }
 
 -(void)watchDidPress
 {
     [[GitHubApiController sharedController] watchRepo:self.repo watchComplation:^
-     {
-         dispatch_async(dispatch_get_main_queue(), ^
-                        {
-                            self.imageView.image=[UIImage imageNamed:@"watch"];
-                            [UIView animateWithDuration:1 animations:^
-                             {
-                                 self.imageView.alpha=1.0;
-                                 self.imageView.alpha=0.0;
-                             }];
-                            self.repo.watchers=[NSString stringWithFormat:@"%ld",self.repo.watchers.integerValue+1];
-                            [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]]];
-                        });
-     } unWatchComplation:^
-     {
-         dispatch_async(dispatch_get_main_queue(), ^
-                        {
-                            self.imageView.image=[UIImage imageNamed:@"unwatch"];
-                            [UIView animateWithDuration:1 animations:^
-                             {
-                                 self.imageView.alpha=1.0;
-                                 self.imageView.alpha=0.0;
-                             }];
-                            self.repo.watchers=[NSString stringWithFormat:@"%ld",self.repo.watchers.integerValue-1];
-                            [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]]];
-                        });
-     }];
+    {
+        dispatch_async(dispatch_get_main_queue(), ^
+                       {
+                           self.imageView.image=[UIImage imageNamed:@"watch"];
+                           [UIView animateWithDuration:1 animations:^
+                            {
+                                self.imageView.alpha=1.0;
+                                self.imageView.alpha=0.0;
+                            }];
+                           self.repo.watchers=[NSString stringWithFormat:@"%ld",self.repo.watchers.integerValue+1];
+                           [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]]];
+                       });
+    } unWatchComplation:^
+    {
+        dispatch_async(dispatch_get_main_queue(), ^
+                       {
+                           self.imageView.image=[UIImage imageNamed:@"unwatch"];
+                           [UIView animateWithDuration:1 animations:^
+                            {
+                                self.imageView.alpha=1.0;
+                                self.imageView.alpha=0.0;
+                            }];
+                           self.repo.watchers=[NSString stringWithFormat:@"%ld",self.repo.watchers.integerValue-1];
+                           [self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]]];
+                       });
+    } andFailure:^(NSString *message)
+    {
+        [AlertController showAlertOnVC:self withMessage:message];
+    }];
 }
 -(void)ownerDidTap
 {
@@ -296,7 +276,6 @@
 {
     IssuesViewController * issuesController=[[IssuesViewController alloc] initWithUpdateNotification:@"RepoIssues"];
     issuesController.repo=self.repo;
-    //UINavigationController * navi=[[UINavigationController alloc] initWithRootViewController:issuesController];
     [self.navigationController pushViewController:issuesController animated:YES];
 }
 
@@ -320,22 +299,9 @@
     {
         dispatch_async(dispatch_get_main_queue(), ^
         {
-            [self showAllertWithMessage:message];
+            [AlertController showAlertOnVC:self withMessage:message];
         });
     }];
-}
-
--(void)showAllertWithMessage:(NSString *)message
-{
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                   message:message
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {}];
-    
-    [alert addAction:defaultAction];
-    [self presentViewController:alert animated:YES completion:nil];
 }
 
 -(void)viewDidLoad
@@ -346,7 +312,7 @@
     
     
     self.refresh=[[UIRefreshControl alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2-15, 0, 40, 40)];
-    //self.refresh.attributedTitle=[[NSAttributedString alloc] initWithString:@"Pull to refresh"];
+
     self.refresh.tintColor=[UIColor whiteColor];
     [self.refresh addTarget:self action:@selector(refrashData) forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:self.refresh];
@@ -355,7 +321,6 @@
     UIView * upperView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
     upperView.backgroundColor=[UIColor GitHubColor];
     
-    NSLog(@"%@",self.collectionView.backgroundView);
     self.collectionView.backgroundView=upperView;
     
     self.footerView=[[UIView alloc] initWithFrame:CGRectMake(0, self.collectionView.bounds.size.height/3.3, self.collectionView.bounds.size.width, [UIScreen mainScreen].bounds.size.height*2)];
@@ -368,17 +333,8 @@
     
     self.methods=[NSArray arrayWithObjects:@"starDidPress",@"watchDidPress",@"emptyMethod",@"emptyMethod",@"emptyMethod",@"emptyMethod",@"emptyMethod",@"emptyMethod",@"ownerDidTap",@"emptyMethod",@"issuesDidTap",@"sorceDidTap", nil];
     
-    //[self.noResultView addSubview:self.imageView];
-    //self.noResultView.backgroundColor=[UIColor blackColor];
-    //self.noResultView.alpha=0.0;
     
     [self.view addSubview:self.imageView];
-    //self.collectionView.backgroundColor=[UIColor SeparatorColor];
-    //upperView.backgroundColor=[UIColor GitHubColor];
-    //self.collectionView.layer;
-    //self.collectionView.backgroundColor=[UIColor SeparatorColor];
-    //self.collectionView.pagingEnabled=NO;
-    //self.collectionView.enabled
-    //[self.view addSubview:self.tableView];
+
 }
 @end

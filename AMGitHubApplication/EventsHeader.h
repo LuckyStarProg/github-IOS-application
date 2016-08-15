@@ -14,3 +14,8 @@
 #import "ForkEvent.h"
 #import "WatchEvent.h"
 #import "MemberEvent.h"
+#import "PullRequestEvent.h"
+#import "DeleteEvent.h"
+#import "CommitCommentEvent.h"
+#import "PullRequestReviewCommentEvent.h"
+#import "ReleaseEvent.h"

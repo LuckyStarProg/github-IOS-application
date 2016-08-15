@@ -9,7 +9,6 @@
 #import "repoListViewController.h"
 
 @interface repoListViewController ()<UITableViewDataSource, UITableViewDelegate,UISearchBarDelegate>
-//@property (nonatomic)UITableView * tableView;
 @property (nonatomic)AMDataManager * dataManager;
 @property (nonatomic)UIView * shadowView;
 @property (nonatomic)UIAlertController* alert;
@@ -54,15 +53,14 @@
     [self.searchedRepos removeAllObjects];
     if(searchText.length==0)
     {
-        [searchBar resignFirstResponder];
-        [searchBar resignFirstResponder];
+        [self performSelector:@selector(searchBarSearchButtonClicked:) withObject:searchBar afterDelay:0];
         self.showedRepos=self.repos;
         [self.tableView reloadData];
         return;
     }
     for(NSUInteger i=0;i<self.repos.count;++i)
     {
-        if([self.repos[i].name containsString:searchText] || [self.repos[i].descriptionStr containsString:searchText])
+        if([self.repos[i].name rangeOfString:searchText options:NSCaseInsensitiveSearch].location!=NSNotFound || [self.repos[i].descriptionStr rangeOfString:searchText options:NSCaseInsensitiveSearch].location!=NSNotFound )
         {
             [self.searchedRepos addObject:self.repos[i]];
         }
@@ -90,6 +88,7 @@
     }
     
     cell=(repoCell *)[tableView dequeueReusableCellWithIdentifier:identifaer];
+    self.showedRepos=self.repos;
     if(cell==nil)
     {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"repoCell"owner:self options:nil];
@@ -141,11 +140,10 @@
 
 -(void)startLoading
 {
+    self.isRefresh=YES;
     [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
-    NSLog(@"%@",self.view.subviews);
+
     [self.view addSubview:self.loadContentView];
-    NSLog(@"%@",self.view.subviews);
-    //[activityInd startAnimating];
 }
 
 -(void)stopLoading
@@ -189,13 +187,6 @@
 {
     [self.dataManager cancel];
 }
-
-
-//- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration;
-//{
-//    NSLog(@"%f",[UIScreen mainScreen].bounds.size.width);
-//    self.tableView.frame=CGRectMake(0.0, 0.0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
-//}
 
 -(instancetype)initWithUpdateNotification:(NSString *)notification
 {

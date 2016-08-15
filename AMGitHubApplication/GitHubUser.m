@@ -14,7 +14,6 @@
 {
     GitHubUser * result=[[GitHubUser alloc] init];
     
-    NSLog(@"%@",dictionary);
     result.ID=[NSString stringWithFormat:@"%@",dictionary[@"id"]];
     result.name=[NSString stringWithFormat:@"%@",dictionary[@"name"]];
     result.apiRef=[NSString stringWithFormat:@"%@",dictionary[@"url"]];
@@ -38,16 +37,7 @@
     
     equalStr=[NSString stringWithFormat:@"%@",dictionary[@"bio"]];
     result.bio=[equalStr isEqualToString:@"<null>"]?@"N/A":equalStr;
-//    [[GitHubApiController sharedController] followersForUser:result andComplation:^(NSArray * followers)
-//    {
-//        result.followers=followers;
-//    }];
-//    [[GitHubApiController sharedController] followingForUser:result andComplation:^(NSArray * following)
-//     {
-//         result.following=following;
-//     }];
-//    while (!result.following && !result.followers);
-    NSLog(@"%@",result.bio);
+
     return result;
 }
 @end

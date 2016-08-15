@@ -7,26 +7,9 @@
 //
 
 #import "defaultUserMenuViewController.h"
-#import "searchBarCell.h"
-#import "AMSideBarViewController.h"
-#import "GitHubApiController.h"
-#import "repoListViewController.h"
-#import "GitHubRepository.h"
-#import "UIColor+GitHubColor.h"
-#import "InternetConnectionController.h"
-#import "UserProfileViewController.h"
-#import "NewsViewController.h"
-#import "UIImage+ResizingImg.h"
-#import "AuthorizedUser.h"
-#import "MenuTableViewCell.h"
-#import "IssuesViewController.h"
-#import "IssueViewController.h"
-#import "IssueTableViewController.h"
-#import "GitHubContentManager.h"
 
 @interface defaultUserMenuViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 @property (nonatomic)UISearchBar * reposSearchBar;
-//@property (nonatomic)NSArray * menuItems;
 @property (nonatomic)NSString * searchItem;
 @property (nonatomic)repoListViewController * searchReposViewController;
 @property (nonatomic)NSArray * methods;
@@ -37,23 +20,8 @@
 #pragma mark Table delegate methods
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-//    AMSideBarViewController * sider=(AMSideBarViewController *)self.parentViewController;
-//    if(tableView.indexPathForSelectedRow==indexPath)
-//    {
-//        [sider side];
-//        return;
-//    }
     SEL selector = NSSelectorFromString(self.methods[indexPath.row]);
     ((void (*)(id, SEL))[self methodForSelector:selector])(self, selector);
- //   UINavigationController * navi=[[UINavigationController alloc] initWithRootViewController:self.menuItems[indexPath.row-1]];
-//    navi.navigationBar.alpha=1.0;
-//    navi.navigationBar.translucent=NO;
-//    navi.navigationBar.barTintColor=[UIColor GitHubColor];
-//    navi.navigationBar.tintColor=[UIColor whiteColor];
-//    [navi.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-//    [sider setNewFrontViewController:navi];
-//    [sider side];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -68,11 +36,6 @@
     if(indexPath.row==0)
     {
         searchBarCell * tempCell=(searchBarCell *)[tableView dequeueReusableCellWithIdentifier:@"searchCell"];
-//        if(!tempCell)
-//        {
-//            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"searchBarCell"owner:self options:nil];
-//            tempCell = [nib objectAtIndex:0];
-//        }
         tempCell.search.delegate=self;
         cell=tempCell;
     }
@@ -80,7 +43,6 @@
     {
         
         MenuTableViewCell * tableCell=(MenuTableViewCell *)[tableView dequeueReusableCellWithIdentifier:[NSString stringWithFormat:@"menuCell%ld",indexPath.row] forIndexPath:indexPath];
-        NSLog(@"%@",tableCell);
 
         if(indexPath.row==1)
         {
@@ -121,6 +83,7 @@
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar;
 {
     searchBar.showsCancelButton=YES;
+    self.reposSearchBar=searchBar;
     return YES;
 }
 
@@ -198,11 +161,6 @@
 
 -(void)pushLogin
 {
-    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    for (NSHTTPCookie *cookie in [storage cookies])
-    {
-        [storage deleteCookie:cookie];
-    }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"logout" object:nil];
     [[AuthorizedUser sharedUser] logOut];
     [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
@@ -213,6 +171,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+-(void)menuWillHide
+{
+    [self performSelector:@selector(searchBarCancelButtonClicked:) withObject:self.reposSearchBar afterDelay:0];
+}
 -(void)viewDidLoad
 {
     [super viewDidLoad];
@@ -225,16 +187,9 @@
     [[GitHubContentManager sharedManager] startManaging];
 
     [[NSNotificationCenter defaultCenter] addObserver:self.table selector:@selector(reloadData) name:@"Authorized user loaded" object:nil];
-
-    self.methods=[NSArray arrayWithObjects:@"pushSearch",@"pushProfile",@"pushOwndRepos",@"pushEvents",@"pushNews",@"pushIssues",@"pushStaredRepos",@"pushLogin", nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuWillHide) name:@"FrontViewControllerWillApeared" object:nil];
     
-//    UserProfileViewController * profile=[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"profile"];
-//    
-//    self.menuItems=[NSArray arrayWithObjects:
-//                    profile,
-//                    [[repoListViewController alloc] initWithUpdateNotification:@"addOwnRepos"],
-//                    [[NewsViewController alloc] initWithMod:NewsViewControllerOwnedMod],
-//                    [[NewsViewController alloc] initWithMod:NewsViewControllerReceiveMod], nil];
+    self.methods=[NSArray arrayWithObjects:@"pushSearch",@"pushProfile",@"pushOwndRepos",@"pushEvents",@"pushNews",@"pushIssues",@"pushStaredRepos",@"pushLogin", nil];
     [[UITextField appearanceWhenContainedInInstancesOfClasses:[NSArray arrayWithObject:[UISearchBar class]]] setTextColor:[UIColor whiteColor]];
 }
 

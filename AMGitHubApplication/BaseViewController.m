@@ -7,9 +7,12 @@
 //
 
 #import "BaseViewController.h"
-#import "UIColor+GitHubColor.h"
 
 @interface BaseViewController ()
+@property NSLayoutConstraint *trailing;
+@property NSLayoutConstraint *leading;
+@property NSLayoutConstraint *bottom;
+@property NSLayoutConstraint *top;
 @end
 
 @implementation BaseViewController
@@ -29,9 +32,7 @@
     
     if(!searchBar)
     {
-        //[self.tableView removeConstraints:[NSArray arrayWithObjects:self.trailing,self.leading,self.bottom,self.top, nil]];
         self.tableView.tableHeaderView=nil;
-        //[self setConstraints];
     }
     _searchBar=searchBar;
 }
@@ -138,10 +139,6 @@
     [self.view addConstraint:self.leading];
     [self.view addConstraint:self.bottom];
     [self.view addConstraint:self.top];
-}
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

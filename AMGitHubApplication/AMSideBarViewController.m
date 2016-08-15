@@ -7,8 +7,6 @@
 //
 
 #import "AMSideBarViewController.h"
-#import "defaultUserMenuViewController.h"
-#import "detailsViewController.h"
 
 @interface AMSideBarViewController ()<UIGestureRecognizerDelegate>
 @property (nonatomic)UIPanGestureRecognizer * pan;
@@ -139,6 +137,7 @@
 {
     if(self.direction==SideDirectionRight)
     {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"BackViewControllerWillApeared" object:nil];
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
          {
              [self moveFrontViewOnPosition:MAX_OFFSET];
@@ -146,6 +145,7 @@
     }
     else
     {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"FrontViewControllerWillApeared" object:nil];
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
          {
              [self moveFrontViewOnPosition:0.0];
