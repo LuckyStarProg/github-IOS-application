@@ -18,10 +18,10 @@
 
 #define CLIENT_ID @"8318492ac2d21b463e69"
 #define CLIENT_SECRET @"6dcac3f941bf6cc14dfb754efa4ee764bd3078f9"
-
+static GitHubApiController * gitControllerInstance;
 +(GitHubApiController *)sharedController
 {
-    static GitHubApiController * gitControllerInstance;
+    
     static dispatch_once_t predicate;
     dispatch_once(&predicate,^
                   {
@@ -29,6 +29,13 @@
                       gitControllerInstance.apiRef=@"https://api.github.com";
                   });
     return gitControllerInstance;
+}
+-(instancetype)init
+{
+    if(gitControllerInstance)
+        return nil;
+    return [super init];
+    
 }
 
 -(NSURL *)tokenURLFromCode:(NSString *)code

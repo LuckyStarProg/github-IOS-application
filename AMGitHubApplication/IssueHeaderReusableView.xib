@@ -31,8 +31,8 @@
                     </constraints>
                     <variation key="default">
                         <mask key="constraints">
-                            <exclude reference="znX-Vg-1rw"/>
                             <exclude reference="Dvn-4h-xZM"/>
+                            <exclude reference="znX-Vg-1rw"/>
                         </mask>
                     </variation>
                 </imageView>

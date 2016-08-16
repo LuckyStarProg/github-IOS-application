@@ -12,7 +12,6 @@
 
 +(GitHubIssue *)issueFromDictionary:(NSDictionary *)dictionary
 {
-    NSLog(@"%@",dictionary);
     GitHubIssue * issue=[[GitHubIssue alloc] init];
     NSString * validatingStr=dictionary[@"title"];
     issue.title=[validatingStr isEqualToString:@"<null>"]?@"N/A":validatingStr;

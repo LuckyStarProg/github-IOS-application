@@ -19,6 +19,7 @@
 
 @implementation usersListViewController
 
+#pragma mark - TableView delegate methods
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
@@ -79,15 +80,45 @@
     return cell;
 }
 
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.showedUsers.count;
+}
+
+#pragma mark - SearchBar delegate methods
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [self.searchedUseers removeAllObjects];
+    if(searchText.length==0)
+    {
+        [self performSelector:@selector(searchBarSearchButtonClicked:) withObject:searchBar afterDelay:0];
+        self.showedUsers=self.users;
+        [self.tableView reloadData];
+        return;
+    }
+    for(NSUInteger i=0;i<self.users.count;++i)
+    {
+        if([self.users[i].login rangeOfString:searchText options:NSCaseInsensitiveSearch].location!=NSNotFound)
+        {
+            [self.searchedUseers addObject:self.users[i]];
+        }
+    }
+    self.showedUsers=self.searchedUseers;
+    [self.tableView reloadData];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+}
+
+
+#pragma mark - Life Cycle
 -(void)startLoading
 {
     self.isRefresh=YES;
     [self.view addSubview:self.loadContentView];
     [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
-}
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return self.showedUsers.count;
 }
 
 -(void)setIsAllUsers:(BOOL)isAllUsers
@@ -139,32 +170,6 @@
     return self.users.count;
 }
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
-{
-    [self.searchedUseers removeAllObjects];
-    if(searchText.length==0)
-    {
-        [self performSelector:@selector(searchBarSearchButtonClicked:) withObject:searchBar afterDelay:0];
-        self.showedUsers=self.users;
-        [self.tableView reloadData];
-        return;
-    }
-    for(NSUInteger i=0;i<self.users.count;++i)
-    {
-        if([self.users[i].login rangeOfString:searchText options:NSCaseInsensitiveSearch].location!=NSNotFound)
-        {
-            [self.searchedUseers addObject:self.users[i]];
-        }
-    }
-    self.showedUsers=self.searchedUseers;
-    [self.tableView reloadData];
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-    [searchBar resignFirstResponder];
-}
-
 -(void)addUsers:(NSMutableArray *)users
 {
     NSMutableArray * indexPathes=[NSMutableArray array];
@@ -188,8 +193,7 @@
     }
     [self.noResultView removeFromSuperview];
     [self.loadContentView removeFromSuperview];
-    [self.tableView.tableHeaderView removeFromSuperview];
-    self.tableView.tableHeaderView=nil;
+    self.tableView.tableHeaderView=self.searchBar;
 }
 
 -(instancetype)initWithUpdateNotification:(NSString *)notification
@@ -210,14 +214,5 @@
     }
     return self;
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -26,7 +26,7 @@
     CommitCommentEvent * result=[[CommitCommentEvent alloc] init];
     result.ID=[NSString stringWithFormat:@"%@",dict[@"id"]];
     result.headerInfo=[NSString stringWithFormat:@"%@ commented on commit in %@",dict[@"actor"][@"login"],dict[@"repo"][@"name"]];
-    NSLog(@"%@",[dict[@"payload"][@"pull_request"] allKeys]);
+
     result.descriptionStr=[NSString stringWithFormat:@"%@",dict[@"payload"][@"comment"][@"body"]];
     result.date=[[NSString stringWithFormat:@"%@",dict[@"created_at"]] substringToIndex:10];
     result.avatarPath=nil;

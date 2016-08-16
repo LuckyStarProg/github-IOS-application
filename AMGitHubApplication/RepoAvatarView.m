@@ -26,7 +26,6 @@
                                font , NSFontAttributeName,
                                paragraph, NSParagraphStyleAttributeName, nil];
     
-    NSLog(@"%f",[UIScreen mainScreen].bounds.size.width);
     CGRect rect = [text boundingRectWithSize:CGSizeMake( [UIScreen mainScreen].bounds.size.width*0.78 - 2*offset, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil];
     
     return CGRectGetHeight(rect) + 2 * offset;

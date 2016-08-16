@@ -175,6 +175,7 @@
 {
     [self performSelector:@selector(searchBarCancelButtonClicked:) withObject:self.reposSearchBar afterDelay:0];
 }
+
 -(void)viewDidLoad
 {
     [super viewDidLoad];
@@ -186,7 +187,6 @@
     self.table.tableFooterView = [UIView new];
     [[GitHubContentManager sharedManager] startManaging];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self.table selector:@selector(reloadData) name:@"Authorized user loaded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuWillHide) name:@"FrontViewControllerWillApeared" object:nil];
     
     self.methods=[NSArray arrayWithObjects:@"pushSearch",@"pushProfile",@"pushOwndRepos",@"pushEvents",@"pushNews",@"pushIssues",@"pushStaredRepos",@"pushLogin", nil];

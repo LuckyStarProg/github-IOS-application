@@ -72,6 +72,15 @@
 -(void)loadDataWithURLString:(NSString *)reference andSuccess:(void (^)(NSString *))reloadData orFailure:(void (^)(NSString *))Error;
 {
     self.reference=reference;
-    [self loadImageFromServerWithCompletion:reloadData andFailure:Error];
+    if(self.mod==AMDataManageDefaultMod)
+    {
+        [self loadImageFromServerWithCompletion:reloadData andFailure:Error];
+    }
+    else
+    {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        self.storagePath=[paths firstObject];
+        [self loadImageFromServerWithCompletion:reloadData andFailure:Error];
+    }
 }
 @end

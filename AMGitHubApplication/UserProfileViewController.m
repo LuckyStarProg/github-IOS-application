@@ -18,7 +18,7 @@
 @end
 
 @implementation UserProfileViewController
-
+#pragma mark - CollectionView delegate methods
 #define ROW_COUNT 11
 
 -(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -63,6 +63,7 @@
     
     return size;
 }
+
 -(CGSize)collectionView:(UICollectionView *)collectionView
                  layout:(UICollectionViewLayout*)collectionViewLayout
  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -148,6 +149,7 @@
     return cell;
 }
 
+#pragma mark - Life Cycle
 -(void) scrollViewDidScroll:(UIScrollView *)scrollView
 {
     self.footerView.frame=CGRectMake(self.footerView.frame.origin.x, -self.collectionView.contentOffset.y, self.footerView.frame.size.width, self.footerView.frame.size.height);

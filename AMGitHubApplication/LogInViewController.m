@@ -15,29 +15,25 @@
 
 @implementation LogInViewController
 
+#pragma mark - WebView delegate method
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSString *path = [request.URL absoluteString];
     NSLog(@"%@",path);
-    AMDataManager * manager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
     if([path containsString:@"https://www.zzz.com.ua/"])
     {
+        AMDataManager * manager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
         [[GitHubApiController sharedController] loginUserWithCode:path andSuccess:^
         {
-            dispatch_async(dispatch_get_main_queue(), ^
-            {
                 [self.webView removeFromSuperview];
                 [self.view addSubview:self.avatarView];
                 [self.view addSubview:self.indicatior];
-            });
-            [manager loadDataWithURLString:[AuthorizedUser sharedUser].apiRef andSuccess:^(NSString * path)
+            [manager loadDataWithURLString:[AuthorizedUser sharedUser].avatarRef andSuccess:^(NSString * path)
             {
                 dispatch_async(dispatch_get_main_queue(), ^
                                {
                                    self.avatarView.image=[UIImage imageWithContentsOfFile:path];
                                    [AuthorizedUser sharedUser].avatarPath=path;
-                                   [[NSNotificationCenter defaultCenter] postNotificationName:@"Authorized user loaded" object:nil];
-                                   
                                });
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^
                                {
@@ -68,11 +64,8 @@
     }
     return YES;
 }
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
 
+#pragma mark - Life Cycle
 -(void)viewDidLoad
 {
     [super viewDidLoad];
@@ -197,12 +190,10 @@
               AMDataManager * manager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
               [manager loadDataWithURLString:[AuthorizedUser sharedUser].avatarRef andSuccess:^(NSString * path)
               {
-                  [AuthorizedUser sharedUser].avatarPath=path;
                   dispatch_async(dispatch_get_main_queue(), ^
                   {
                       self.avatarView.image=[UIImage imageWithContentsOfFile:path];
                       [AuthorizedUser sharedUser].avatarPath=path;
-                      [[NSNotificationCenter defaultCenter] postNotificationName:@"Authorized user loaded" object:nil];
                   });
                   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^
                   {

@@ -19,6 +19,7 @@
 
 @implementation IssueTableViewController
 
+#pragma mark Table delegate methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.comments.count+3;
@@ -53,18 +54,6 @@
     {
         AddCommentViewController * addCommentViewController=[[AddCommentViewController alloc] init];
         [self presentViewController:[[UINavigationController alloc] initWithRootViewController:addCommentViewController] animated:YES completion:nil];
-    }
-}
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration;
-{
-    if(toInterfaceOrientation==UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation==UIInterfaceOrientationLandscapeRight)
-    {
-        self.footerView.bounds=CGRectMake(0, self.tableView.bounds.size.width/2, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
-    }
-    else
-    {
-        self.footerView.frame=CGRectMake(0, self.tableView.bounds.size.height/2, self.tableView.bounds.size.width, [UIScreen mainScreen].bounds.size.height*2);
     }
 }
 
@@ -173,7 +162,17 @@
     {
         if(self.comments.count>0)
         {
-            height=[CommentTableViewCell heightForText:self.comments[indexPath.row-2].body]+50;
+            NSUInteger lines=0;
+            NSArray * array=[self.comments[indexPath.row-2].body componentsSeparatedByString:@"\n"];
+            for(NSString * str in array)
+            {
+                if([bodyCollectionViewCell widthByString:str]>=[UIScreen mainScreen].bounds.size.width*0.8)
+                {
+                    lines+=[bodyCollectionViewCell widthByString:str]/[UIScreen mainScreen].bounds.size.width*0.8+1;
+                }
+            }
+            height=(lines+array.count)*[bodyCollectionViewCell heightByString:[array[0] substringToIndex:2]]+60;
+           // height=[CommentTableViewCell heightForText:self.comments[indexPath.row-2].body]+50;
         }
     }
     else
@@ -183,12 +182,25 @@
         return height;
 }
 
+#pragma mark - Life Cycle
 -(void)refreshDidSwipe
 {
     [self.comments removeAllObjects];
     self.isAll=NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"addIssueComments" object:self];
 }
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration;
+{
+    if(toInterfaceOrientation==UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation==UIInterfaceOrientationLandscapeRight)
+    {
+        self.footerView.bounds=CGRectMake(0, self.tableView.bounds.size.width/2, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
+    }
+    else
+    {
+        self.footerView.frame=CGRectMake(0, self.tableView.bounds.size.height/2, self.tableView.bounds.size.width, [UIScreen mainScreen].bounds.size.height*2);
+    }
+}
+
 
 - (void)viewDidLoad
 {
@@ -311,7 +323,6 @@
                     maxStr=str;
                 }
             }
-
             width=[bodyCollectionViewCell widthByString:maxStr]+20;
             UITextView * tempText=[[UITextView alloc] initWithFrame:CGRectMake(0, 0, width, CGFLOAT_MAX)];
             [tempText setFont:[UIFont systemFontOfSize:12.0]];

@@ -48,32 +48,6 @@
     return self.showedRepos.count;
 }
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
-{
-    [self.searchedRepos removeAllObjects];
-    if(searchText.length==0)
-    {
-        [self performSelector:@selector(searchBarSearchButtonClicked:) withObject:searchBar afterDelay:0];
-        self.showedRepos=self.repos;
-        [self.tableView reloadData];
-        return;
-    }
-    for(NSUInteger i=0;i<self.repos.count;++i)
-    {
-        if([self.repos[i].name rangeOfString:searchText options:NSCaseInsensitiveSearch].location!=NSNotFound || [self.repos[i].descriptionStr rangeOfString:searchText options:NSCaseInsensitiveSearch].location!=NSNotFound )
-        {
-            [self.searchedRepos addObject:self.repos[i]];
-        }
-    }
-    self.showedRepos=self.searchedRepos;
-    [self.tableView reloadData];
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-    [searchBar resignFirstResponder];
-}
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -123,8 +97,35 @@
     return cell;
 }
 
+#pragma mark - SearchBar delegate methods
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [self.searchedRepos removeAllObjects];
+    if(searchText.length==0)
+    {
+        [self performSelector:@selector(searchBarSearchButtonClicked:) withObject:searchBar afterDelay:0];
+        self.showedRepos=self.repos;
+        [self.tableView reloadData];
+        return;
+    }
+    for(NSUInteger i=0;i<self.repos.count;++i)
+    {
+        if([self.repos[i].name rangeOfString:searchText options:NSCaseInsensitiveSearch].location!=NSNotFound || [self.repos[i].descriptionStr rangeOfString:searchText options:NSCaseInsensitiveSearch].location!=NSNotFound )
+        {
+            [self.searchedRepos addObject:self.repos[i]];
+        }
+    }
+    self.showedRepos=self.searchedRepos;
+    [self.tableView reloadData];
+}
 
-#pragma mark Lyfe Cycle
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+}
+
+
+#pragma mark - Life Cycle
 
 -(void)setIsAll:(BOOL)isAll
 {
@@ -182,8 +183,10 @@
     }
     [self stopLoading];
     [self.noResultView removeFromSuperview];
-    [self.tableView.tableHeaderView removeFromSuperview];
-    self.tableView.tableHeaderView=nil;
+    if(!self.searchBar)
+    {
+        self.tableView.tableHeaderView=nil;
+    }
 }
 
 -(void)dealloc

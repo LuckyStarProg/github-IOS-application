@@ -19,6 +19,8 @@
 
 @implementation IssuesViewController
 
+#pragma mark - TableView delegate methods
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
@@ -60,17 +62,7 @@
     return 55.0;
 }
 
--(void)setIsAll:(BOOL)isAll
-{
-    _isAll=isAll;
-    if(!self.issues.count && _isAll==YES)
-    {
-        [self.refresh endRefreshing];
-        self.tableView.backgroundColor=[UIColor SeparatorColor];
-        [self.loadContentView removeFromSuperview];
-        self.tableView.tableHeaderView=self.noResultView;
-    }
-}
+#pragma mark - Searchbar delegate methods
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
@@ -98,6 +90,7 @@
     [searchBar resignFirstResponder];
 }
 
+#pragma mark - Life Cycle
 -(void)addIssues:(NSArray<GitHubIssue *> *)issues
 {
     NSMutableArray * array=[NSMutableArray array];
@@ -120,8 +113,19 @@
     }
     [self.loadContentView removeFromSuperview];
     [self.noResultView removeFromSuperview];
-    [self.tableView.tableHeaderView removeFromSuperview];
-    self.tableView.tableHeaderView=nil;
+    self.tableView.tableHeaderView=self.searchBar;
+}
+
+-(void)setIsAll:(BOOL)isAll
+{
+    _isAll=isAll;
+    if(!self.issues.count && _isAll==YES)
+    {
+        [self.refresh endRefreshing];
+        self.tableView.backgroundColor=[UIColor SeparatorColor];
+        [self.loadContentView removeFromSuperview];
+        self.tableView.tableHeaderView=self.noResultView;
+    }
 }
 
 -(NSUInteger)issuesCount
@@ -145,10 +149,6 @@
     [self.view addSubview:self.loadContentView];
     [self.issues removeAllObjects];
     [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
-}
-
--(void)dealloc
-{
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration

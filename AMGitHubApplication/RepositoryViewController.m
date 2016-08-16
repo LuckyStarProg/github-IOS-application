@@ -17,6 +17,7 @@
 @end
 @implementation RepositoryViewController
 
+#pragma mark - CollectionView delegate methods
 
 -(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
@@ -154,6 +155,7 @@
     return cell;
 }
 
+#pragma mark - Life Cycle
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.collectionView reloadData];

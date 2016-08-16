@@ -13,15 +13,23 @@
 
 @implementation InternetConnectionController
 
+static InternetConnectionController * internetConnectionControllerInstance;
 +(InternetConnectionController *) sharedController
 {
-    static InternetConnectionController * internetConnectionControllerInstance;
     static dispatch_once_t predicate;
     dispatch_once(&predicate,^
     {
         internetConnectionControllerInstance=[[InternetConnectionController alloc] init];
     });
     return internetConnectionControllerInstance;
+}
+
+-(instancetype)init
+{
+    if(internetConnectionControllerInstance)
+        return nil;
+    return [super init];
+    
 }
 
 -(NSString *)statusCodeWithResponse:(NSURLResponse *)response andError:(NSError *)error

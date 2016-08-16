@@ -25,15 +25,23 @@
 #import "AlertController.h"
 @implementation GitHubContentManager
 
+static GitHubContentManager * gitControllerInstance;
 +(GitHubContentManager *)sharedManager
 {
-    static GitHubContentManager * gitControllerInstance;
     static dispatch_once_t predicate;
     dispatch_once(&predicate,^
                   {
                       gitControllerInstance=[[GitHubContentManager alloc] init];
                   });
     return gitControllerInstance;
+}
+
+-(instancetype)init
+{
+    if(gitControllerInstance)
+        return nil;
+    return [super init];
+    
 }
 
 -(void)startManaging

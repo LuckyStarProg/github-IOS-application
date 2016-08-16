@@ -19,6 +19,7 @@
 
 @implementation NewsViewController
 
+#pragma mark - TableView delegate methods
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -35,32 +36,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.showedEvents.count;
-}
-
--(void)addEvents:(NSArray<Event *> *)events
-{
-    NSMutableArray<NSIndexPath *> * array=[NSMutableArray array];
-    for(NSUInteger i=self.events.count;i<self.events.count+events.count;++i)
-    {
-        [array addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-    }
-    [self.events addObjectsFromArray:events];
-    self.showedEvents=self.events;
-    [self performSelector:@selector(searchBarSearchButtonClicked:) withObject:self.searchBar afterDelay:0];
-    if(self.isRefresh)
-    {
-        [self.tableView reloadData];
-        self.isRefresh=NO;
-        [self.refresh endRefreshing];
-    }
-    else
-    {
-        [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
-    }
-    [self.loadContentView removeFromSuperview];
-    [self.noResultView removeFromSuperview];
-    [self.tableView.tableHeaderView removeFromSuperview];
-    self.tableView.tableHeaderView=nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -84,6 +59,7 @@
     return cell;
 }
 
+#pragma mark - SearchBar delegate methods
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     [self.searchedEvents removeAllObjects];
@@ -108,6 +84,33 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
+}
+
+#pragma mark - Life Cycle
+
+-(void)addEvents:(NSArray<Event *> *)events
+{
+    NSMutableArray<NSIndexPath *> * array=[NSMutableArray array];
+    for(NSUInteger i=self.events.count;i<self.events.count+events.count;++i)
+    {
+        [array addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+    }
+    [self.events addObjectsFromArray:events];
+    self.showedEvents=self.events;
+    [self performSelector:@selector(searchBarSearchButtonClicked:) withObject:self.searchBar afterDelay:0];
+    if(self.isRefresh)
+    {
+        [self.tableView reloadData];
+        self.isRefresh=NO;
+        [self.refresh endRefreshing];
+    }
+    else
+    {
+        [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationFade];
+    }
+    [self.loadContentView removeFromSuperview];
+    [self.noResultView removeFromSuperview];
+    self.tableView.tableHeaderView=self.searchBar;
 }
 
 -(instancetype)initWithUpdateNotification:(NSString *)notification
@@ -143,28 +146,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    UIView * searchView=[[UIView alloc] initWithFrame:CGRectMake(self.shadowView.bounds.size.width/2-65.0, self.shadowView.bounds.size.height/3, 130.0, 80.0)];
-//    searchView.backgroundColor=[UIColor SeparatorColor];
-//    searchView.layer.cornerRadius=8.0;
-//    
-//    UILabel * searchLabel=[[UILabel alloc] initWithFrame:CGRectMake(0.0, 50.0, 130.0, 30.0)];
-//    searchLabel.text=@"Loading...";
-//    searchLabel.adjustsFontSizeToFitWidth=YES;
-//    searchLabel.textAlignment=NSTextAlignmentCenter;
-//    searchLabel.textColor=[UIColor GitHubColor];
-//    
-//    UIActivityIndicatorView * activityInd=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(40.0, 10.0, 50.0, 50.0)];
-//    activityInd.activityIndicatorViewStyle=UIActivityIndicatorViewStyleWhiteLarge;
-//    activityInd.color=[UIColor GitHubColor];
-//    activityInd.hidesWhenStopped=YES;
-//    
-//    [searchView addSubview:searchLabel];
-//    [searchView addSubview:activityInd];
-//    
-//    [self.shadowView addSubview:searchView];
     self.isRefresh=YES;
     [self.view addSubview:self.loadContentView];
-    //[activityInd startAnimating];
     [[NSNotificationCenter defaultCenter] postNotificationName:self.notification object:self];
 }
 
@@ -179,8 +162,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, self.view.bounds.size.height-60)];
-    //[self.view addSubview:self.tableView];
     self.tableView.delegate=self;
     self.tableView.dataSource=self;
     self.searchBar.delegate=self;

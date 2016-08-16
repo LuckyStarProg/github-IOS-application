@@ -27,8 +27,6 @@
 {
 
     NSArray *matches=[self.regex matchesInString:self.inputValue options:0 range:NSMakeRange(0, self.inputValue.length)];
-    
-    NSLog(@"%@",self.inputValue);
     return matches.count>0;
 }
 
