@@ -25,31 +25,17 @@
                     <rect key="frame" x="260" y="44" width="80" height="80"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="80" id="7EF-jd-suQ"/>
-                        <constraint firstAttribute="width" constant="80" id="Dvn-4h-xZM"/>
                         <constraint firstAttribute="height" constant="80" id="EO5-sH-ffH"/>
-                        <constraint firstAttribute="height" constant="80" id="znX-Vg-1rw"/>
                     </constraints>
-                    <variation key="default">
-                        <mask key="constraints">
-                            <exclude reference="Dvn-4h-xZM"/>
-                            <exclude reference="znX-Vg-1rw"/>
-                        </mask>
-                    </variation>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zbx-ix-Z2q">
                     <rect key="frame" x="37" y="132" width="526" height="22"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="22" id="6a4-bK-UTe"/>
-                        <constraint firstAttribute="height" constant="22" id="nw7-pm-bnH"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
-                    <variation key="default">
-                        <mask key="constraints">
-                            <exclude reference="nw7-pm-bnH"/>
-                        </mask>
-                    </variation>
                 </label>
             </subviews>
             <color key="backgroundColor" red="0.1803921568627451" green="0.1803921568627451" blue="0.1803921568627451" alpha="1" colorSpace="calibratedRGB"/>

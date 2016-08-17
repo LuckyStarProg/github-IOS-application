@@ -9,8 +9,8 @@
 #import "LogInViewController.h"
 
 @interface LogInViewController ()<UIWebViewDelegate>
-@property (nonatomic)UIActivityIndicatorView * indicatior;
-@property (nonatomic)UIImageView * avatarView;
+@property (nonatomic) UIImageView *avatarView;
+@property (nonatomic) UIActivityIndicatorView *loadIndicatorView;
 @end
 
 @implementation LogInViewController
@@ -25,9 +25,11 @@
         AMDataManager * manager=[[AMDataManager alloc] initWithMod:AMDataManageDefaultMod];
         [[GitHubApiController sharedController] loginUserWithCode:path andSuccess:^
         {
-                [self.webView removeFromSuperview];
-                [self.view addSubview:self.avatarView];
-                [self.view addSubview:self.indicatior];
+            self.webView.alpha=0.0;
+            [self.webView removeFromSuperview];
+            [self.view addSubview:self.avatarView];
+            [self.view addSubview:self.loadIndicatorView];
+
             [manager loadDataWithURLString:[AuthorizedUser sharedUser].avatarRef andSuccess:^(NSString * path)
             {
                 dispatch_async(dispatch_get_main_queue(), ^
@@ -48,7 +50,7 @@
                                         dispatch_async(dispatch_get_main_queue(), ^
                                         {
                                             [self.avatarView removeFromSuperview];
-                                            [self.indicatior removeFromSuperview];
+                                            [self.loadIndicatorView removeFromSuperview];
                                         });
                                     }];
                                });
@@ -91,7 +93,7 @@
         [storage deleteCookie:cookie];
     }
     [self.avatarView removeFromSuperview];
-    [self.indicatior removeFromSuperview];
+    [self.loadIndicatorView removeFromSuperview];
     NSLog(@"%@",self.view.subviews);
     [self.view addSubview:self.webView];
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^
@@ -122,25 +124,44 @@
 
 -(void)showLoadingPage
 {
-    self.indicatior=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2-25, self.view.bounds.size.height/2+30, 50.0, 50.0)];
-    [self.indicatior setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    self.indicatior.color=[UIColor blackColor];
-    self.indicatior.hidesWhenStopped=YES;
+    self.loadIndicatorView=[[UIActivityIndicatorView alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/2-25, [UIScreen mainScreen].bounds.size.height/2+30, 50.0, 50.0)];
+    [self.loadIndicatorView setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    self.loadIndicatorView.color=[UIColor blackColor];
+    self.loadIndicatorView.hidesWhenStopped=YES;
     
-    self.avatarView=[[UIImageView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2-75, self.view.bounds.size.height/2-135, 150.0, 150.0)];
+    self.avatarView=[[UIImageView alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/2-75, [UIScreen mainScreen].bounds.size.height/2-135, 150.0, 150.0)];
     self.avatarView.layer.cornerRadius=self.avatarView.bounds.size.width/2;
     self.avatarView.clipsToBounds=YES;
     self.avatarView.autoresizesSubviews=YES;
     self.avatarView.opaque=YES;
     self.avatarView.clearsContextBeforeDrawing=YES;
     self.avatarView.image=[UIImage imageNamed:@"login_user_unknown"];
-    
+    self.avatarView.layer.cornerRadius=self.avatarView.bounds.size.width/2;
 }
 
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if(toInterfaceOrientation==UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation==UIInterfaceOrientationLandscapeRight)
+    {
+        self.loadIndicatorView.frame=CGRectMake([UIScreen mainScreen].bounds.size.height/2-25, [UIScreen mainScreen].bounds.size.width/2+30, 50.0, 50.0);
+        self.avatarView.frame=CGRectMake([UIScreen mainScreen].bounds.size.height/2-75, [UIScreen mainScreen].bounds.size.width/2-135, 150.0, 150.0);
+    }
+    else
+    {
+        self.loadIndicatorView.frame=CGRectMake([UIScreen mainScreen].bounds.size.width/2-25, [UIScreen mainScreen].bounds.size.height/2+30, 50.0, 50.0);
+        self.avatarView.frame=CGRectMake([UIScreen mainScreen].bounds.size.width/2-75, [UIScreen mainScreen].bounds.size.height/2-135, 150.0, 150.0);
+    }
+}
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.loadIndicatorView.frame=CGRectMake([UIScreen mainScreen].bounds.size.width/2-25, [UIScreen mainScreen].bounds.size.height/2+30, 50.0, 50.0);
+    self.avatarView.frame=CGRectMake([UIScreen mainScreen].bounds.size.width/2-75, [UIScreen mainScreen].bounds.size.height/2-135, 150.0, 150.0);
+}
 -(void)validate
 {
-    [self.indicatior startAnimating];
+    [self.loadIndicatorView startAnimating];
     NSString * str=[NSString stringWithFormat:@"https://api.github.com/user?access_token=%@",[AuthorizedUser isExist]?[AuthorizedUser sharedUser].accessToken:@"invalidToken"];
     NSURL *url = [NSURL URLWithString: str];
     
@@ -157,8 +178,8 @@
               NSLog(@"%@",error.localizedDescription);
               dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^
               {
-                  [self.indicatior stopAnimating];
-                  [self.indicatior setHidden:YES];
+                  [self.loadIndicatorView stopAnimating];
+                  [self.loadIndicatorView setHidden:YES];
               });
               return;
           }
@@ -170,7 +191,7 @@
               NSLog(@"%@",self.webView);
               dispatch_async(dispatch_get_main_queue(), ^
               {
-                  [self.indicatior removeFromSuperview];
+                  [self.loadIndicatorView removeFromSuperview];
                   [self.avatarView removeFromSuperview];
                   self.webView=[[UIWebView alloc] initWithFrame:self.view.bounds];
                   self.webView.delegate=self;
@@ -183,7 +204,7 @@
               dispatch_async(dispatch_get_main_queue(), ^
               {
                   [self.view addSubview:self.avatarView];
-                  [self.view addSubview:self.indicatior];
+                  [self.view addSubview:self.loadIndicatorView];
               });
 
               [AuthorizedUser setUser:[GitHubUser userFromDictionary:dict]];

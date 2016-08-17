@@ -12,7 +12,7 @@
             <rect key="frame" x="0.0" y="0.0" width="424" height="230"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KSf-qv-wdt" id="KyN-jz-s0d">
-                <rect key="frame" x="0.0" y="0.0" width="424" height="230"/>
+                <rect key="frame" x="0.0" y="0.0" width="424" height="229.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JW8-e5-EOV">
@@ -34,17 +34,11 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1O8-bC-Xa5">
                         <rect key="frame" x="46" y="26" width="370" height="12"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="12" id="S0h-lY-yxE"/>
                             <constraint firstAttribute="height" constant="12" id="loT-qp-1Lu"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="S0h-lY-yxE"/>
-                            </mask>
-                        </variation>
                     </label>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Hy0-cP-gwi" customClass="Com">
                         <rect key="frame" x="46" y="46" width="370" height="175"/>
@@ -58,35 +52,17 @@
                 <constraints>
                     <constraint firstItem="JW8-e5-EOV" firstAttribute="top" secondItem="KyN-jz-s0d" secondAttribute="topMargin" id="4UJ-0O-jXe"/>
                     <constraint firstItem="1O8-bC-Xa5" firstAttribute="top" secondItem="0J9-Qe-hRe" secondAttribute="bottom" constant="6" id="6GY-27-eYM"/>
-                    <constraint firstItem="1O8-bC-Xa5" firstAttribute="top" secondItem="0J9-Qe-hRe" secondAttribute="bottom" constant="10" id="8VP-7H-g4A"/>
                     <constraint firstItem="JW8-e5-EOV" firstAttribute="leading" secondItem="KyN-jz-s0d" secondAttribute="leadingMargin" id="FYv-ld-8iT"/>
-                    <constraint firstItem="1O8-bC-Xa5" firstAttribute="leading" secondItem="JW8-e5-EOV" secondAttribute="trailing" constant="8" id="JKj-jZ-5m7"/>
                     <constraint firstItem="Hy0-cP-gwi" firstAttribute="top" secondItem="1O8-bC-Xa5" secondAttribute="bottom" constant="8" id="Jck-nS-EKz"/>
                     <constraint firstAttribute="bottomMargin" secondItem="Hy0-cP-gwi" secondAttribute="bottom" constant="0.5" id="LOo-Kl-JSx"/>
-                    <constraint firstItem="Hy0-cP-gwi" firstAttribute="top" secondItem="1O8-bC-Xa5" secondAttribute="bottom" constant="9" id="OS9-U5-aot"/>
                     <constraint firstItem="0J9-Qe-hRe" firstAttribute="top" secondItem="KyN-jz-s0d" secondAttribute="topMargin" id="PWh-Zy-T0v"/>
-                    <constraint firstItem="Hy0-cP-gwi" firstAttribute="leading" secondItem="KyN-jz-s0d" secondAttribute="leadingMargin" constant="38" id="WKt-MY-RzN"/>
                     <constraint firstItem="1O8-bC-Xa5" firstAttribute="trailing" secondItem="KyN-jz-s0d" secondAttribute="trailingMargin" id="X4W-6Y-qIq"/>
                     <constraint firstItem="Hy0-cP-gwi" firstAttribute="leading" secondItem="KyN-jz-s0d" secondAttribute="leadingMargin" constant="38" id="Z3V-Oc-igl"/>
-                    <constraint firstItem="Hy0-cP-gwi" firstAttribute="trailing" secondItem="KyN-jz-s0d" secondAttribute="trailingMargin" id="bfv-UT-jr7"/>
                     <constraint firstItem="Hy0-cP-gwi" firstAttribute="trailing" secondItem="KyN-jz-s0d" secondAttribute="trailingMargin" id="dgG-pY-1eV"/>
-                    <constraint firstItem="Hy0-cP-gwi" firstAttribute="bottom" secondItem="KyN-jz-s0d" secondAttribute="bottomMargin" id="jKX-9n-ILo"/>
                     <constraint firstItem="0J9-Qe-hRe" firstAttribute="leading" secondItem="JW8-e5-EOV" secondAttribute="trailing" constant="8" id="jQA-pV-kod"/>
                     <constraint firstItem="1O8-bC-Xa5" firstAttribute="leading" secondItem="JW8-e5-EOV" secondAttribute="trailing" constant="8" id="jtB-q7-0z4"/>
                     <constraint firstItem="0J9-Qe-hRe" firstAttribute="trailing" secondItem="KyN-jz-s0d" secondAttribute="trailingMargin" id="m7w-fd-QFK"/>
-                    <constraint firstItem="1O8-bC-Xa5" firstAttribute="trailing" secondItem="KyN-jz-s0d" secondAttribute="trailingMargin" id="srx-Zw-nKt"/>
                 </constraints>
-                <variation key="default">
-                    <mask key="constraints">
-                        <exclude reference="8VP-7H-g4A"/>
-                        <exclude reference="JKj-jZ-5m7"/>
-                        <exclude reference="srx-Zw-nKt"/>
-                        <exclude reference="OS9-U5-aot"/>
-                        <exclude reference="WKt-MY-RzN"/>
-                        <exclude reference="bfv-UT-jr7"/>
-                        <exclude reference="jKX-9n-ILo"/>
-                    </mask>
-                </variation>
             </tableViewCellContentView>
             <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
             <connections>

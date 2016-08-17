@@ -317,14 +317,4 @@
     [sider side];
 }
 
--(UIImageView *)iconView
-{
-    return [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:[AuthorizedUser sharedUser].avatarPath]];
-}
-
--(NSString *)description
-{
-    return [AuthorizedUser sharedUser].login?[AuthorizedUser sharedUser].login:@"User";
-}
-
 @end

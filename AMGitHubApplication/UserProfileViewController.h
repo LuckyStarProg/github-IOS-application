@@ -22,7 +22,6 @@
 @interface UserProfileViewController : UIViewController
 
 @property (nonatomic) IBOutlet UICollectionView *collectionView;
--(UIImageView *)iconView;
 @property (nonatomic)GitHubUser * user;
 -(void)setUser:(GitHubUser *)user;
 @end

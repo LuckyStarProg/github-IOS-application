@@ -22,14 +22,6 @@
                             <constraint firstAttribute="height" constant="40" id="KBo-fr-ynU"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bfb-hM-uRX">
-                        <rect key="frame" x="56" y="26" width="373" height="29"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="29" id="DAC-er-Sqo"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="obb-8h-z2i">
                         <rect key="frame" x="56" y="8" width="373" height="10"/>
                         <constraints>
@@ -45,11 +37,18 @@
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bfb-hM-uRX">
+                        <rect key="frame" x="56" y="26" width="373" height="29"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="29" id="DAC-er-Sqo"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="w7j-m6-o30" firstAttribute="trailing" secondItem="b47-Ji-naA" secondAttribute="trailingMargin" id="01C-5q-OAd"/>
                     <constraint firstItem="Bfb-hM-uRX" firstAttribute="trailing" secondItem="b47-Ji-naA" secondAttribute="trailingMargin" id="Acj-oN-KKM"/>
-                    <constraint firstItem="Bfb-hM-uRX" firstAttribute="centerX" secondItem="obb-8h-z2i" secondAttribute="centerX" id="NnH-eK-UaP"/>
                     <constraint firstItem="w7j-m6-o30" firstAttribute="leading" secondItem="b47-Ji-naA" secondAttribute="leadingMargin" constant="48" id="OLq-a2-jTz"/>
                     <constraint firstItem="obb-8h-z2i" firstAttribute="leading" secondItem="b47-Ji-naA" secondAttribute="leadingMargin" constant="48" id="Q7S-LR-fnd"/>
                     <constraint firstItem="Bfb-hM-uRX" firstAttribute="leading" secondItem="rUc-kA-Yxu" secondAttribute="trailing" constant="8" id="UVS-0g-eUL"/>
@@ -63,11 +62,6 @@
                     <constraint firstItem="obb-8h-z2i" firstAttribute="top" secondItem="b47-Ji-naA" secondAttribute="topMargin" id="rIo-Ed-fne"/>
                     <constraint firstItem="Bfb-hM-uRX" firstAttribute="top" secondItem="rUc-kA-Yxu" secondAttribute="top" id="tph-b7-7fe"/>
                 </constraints>
-                <variation key="default">
-                    <mask key="constraints">
-                        <exclude reference="NnH-eK-UaP"/>
-                    </mask>
-                </variation>
             </tableViewCellContentView>
             <inset key="separatorInset" minX="54" minY="0.0" maxX="0.0" maxY="0.0"/>
             <connections>
